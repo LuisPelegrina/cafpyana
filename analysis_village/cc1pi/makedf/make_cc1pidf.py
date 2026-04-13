@@ -13,6 +13,7 @@ import ROOT
 import subprocess
 from ROOT import std
 import pickle
+from itertools import combinations
 
 
 # 1. Setup Paths
@@ -162,6 +163,50 @@ def add_angle_between_candidates_column(df):
     
     # Add column to df
     df[('slc', 'measure_var', 'angle_between_candidates', '', '', '')] = angle_series
+
+    return df
+
+def add_max_angle_between_candidates_column(df):
+    # 1. Initialize result series at the slice level
+    # We use nan so that slices with < 2 particles naturally fail the cut
+    angle_series = pd.Series(np.nan, index=df.index)
+    
+    # 2. Filter for MIP candidates only
+    mip_df = df[CutMasks.is_MIP_candidate_mask(df)]
+    
+    for idx, group in mip_df.groupby(level=group_levels):
+        # We need at least 2 particles to have an angle
+        if len(group) < 2:
+            continue
+
+        # Extract direction vectors for ALL candidates in the slice
+        # Shape: (N_particles, 3)
+        dirs = group.loc[:, [
+            ('pfp', 'trk', 'dir', 'x', '', ''),
+            ('pfp', 'trk', 'dir', 'y', '', ''),
+            ('pfp', 'trk', 'dir', 'z', '', '')
+        ]].astype(float).values
+
+        max_angle = 0.0
+        
+        # 4. Check every unique pair of particles
+        for dir_1, dir_2 in combinations(dirs, 2):
+            mag1 = np.linalg.norm(dir_1)
+            mag2 = np.linalg.norm(dir_2)
+            
+            if mag1 > 0 and mag2 > 0:
+                dot = np.dot(dir_1, dir_2)
+                # Compute angle and update max if this pair is wider
+                angle = np.arccos(np.clip(dot / (mag1 * mag2), -1.0, 1.0))
+                if angle > max_angle:
+                    max_angle = angle
+
+        # 5. Broadcast back to the full dataframe for all PFP entries in this slice
+        # This ensures every particle in the slice 'knows' the max angle of the group
+        angle_series.loc[idx] = max_angle
+            
+    # Add column to the original dataframe
+    df[('slc', 'measure_var', 'max_angle_between_candidates', '', '', '')] = angle_series
 
     return df
 
@@ -1375,7 +1420,8 @@ cols = [
 
         #angle cut
         ('slc', 'measure_var', 'angle_between_candidates', '', '', ''),
-
+        ('slc', 'measure_var', 'max_angle_between_candidates', '', '', ''),
+    
         #BDT vars
         ('pfp', 'trk', 'chi2_exp_pol', '', '', ''),
         #('pfp', 'trk', 'chi2_exp_pol_3var', '', '', ''),
@@ -1533,6 +1579,7 @@ def make_cc1pi_finaldf(f, updatecalo = None):
     pandora_df = add_frac50_column(pandora_df, fixed_hit_df)
     pandora_df = add_scatter_angle_ratio_column(pandora_df,mcs_df)
     pandora_df = add_angle_between_candidates_column(pandora_df)
+    pandora_df = add_max_angle_between_candidates_column(pandora_df)
 
     pandora_df[('pfp', 'is_exiting', '', '', '', '')] = CutMasks.exiting_pfp_mask(pandora_df)
     pandora_df[('pfp', 'is_exiting_z', '', '', '', '')] = CutMasks.exiting_z_pfp_mask(pandora_df)

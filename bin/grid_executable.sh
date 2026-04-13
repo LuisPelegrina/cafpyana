@@ -81,23 +81,3 @@ else
   ifdh cp ${thisOutputCreationDir}/log_${nProcess}.log ${outDir}/log_${nProcess}.log
   echo "File not exist"
 fi
-cp ${filesFromSender}/run_${nProcess}.sh ./
-source run_${nProcess}.sh  &> log_${nProcess}.log
-ls -ltr
-
-echo "@@ print log"
-more log_${nProcess}.log
-echo "@@ Check output : ${DFPREFIX}_${nProcess}.df"
-ls -alh ${DFPREFIX}_${nProcess}.df
-
-outFILE=${thisOutputCreationDir}/cafpyana/${DFPREFIX}_${nProcess}.df
-if [ -f "$outFILE" ]; then
-  echo "ifdh cp ${thisOutputCreationDir}/cafpyana/${DFPREFIX}_${nProcess}.df ${outDir}/${DFPREFIX}_${nProcess}.df"
-  ifdh cp ${thisOutputCreationDir}/cafpyana/${DFPREFIX}_${nProcess}.df ${outDir}/${DFPREFIX}_${nProcess}.df
-  echo "ifdh cp ${thisOutputCreationDir}/cafpyana/log_${nProcess}.log ${outDir}/log_${nProcess}.log"
-  ifdh cp ${thisOutputCreationDir}/cafpyana/log_${nProcess}.log ${outDir}/log_${nProcess}.log
-  echo "@@ Done!"
-else
-  ifdh cp ${thisOutputCreationDir}/log_${nProcess}.log ${outDir}/log_${nProcess}.log
-  echo "File not exist"
-fi

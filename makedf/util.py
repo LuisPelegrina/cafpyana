@@ -21,12 +21,12 @@ def unitdf(df):
 
 def InAV(df,det="SBND"):
     if det == "SBND":
-        xmin = -200
-        ymin = -200
-        zmin = 0
-        xmax = 200
-        ymax = 200
-        zmax = 500
+        xmin = -195
+        ymin = -195
+        zmin = 5
+        xmax = 195
+        ymax = 195
+        zmax = 495
     return (df.x > xmin) & (df.x < xmax) & (df.y > ymin) & (df.y < ymax) & (df.z > zmin) & (df.z < zmax)
 
 def InFV(df, inzback, inx=10, iny=10, inzfront=10, det="ICARUS"):

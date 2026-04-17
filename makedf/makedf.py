@@ -41,7 +41,17 @@ TRUE_P_THRESHOLDS = {"nmu_P_100MeV_3000MeV": ["muon", 0.1, 3],
                      "npi_P_85MeV_10000MeV": ["pipm", 0.085,1000],
                       "np_P_325MeV_10000MeV": ["proton", 0.325,1000]
                     }
+def make_histgenevtdf(f):
+    if f is None or "TotalGenEvents" not in f:
+        histgenevt = pd.DataFrame({"TotalGenEvents": pd.Series(dtype="float64")})
+        histgenevt.index.name = "entry"
+        return histgenevt
 
+    genevt = f['TotalGenEvents'].values()
+    histgenevt = pd.DataFrame(data={'TotalGenEvents':genevt})
+    histgenevt.index.name = 'entry'
+    return histgenevt
+    
 def make_envdf(f):
     env = getenv.get_env(f)
     return env

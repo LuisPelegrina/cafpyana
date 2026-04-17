@@ -17,7 +17,8 @@ from itertools import combinations
 
 
 # 1. Setup Paths
-base_path = "/home/lpelegri/cafpyana/analysis_village/cc1pi/TLExtensionMethod"
+base_running_path = os.path.dirname(os.path.abspath(__file__))
+base_path = base_running_path + "/../TLExtensionMethod"
 
 try:
     root_lib_dir = subprocess.check_output(['root-config', '--libdir'], text=True).strip()
@@ -1594,7 +1595,7 @@ def make_cc1pi_finaldf(f, updatecalo = None):
     col_BDTG_score_proton = ('pfp','trk','bdt_proton_score','','','')
     pandora_df = add_bdt_score(
         pandora_df,
-        "/home/lpelegri/cafpyana/analysis_village/cc1pi/BDTs/bdtg_model_proton.pkl",
+        base_running_path + "/../BDTs/bdtg_model_proton.pkl",
         proton_BDT_input_columns,
         col_BDTG_score_proton
     )
@@ -1610,7 +1611,7 @@ def make_cc1pi_finaldf(f, updatecalo = None):
     col_BDTG_score_muon_pion = ('pfp','trk','bdt_muon_pion_score','','','')
     pandora_df = add_bdt_score(
         pandora_df,
-        "/home/lpelegri/cafpyana/analysis_village/cc1pi/BDTs/bdtg_model_muon_pion.pkl",
+        base_running_path + "/../BDTs/bdtg_model_muon_pion.pkl",
         muon_pion_BDT_input_columns,
         col_BDTG_score_muon_pion
     )

@@ -13,13 +13,8 @@ PYTHON_VERSION=3.10.16
 VENV_NAME=venv_py310_cafpyana
 
 # Check if virtual environment already exists
-if [ -d "$VENV_NAME" ]; then
-    echo "Virtual environment '$VENV_NAME' already exists. Activating it."
-else
-    # Create the virtual environment
-    python -m venv $VENV_NAME
-    echo "Virtual environment '$VENV_NAME' created."
-fi
+python -m venv $VENV_NAME
+echo "Virtual environment '$VENV_NAME' created."
 
 # Activate the virtual environment
 source $VENV_NAME/bin/activate

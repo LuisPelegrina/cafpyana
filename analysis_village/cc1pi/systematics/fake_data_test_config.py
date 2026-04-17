@@ -14,7 +14,6 @@ class FakeDataWeights:
         weight_fakedata_signal_truth = np.ones(len(self.mc_nu_df[self.mc_nu_df.truth.nu_categ == "CC1pi"]))
 
         print(test_name)
-        print(test_name == "mec_test")
         # MEC normalization
         if test_name.startswith("mec_test"):
             scale_factor = kwargs.get("scale_factor", 0.5)

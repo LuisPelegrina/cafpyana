@@ -14,7 +14,6 @@ class FakeDataWeights:
         weight_fakedata_signal_truth = np.ones(len(self.mc_nu_df[self.mc_nu_df.truth.nu_categ == "CC1pi"]))
 
         print(test_name)
-        print(test_name == "mec_test")
         # MEC normalization
         if test_name.startswith("mec_test"):
             scale_factor = kwargs.get("scale_factor", 0.5)
@@ -47,8 +46,8 @@ class FakeDataWeights:
         # cos(theta) scale
         elif test_name.startswith("costh_weight_scale_"):
             scale_factor = kwargs.get("scale_factor", 0.7)
-            weights_fake_data[self.mc_evt_df.truth.mu.dir.z > 0.9] *= scale_factor
-            weight_fakedata_signal_truth[self.mc_nu_df[self.mc_nu_df.truth.nu_categ == "CC1pi"].truth.mu.dir.z > 0.9] *= scale_factor
+            weights_fake_data[self.mc_evt_df.truth.mu.dir.z > 0.8] *= scale_factor
+            weight_fakedata_signal_truth[self.mc_nu_df[self.mc_nu_df.truth.nu_categ == "CC1pi"].truth.mu.dir.z > 0.8] *= scale_factor
  
         # Pion P tilt
         elif test_name.startswith("pion_P_weight_scale_"):

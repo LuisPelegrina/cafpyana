@@ -1,4 +1,4 @@
-# Install script for directory: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src
+# Install script for directory: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

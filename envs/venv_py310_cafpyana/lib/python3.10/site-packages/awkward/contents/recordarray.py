@@ -28,6 +28,7 @@ from awkward._typing import (
     Any,
     Callable,
     Final,
+    Literal,
     Self,
     SupportsIndex,
     final,
@@ -322,7 +323,7 @@ class RecordArray(RecordMeta[Content], Content):
         # also for tuple records
         contents = [
             x._form_with_key_path((*path, k))
-            for k, x in zip(self.fields, self._contents)
+            for k, x in zip(self.fields, self._contents, strict=True)
         ]
 
         return self.form_cls(
@@ -652,21 +653,30 @@ class RecordArray(RecordMeta[Content], Content):
                 ),
             )
 
-    def _mergeable_next(self, other: Content, mergebool: bool) -> bool:
+    def _mergeable_next(
+        self,
+        other: Content,
+        mergebool: bool,
+        mergecastable: Literal["same_kind", "equiv", "family"],
+    ) -> bool:
         # Is the other content is an identity, or a union?
         if other.is_identity_like or other.is_union:
             return True
         # Check against option contents
         elif other.is_option or other.is_indexed:
-            return self._mergeable_next(other.content, mergebool)
+            return self._mergeable_next(other.content, mergebool, mergecastable)
         # Otherwise, do the parameters match? If not, we can't merge.
         elif not type_parameters_equal(self._parameters, other._parameters):
             return False
         elif isinstance(other, RecordArray):
             if self.is_tuple and other.is_tuple:
                 if len(self._contents) == len(other._contents):
-                    for self_cont, other_cont in zip(self._contents, other._contents):
-                        if not self_cont._mergeable_next(other_cont, mergebool):
+                    for self_cont, other_cont in zip(
+                        self._contents, other._contents, strict=True
+                    ):
+                        if not self_cont._mergeable_next(
+                            other_cont, mergebool, mergecastable
+                        ):
                             return False
 
                     return True
@@ -678,7 +688,7 @@ class RecordArray(RecordMeta[Content], Content):
                 for i, field in enumerate(self._fields):
                     x = self._contents[i]
                     y = other._contents[other.field_to_index(field)]
-                    if not x._mergeable_next(y, mergebool):
+                    if not x._mergeable_next(y, mergebool, mergecastable):
                         return False
                 return True
 
@@ -1044,9 +1054,10 @@ class RecordArray(RecordMeta[Content], Content):
             return out
 
     def _validity_error(self, path):
-        for i, cont in enumerate(self.contents):
-            if cont.length < self.length:
-                return f"at {path} ({type(self)!r}): len(field({i})) < len(recordarray)"
+        if self._backend.nplike.known_data:
+            for i, cont in enumerate(self.contents):
+                if cont.length < self.length:
+                    return f"at {path} ({type(self)!r}): len(field({i})) < len(recordarray)"
         for i, cont in enumerate(self.contents):
             sub = cont._validity_error(f"{path}.field({i})")
             if sub != "":
@@ -1144,7 +1155,7 @@ class RecordArray(RecordMeta[Content], Content):
             c._to_cudf(cudf, mask=None, length=length) for c in self.contents
         )
         dt = cudf.core.dtypes.StructDtype(
-            {field: c.dtype for field, c in zip(self.fields, children)}
+            {field: c.dtype for field, c in zip(self.fields, children, strict=True)}
         )
         m = mask._to_cudf(cudf, None, length) if mask else None
         return cudf.core.column.struct.StructColumn(
@@ -1171,10 +1182,12 @@ class RecordArray(RecordMeta[Content], Content):
             )
         out = backend.nplike.empty(
             self.length,
-            dtype=[(str(n), x.dtype) for n, x in zip(self.fields, contents)],
+            dtype=[
+                (str(n), x.dtype) for n, x in zip(self.fields, contents, strict=True)
+            ],
         )
         mask = None
-        for n, x in zip(self.fields, contents):
+        for n, x in zip(self.fields, contents, strict=True):
             if allow_missing and isinstance(x, self._backend.nplike.ma.MaskedArray):
                 if mask is None:
                     mask = backend.nplike.ma.zeros(
@@ -1310,7 +1323,7 @@ class RecordArray(RecordMeta[Content], Content):
             contents = [x._to_list(behavior, json_conversions) for x in self._contents]
             out = [None] * self.length
             for i in range(self.length):
-                out[i] = dict(zip(fields, [x[i] for x in contents]))
+                out[i] = dict(zip(fields, [x[i] for x in contents], strict=True))
             return out
 
     def _to_backend(self, backend: Backend) -> Self:
@@ -1352,6 +1365,6 @@ class RecordArray(RecordMeta[Content], Content):
                 content._is_equal_to(
                     other.content(field), index_dtype, numpyarray, all_parameters
                 )
-                for field, content in zip(self.fields, self._contents)
+                for field, content in zip(self.fields, self._contents, strict=True)
             )
         )

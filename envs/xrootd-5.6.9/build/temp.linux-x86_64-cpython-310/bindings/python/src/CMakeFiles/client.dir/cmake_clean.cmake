@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/client.cpython-310-x86_64-linux-gnu.so"
-  "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/client.pdb"
+  "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/client.cpython-310-x86_64-linux-gnu.so"
+  "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/client.pdb"
   "CMakeFiles/client.dir/PyXRootDCopyProcess.cc.o"
   "CMakeFiles/client.dir/PyXRootDCopyProcess.cc.o.d"
   "CMakeFiles/client.dir/PyXRootDCopyProgressHandler.cc.o"

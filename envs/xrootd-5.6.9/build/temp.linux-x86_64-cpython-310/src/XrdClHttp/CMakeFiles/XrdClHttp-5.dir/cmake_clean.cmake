@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdClHttp-5.pdb"
-  "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdClHttp-5.so"
+  "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdClHttp-5.pdb"
+  "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdClHttp-5.so"
   "CMakeFiles/XrdClHttp-5.dir/XrdClHttpFilePlugIn.cc.o"
   "CMakeFiles/XrdClHttp-5.dir/XrdClHttpFilePlugIn.cc.o.d"
   "CMakeFiles/XrdClHttp-5.dir/XrdClHttpFileSystemPlugIn.cc.o"

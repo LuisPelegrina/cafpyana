@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV=/home/lpelegri/cafpyana/envs/venv_py310_cafpyana
+VIRTUAL_ENV=/exp/sbnd/data/users/lpelegri/cafpyana/envs/venv_py310_cafpyana
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

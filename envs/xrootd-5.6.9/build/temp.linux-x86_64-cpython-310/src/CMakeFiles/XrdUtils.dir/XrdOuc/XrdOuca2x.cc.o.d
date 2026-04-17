@@ -1,5 +1,5 @@
 src/CMakeFiles/XrdUtils.dir/XrdOuc/XrdOuca2x.cc.o: \
- /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOuca2x.cc \
+ /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOuca2x.cc \
  /usr/include/stdc-predef.h /usr/include/c++/11/cstdlib \
  /usr/include/c++/11/x86_64-redhat-linux/bits/c++config.h \
  /usr/include/bits/wordsize.h \
@@ -53,7 +53,7 @@ src/CMakeFiles/XrdUtils.dir/XrdOuc/XrdOuca2x.cc.o: \
  /usr/include/linux/errno.h /usr/include/asm/errno.h \
  /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
  /usr/include/bits/types/error_t.h \
- /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdNet/XrdNetUtils.hh \
+ /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdNet/XrdNetUtils.hh \
  /usr/include/c++/11/string /usr/include/c++/11/bits/stringfwd.h \
  /usr/include/c++/11/bits/memoryfwd.h \
  /usr/include/c++/11/bits/char_traits.h \
@@ -119,9 +119,9 @@ src/CMakeFiles/XrdUtils.dir/XrdOuc/XrdOuca2x.cc.o: \
  /usr/include/c++/11/bits/stl_vector.h \
  /usr/include/c++/11/bits/stl_bvector.h \
  /usr/include/c++/11/bits/vector.tcc \
- /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucEnum.hh \
- /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOuca2x.hh \
- /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysError.hh \
+ /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucEnum.hh \
+ /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOuca2x.hh \
+ /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysError.hh \
  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
  /usr/include/bits/environments.h /usr/include/bits/confname.h \
  /usr/include/bits/getopt_posix.h /usr/include/bits/getopt_core.h \

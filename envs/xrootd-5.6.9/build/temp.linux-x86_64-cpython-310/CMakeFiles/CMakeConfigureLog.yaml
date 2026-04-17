@@ -7,7 +7,7 @@ events:
       - "/usr/share/cmake/Modules/CMakeDetermineSystem.cmake:204 (message)"
       - "CMakeLists.txt:6 (project)"
     message: |
-      The system is: Linux - 6.3.12-200.fc38.x86_64 - x86_64
+      The system is: Linux - 5.14.0-611.45.1.el9_7.x86_64 - x86_64
   -
     kind: "message-v1"
     backtrace:
@@ -28,7 +28,7 @@ events:
       Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
       
       The C compiler identification is GNU, found in:
-        /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/3.26.5/CompilerIdC/a.out
+        /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/3.26.5/CompilerIdC/a.out
       
   -
     kind: "message-v1"
@@ -50,7 +50,7 @@ events:
       Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
       
       The CXX compiler identification is GNU, found in:
-        /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/3.26.5/CompilerIdCXX/a.out
+        /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/3.26.5/CompilerIdCXX/a.out
       
   -
     kind: "try_compile-v1"
@@ -61,8 +61,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-e00RMt"
-      binary: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-e00RMt"
+      source: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-AqPmsd"
+      binary: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-AqPmsd"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
@@ -71,12 +71,12 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-e00RMt
+        Change Dir: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-AqPmsd
         
-        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_1da72/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_1da72.dir/build.make CMakeFiles/cmTC_1da72.dir/build
-        gmake[1]: Entering directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-e00RMt'
-        Building C object CMakeFiles/cmTC_1da72.dir/CMakeCCompilerABI.c.o
-        /usr/bin/cc   -v -o CMakeFiles/cmTC_1da72.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake/Modules/CMakeCCompilerABI.c
+        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_58b9f/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_58b9f.dir/build.make CMakeFiles/cmTC_58b9f.dir/build
+        gmake[1]: Entering directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-AqPmsd'
+        Building C object CMakeFiles/cmTC_58b9f.dir/CMakeCCompilerABI.c.o
+        /usr/bin/cc   -v -o CMakeFiles/cmTC_58b9f.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake/Modules/CMakeCCompilerABI.c
         Using built-in specs.
         COLLECT_GCC=/usr/bin/cc
         OFFLOAD_TARGET_NAMES=nvptx-none
@@ -86,8 +86,8 @@ events:
         Thread model: posix
         Supported LTO compression algorithms: zlib zstd
         gcc version 11.5.0 20240719 (Red Hat 11.5.0-11) (GCC) 
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_1da72.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'CMakeFiles/cmTC_1da72.dir/'
-         /usr/libexec/gcc/x86_64-redhat-linux/11/cc1 -quiet -v /usr/share/cmake/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_1da72.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=x86-64-v2 -version -o /tmp/ccSx5Z1b.s
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_58b9f.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'CMakeFiles/cmTC_58b9f.dir/'
+         /usr/libexec/gcc/x86_64-redhat-linux/11/cc1 -quiet -v /usr/share/cmake/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_58b9f.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=x86-64-v2 -version -o /tmp/cctr2rgN.s
         GNU C17 (GCC) version 11.5.0 20240719 (Red Hat 11.5.0-11) (x86_64-redhat-linux)
         	compiled by GNU C version 11.5.0 20240719 (Red Hat 11.5.0-11), GMP version 6.2.0, MPFR version 4.1.0-p9, MPC version 1.2.1, isl version none
         GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
@@ -97,7 +97,6 @@ events:
         #include <...> search starts here:
          /cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/include
          .
-         /home/lpelegri/cafpyana/envs/local/include
          /cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/include
          /usr/lib/gcc/x86_64-redhat-linux/11/include
          /usr/local/include
@@ -107,15 +106,15 @@ events:
         	compiled by GNU C version 11.5.0 20240719 (Red Hat 11.5.0-11), GMP version 6.2.0, MPFR version 4.1.0-p9, MPC version 1.2.1, isl version none
         GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
         Compiler executable checksum: 3c6c0d6fcf9d5c9e28fc64ee8cdb99ee
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_1da72.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'CMakeFiles/cmTC_1da72.dir/'
-         as -v --64 -o CMakeFiles/cmTC_1da72.dir/CMakeCCompilerABI.c.o /tmp/ccSx5Z1b.s
-        GNU assembler version 2.35.2 (x86_64-redhat-linux) using BFD version version 2.35.2-67.el9
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_58b9f.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'CMakeFiles/cmTC_58b9f.dir/'
+         as -v --64 -o CMakeFiles/cmTC_58b9f.dir/CMakeCCompilerABI.c.o /tmp/cctr2rgN.s
+        GNU assembler version 2.35.2 (x86_64-redhat-linux) using BFD version version 2.35.2-67.el9_7.1
         COMPILER_PATH=/usr/libexec/gcc/x86_64-redhat-linux/11/:/usr/libexec/gcc/x86_64-redhat-linux/11/:/usr/libexec/gcc/x86_64-redhat-linux/:/usr/lib/gcc/x86_64-redhat-linux/11/:/usr/lib/gcc/x86_64-redhat-linux/
         LIBRARY_PATH=/usr/lib/gcc/x86_64-redhat-linux/11/:/usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/lib/intel64/gcc4.8/:/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/lib/:./:/usr/lib/gcc/x86_64-redhat-linux/11/../../../:/lib/:/usr/lib/
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_1da72.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'CMakeFiles/cmTC_1da72.dir/CMakeCCompilerABI.c.'
-        Linking C executable cmTC_1da72
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1da72.dir/link.txt --verbose=1
-        /usr/bin/cc  -v CMakeFiles/cmTC_1da72.dir/CMakeCCompilerABI.c.o -o cmTC_1da72 
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_58b9f.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'CMakeFiles/cmTC_58b9f.dir/CMakeCCompilerABI.c.'
+        Linking C executable cmTC_58b9f
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_58b9f.dir/link.txt --verbose=1
+        /usr/bin/cc  -v CMakeFiles/cmTC_58b9f.dir/CMakeCCompilerABI.c.o -o cmTC_58b9f 
         Using built-in specs.
         COLLECT_GCC=/usr/bin/cc
         COLLECT_LTO_WRAPPER=/usr/libexec/gcc/x86_64-redhat-linux/11/lto-wrapper
@@ -128,10 +127,10 @@ events:
         gcc version 11.5.0 20240719 (Red Hat 11.5.0-11) (GCC) 
         COMPILER_PATH=/usr/libexec/gcc/x86_64-redhat-linux/11/:/usr/libexec/gcc/x86_64-redhat-linux/11/:/usr/libexec/gcc/x86_64-redhat-linux/:/usr/lib/gcc/x86_64-redhat-linux/11/:/usr/lib/gcc/x86_64-redhat-linux/
         LIBRARY_PATH=/usr/lib/gcc/x86_64-redhat-linux/11/:/usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/lib/intel64/gcc4.8/:/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/lib/:./:/usr/lib/gcc/x86_64-redhat-linux/11/../../../:/lib/:/usr/lib/
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_1da72' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'cmTC_1da72.'
-         /usr/libexec/gcc/x86_64-redhat-linux/11/collect2 -plugin /usr/libexec/gcc/x86_64-redhat-linux/11/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/x86_64-redhat-linux/11/lto-wrapper -plugin-opt=-fresolution=/tmp/ccxALnph.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --no-add-needed --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_1da72 /usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crt1.o /usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crti.o /usr/lib/gcc/x86_64-redhat-linux/11/crtbegin.o -L/usr/lib/gcc/x86_64-redhat-linux/11 -L/usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/lib/intel64/gcc4.8 -L/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/lib -L. -L/usr/lib/gcc/x86_64-redhat-linux/11/../../.. CMakeFiles/cmTC_1da72.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-redhat-linux/11/crtend.o /usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crtn.o
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_1da72' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'cmTC_1da72.'
-        gmake[1]: Leaving directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-e00RMt'
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_58b9f' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'cmTC_58b9f.'
+         /usr/libexec/gcc/x86_64-redhat-linux/11/collect2 -plugin /usr/libexec/gcc/x86_64-redhat-linux/11/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/x86_64-redhat-linux/11/lto-wrapper -plugin-opt=-fresolution=/tmp/ccFqdHrO.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --no-add-needed --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_58b9f /usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crt1.o /usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crti.o /usr/lib/gcc/x86_64-redhat-linux/11/crtbegin.o -L/usr/lib/gcc/x86_64-redhat-linux/11 -L/usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/lib/intel64/gcc4.8 -L/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/lib -L. -L/usr/lib/gcc/x86_64-redhat-linux/11/../../.. CMakeFiles/cmTC_58b9f.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-redhat-linux/11/crtend.o /usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crtn.o
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_58b9f' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'cmTC_58b9f.'
+        gmake[1]: Leaving directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-AqPmsd'
         
       exitCode: 0
   -
@@ -146,7 +145,6 @@ events:
         found start of implicit include info
           add: [/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/include]
           add: [.]
-          add: [/home/lpelegri/cafpyana/envs/local/include]
           add: [/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/include]
           add: [/usr/lib/gcc/x86_64-redhat-linux/11/include]
           add: [/usr/local/include]
@@ -154,12 +152,11 @@ events:
         end of search list found
         collapse include dir [/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/include] ==> [/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/include]
         skipping relative include dir [.]
-        collapse include dir [/home/lpelegri/cafpyana/envs/local/include] ==> [/home/lpelegri/cafpyana/envs/local/include]
         collapse include dir [/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/include] ==> [/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/include]
         collapse include dir [/usr/lib/gcc/x86_64-redhat-linux/11/include] ==> [/usr/lib/gcc/x86_64-redhat-linux/11/include]
         collapse include dir [/usr/local/include] ==> [/usr/local/include]
         collapse include dir [/usr/include] ==> [/usr/include]
-        implicit include dirs: [/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/include;/home/lpelegri/cafpyana/envs/local/include;/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/include;/usr/lib/gcc/x86_64-redhat-linux/11/include;/usr/local/include;/usr/include]
+        implicit include dirs: [/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/include;/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/include;/usr/lib/gcc/x86_64-redhat-linux/11/include;/usr/local/include;/usr/include]
       
       
   -
@@ -171,12 +168,12 @@ events:
     message: |
       Parsed C implicit link information:
         link line regex: [^( *|.*[/\\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
-        ignore line: [Change Dir: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-e00RMt]
+        ignore line: [Change Dir: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-AqPmsd]
         ignore line: []
-        ignore line: [Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_1da72/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_1da72.dir/build.make CMakeFiles/cmTC_1da72.dir/build]
-        ignore line: [gmake[1]: Entering directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-e00RMt']
-        ignore line: [Building C object CMakeFiles/cmTC_1da72.dir/CMakeCCompilerABI.c.o]
-        ignore line: [/usr/bin/cc   -v -o CMakeFiles/cmTC_1da72.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake/Modules/CMakeCCompilerABI.c]
+        ignore line: [Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_58b9f/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_58b9f.dir/build.make CMakeFiles/cmTC_58b9f.dir/build]
+        ignore line: [gmake[1]: Entering directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-AqPmsd']
+        ignore line: [Building C object CMakeFiles/cmTC_58b9f.dir/CMakeCCompilerABI.c.o]
+        ignore line: [/usr/bin/cc   -v -o CMakeFiles/cmTC_58b9f.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake/Modules/CMakeCCompilerABI.c]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=/usr/bin/cc]
         ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none]
@@ -186,8 +183,8 @@ events:
         ignore line: [Thread model: posix]
         ignore line: [Supported LTO compression algorithms: zlib zstd]
         ignore line: [gcc version 11.5.0 20240719 (Red Hat 11.5.0-11) (GCC) ]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_1da72.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'CMakeFiles/cmTC_1da72.dir/']
-        ignore line: [ /usr/libexec/gcc/x86_64-redhat-linux/11/cc1 -quiet -v /usr/share/cmake/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_1da72.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=x86-64-v2 -version -o /tmp/ccSx5Z1b.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_58b9f.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'CMakeFiles/cmTC_58b9f.dir/']
+        ignore line: [ /usr/libexec/gcc/x86_64-redhat-linux/11/cc1 -quiet -v /usr/share/cmake/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_58b9f.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=x86-64-v2 -version -o /tmp/cctr2rgN.s]
         ignore line: [GNU C17 (GCC) version 11.5.0 20240719 (Red Hat 11.5.0-11) (x86_64-redhat-linux)]
         ignore line: [	compiled by GNU C version 11.5.0 20240719 (Red Hat 11.5.0-11)  GMP version 6.2.0  MPFR version 4.1.0-p9  MPC version 1.2.1  isl version none]
         ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
@@ -197,7 +194,6 @@ events:
         ignore line: [#include <...> search starts here:]
         ignore line: [ /cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/include]
         ignore line: [ .]
-        ignore line: [ /home/lpelegri/cafpyana/envs/local/include]
         ignore line: [ /cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/include]
         ignore line: [ /usr/lib/gcc/x86_64-redhat-linux/11/include]
         ignore line: [ /usr/local/include]
@@ -207,15 +203,15 @@ events:
         ignore line: [	compiled by GNU C version 11.5.0 20240719 (Red Hat 11.5.0-11)  GMP version 6.2.0  MPFR version 4.1.0-p9  MPC version 1.2.1  isl version none]
         ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
         ignore line: [Compiler executable checksum: 3c6c0d6fcf9d5c9e28fc64ee8cdb99ee]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_1da72.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'CMakeFiles/cmTC_1da72.dir/']
-        ignore line: [ as -v --64 -o CMakeFiles/cmTC_1da72.dir/CMakeCCompilerABI.c.o /tmp/ccSx5Z1b.s]
-        ignore line: [GNU assembler version 2.35.2 (x86_64-redhat-linux) using BFD version version 2.35.2-67.el9]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_58b9f.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'CMakeFiles/cmTC_58b9f.dir/']
+        ignore line: [ as -v --64 -o CMakeFiles/cmTC_58b9f.dir/CMakeCCompilerABI.c.o /tmp/cctr2rgN.s]
+        ignore line: [GNU assembler version 2.35.2 (x86_64-redhat-linux) using BFD version version 2.35.2-67.el9_7.1]
         ignore line: [COMPILER_PATH=/usr/libexec/gcc/x86_64-redhat-linux/11/:/usr/libexec/gcc/x86_64-redhat-linux/11/:/usr/libexec/gcc/x86_64-redhat-linux/:/usr/lib/gcc/x86_64-redhat-linux/11/:/usr/lib/gcc/x86_64-redhat-linux/]
         ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-redhat-linux/11/:/usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/lib/intel64/gcc4.8/:/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/lib/:./:/usr/lib/gcc/x86_64-redhat-linux/11/../../../:/lib/:/usr/lib/]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_1da72.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'CMakeFiles/cmTC_1da72.dir/CMakeCCompilerABI.c.']
-        ignore line: [Linking C executable cmTC_1da72]
-        ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1da72.dir/link.txt --verbose=1]
-        ignore line: [/usr/bin/cc  -v CMakeFiles/cmTC_1da72.dir/CMakeCCompilerABI.c.o -o cmTC_1da72 ]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_58b9f.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'CMakeFiles/cmTC_58b9f.dir/CMakeCCompilerABI.c.']
+        ignore line: [Linking C executable cmTC_58b9f]
+        ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_58b9f.dir/link.txt --verbose=1]
+        ignore line: [/usr/bin/cc  -v CMakeFiles/cmTC_58b9f.dir/CMakeCCompilerABI.c.o -o cmTC_58b9f ]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=/usr/bin/cc]
         ignore line: [COLLECT_LTO_WRAPPER=/usr/libexec/gcc/x86_64-redhat-linux/11/lto-wrapper]
@@ -228,13 +224,13 @@ events:
         ignore line: [gcc version 11.5.0 20240719 (Red Hat 11.5.0-11) (GCC) ]
         ignore line: [COMPILER_PATH=/usr/libexec/gcc/x86_64-redhat-linux/11/:/usr/libexec/gcc/x86_64-redhat-linux/11/:/usr/libexec/gcc/x86_64-redhat-linux/:/usr/lib/gcc/x86_64-redhat-linux/11/:/usr/lib/gcc/x86_64-redhat-linux/]
         ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-redhat-linux/11/:/usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/lib/intel64/gcc4.8/:/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/lib/:./:/usr/lib/gcc/x86_64-redhat-linux/11/../../../:/lib/:/usr/lib/]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_1da72' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'cmTC_1da72.']
-        link line: [ /usr/libexec/gcc/x86_64-redhat-linux/11/collect2 -plugin /usr/libexec/gcc/x86_64-redhat-linux/11/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/x86_64-redhat-linux/11/lto-wrapper -plugin-opt=-fresolution=/tmp/ccxALnph.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --no-add-needed --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_1da72 /usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crt1.o /usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crti.o /usr/lib/gcc/x86_64-redhat-linux/11/crtbegin.o -L/usr/lib/gcc/x86_64-redhat-linux/11 -L/usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/lib/intel64/gcc4.8 -L/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/lib -L. -L/usr/lib/gcc/x86_64-redhat-linux/11/../../.. CMakeFiles/cmTC_1da72.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-redhat-linux/11/crtend.o /usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crtn.o]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_58b9f' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'cmTC_58b9f.']
+        link line: [ /usr/libexec/gcc/x86_64-redhat-linux/11/collect2 -plugin /usr/libexec/gcc/x86_64-redhat-linux/11/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/x86_64-redhat-linux/11/lto-wrapper -plugin-opt=-fresolution=/tmp/ccFqdHrO.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --no-add-needed --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_58b9f /usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crt1.o /usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crti.o /usr/lib/gcc/x86_64-redhat-linux/11/crtbegin.o -L/usr/lib/gcc/x86_64-redhat-linux/11 -L/usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/lib/intel64/gcc4.8 -L/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/lib -L. -L/usr/lib/gcc/x86_64-redhat-linux/11/../../.. CMakeFiles/cmTC_58b9f.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-redhat-linux/11/crtend.o /usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crtn.o]
           arg [/usr/libexec/gcc/x86_64-redhat-linux/11/collect2] ==> ignore
           arg [-plugin] ==> ignore
           arg [/usr/libexec/gcc/x86_64-redhat-linux/11/liblto_plugin.so] ==> ignore
           arg [-plugin-opt=/usr/libexec/gcc/x86_64-redhat-linux/11/lto-wrapper] ==> ignore
-          arg [-plugin-opt=-fresolution=/tmp/ccxALnph.res] ==> ignore
+          arg [-plugin-opt=-fresolution=/tmp/ccFqdHrO.res] ==> ignore
           arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
           arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
           arg [-plugin-opt=-pass-through=-lc] ==> ignore
@@ -249,7 +245,7 @@ events:
           arg [-dynamic-linker] ==> ignore
           arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
           arg [-o] ==> ignore
-          arg [cmTC_1da72] ==> ignore
+          arg [cmTC_58b9f] ==> ignore
           arg [/usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crt1.o] ==> obj [/usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crt1.o]
           arg [/usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crti.o] ==> obj [/usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crti.o]
           arg [/usr/lib/gcc/x86_64-redhat-linux/11/crtbegin.o] ==> obj [/usr/lib/gcc/x86_64-redhat-linux/11/crtbegin.o]
@@ -261,7 +257,7 @@ events:
           arg [-L/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/lib] ==> dir [/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/lib]
           arg [-L.] ==> ignore
           arg [-L/usr/lib/gcc/x86_64-redhat-linux/11/../../..] ==> dir [/usr/lib/gcc/x86_64-redhat-linux/11/../../..]
-          arg [CMakeFiles/cmTC_1da72.dir/CMakeCCompilerABI.c.o] ==> ignore
+          arg [CMakeFiles/cmTC_58b9f.dir/CMakeCCompilerABI.c.o] ==> ignore
           arg [-lgcc] ==> lib [gcc]
           arg [--push-state] ==> ignore
           arg [--as-needed] ==> ignore
@@ -300,8 +296,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-5it9No"
-      binary: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-5it9No"
+      source: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-xgdmsm"
+      binary: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-xgdmsm"
     cmakeVariables:
       CMAKE_CXX_FLAGS: ""
       CMAKE_CXX_FLAGS_DEBUG: "-g"
@@ -310,12 +306,12 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-5it9No
+        Change Dir: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-xgdmsm
         
-        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_fa257/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_fa257.dir/build.make CMakeFiles/cmTC_fa257.dir/build
-        gmake[1]: Entering directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-5it9No'
-        Building CXX object CMakeFiles/cmTC_fa257.dir/CMakeCXXCompilerABI.cpp.o
-        /usr/bin/c++   -v -o CMakeFiles/cmTC_fa257.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp
+        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_21618/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_21618.dir/build.make CMakeFiles/cmTC_21618.dir/build
+        gmake[1]: Entering directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-xgdmsm'
+        Building CXX object CMakeFiles/cmTC_21618.dir/CMakeCXXCompilerABI.cpp.o
+        /usr/bin/c++   -v -o CMakeFiles/cmTC_21618.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp
         Using built-in specs.
         COLLECT_GCC=/usr/bin/c++
         OFFLOAD_TARGET_NAMES=nvptx-none
@@ -325,8 +321,8 @@ events:
         Thread model: posix
         Supported LTO compression algorithms: zlib zstd
         gcc version 11.5.0 20240719 (Red Hat 11.5.0-11) (GCC) 
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_fa257.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'CMakeFiles/cmTC_fa257.dir/'
-         /usr/libexec/gcc/x86_64-redhat-linux/11/cc1plus -quiet -v -D_GNU_SOURCE /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_fa257.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64-v2 -version -o /tmp/ccwQwLHX.s
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_21618.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'CMakeFiles/cmTC_21618.dir/'
+         /usr/libexec/gcc/x86_64-redhat-linux/11/cc1plus -quiet -v -D_GNU_SOURCE /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_21618.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64-v2 -version -o /tmp/cc8uJnlV.s
         GNU C++17 (GCC) version 11.5.0 20240719 (Red Hat 11.5.0-11) (x86_64-redhat-linux)
         	compiled by GNU C version 11.5.0 20240719 (Red Hat 11.5.0-11), GMP version 6.2.0, MPFR version 4.1.0-p9, MPC version 1.2.1, isl version none
         GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
@@ -336,7 +332,6 @@ events:
         #include <...> search starts here:
          /cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/include
          .
-         /home/lpelegri/cafpyana/envs/local/include
          /cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/include
          /usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11
          /usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11/x86_64-redhat-linux
@@ -349,15 +344,15 @@ events:
         	compiled by GNU C version 11.5.0 20240719 (Red Hat 11.5.0-11), GMP version 6.2.0, MPFR version 4.1.0-p9, MPC version 1.2.1, isl version none
         GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
         Compiler executable checksum: 23c7f4d936a2f2617a213976173c3ccc
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_fa257.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'CMakeFiles/cmTC_fa257.dir/'
-         as -v --64 -o CMakeFiles/cmTC_fa257.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccwQwLHX.s
-        GNU assembler version 2.35.2 (x86_64-redhat-linux) using BFD version version 2.35.2-67.el9
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_21618.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'CMakeFiles/cmTC_21618.dir/'
+         as -v --64 -o CMakeFiles/cmTC_21618.dir/CMakeCXXCompilerABI.cpp.o /tmp/cc8uJnlV.s
+        GNU assembler version 2.35.2 (x86_64-redhat-linux) using BFD version version 2.35.2-67.el9_7.1
         COMPILER_PATH=/usr/libexec/gcc/x86_64-redhat-linux/11/:/usr/libexec/gcc/x86_64-redhat-linux/11/:/usr/libexec/gcc/x86_64-redhat-linux/:/usr/lib/gcc/x86_64-redhat-linux/11/:/usr/lib/gcc/x86_64-redhat-linux/
         LIBRARY_PATH=/usr/lib/gcc/x86_64-redhat-linux/11/:/usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/lib/intel64/gcc4.8/:/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/lib/:./:/usr/lib/gcc/x86_64-redhat-linux/11/../../../:/lib/:/usr/lib/
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_fa257.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'CMakeFiles/cmTC_fa257.dir/CMakeCXXCompilerABI.cpp.'
-        Linking CXX executable cmTC_fa257
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fa257.dir/link.txt --verbose=1
-        /usr/bin/c++  -v CMakeFiles/cmTC_fa257.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_fa257 
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_21618.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'CMakeFiles/cmTC_21618.dir/CMakeCXXCompilerABI.cpp.'
+        Linking CXX executable cmTC_21618
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_21618.dir/link.txt --verbose=1
+        /usr/bin/c++  -v CMakeFiles/cmTC_21618.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_21618 
         Using built-in specs.
         COLLECT_GCC=/usr/bin/c++
         COLLECT_LTO_WRAPPER=/usr/libexec/gcc/x86_64-redhat-linux/11/lto-wrapper
@@ -370,10 +365,10 @@ events:
         gcc version 11.5.0 20240719 (Red Hat 11.5.0-11) (GCC) 
         COMPILER_PATH=/usr/libexec/gcc/x86_64-redhat-linux/11/:/usr/libexec/gcc/x86_64-redhat-linux/11/:/usr/libexec/gcc/x86_64-redhat-linux/:/usr/lib/gcc/x86_64-redhat-linux/11/:/usr/lib/gcc/x86_64-redhat-linux/
         LIBRARY_PATH=/usr/lib/gcc/x86_64-redhat-linux/11/:/usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/lib/intel64/gcc4.8/:/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/lib/:./:/usr/lib/gcc/x86_64-redhat-linux/11/../../../:/lib/:/usr/lib/
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_fa257' '-shared-libgcc' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'cmTC_fa257.'
-         /usr/libexec/gcc/x86_64-redhat-linux/11/collect2 -plugin /usr/libexec/gcc/x86_64-redhat-linux/11/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/x86_64-redhat-linux/11/lto-wrapper -plugin-opt=-fresolution=/tmp/ccb7TZma.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --no-add-needed --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_fa257 /usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crt1.o /usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crti.o /usr/lib/gcc/x86_64-redhat-linux/11/crtbegin.o -L/usr/lib/gcc/x86_64-redhat-linux/11 -L/usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/lib/intel64/gcc4.8 -L/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/lib -L. -L/usr/lib/gcc/x86_64-redhat-linux/11/../../.. CMakeFiles/cmTC_fa257.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-redhat-linux/11/crtend.o /usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crtn.o
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_fa257' '-shared-libgcc' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'cmTC_fa257.'
-        gmake[1]: Leaving directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-5it9No'
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_21618' '-shared-libgcc' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'cmTC_21618.'
+         /usr/libexec/gcc/x86_64-redhat-linux/11/collect2 -plugin /usr/libexec/gcc/x86_64-redhat-linux/11/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/x86_64-redhat-linux/11/lto-wrapper -plugin-opt=-fresolution=/tmp/ccdCWfps.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --no-add-needed --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_21618 /usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crt1.o /usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crti.o /usr/lib/gcc/x86_64-redhat-linux/11/crtbegin.o -L/usr/lib/gcc/x86_64-redhat-linux/11 -L/usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/lib/intel64/gcc4.8 -L/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/lib -L. -L/usr/lib/gcc/x86_64-redhat-linux/11/../../.. CMakeFiles/cmTC_21618.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-redhat-linux/11/crtend.o /usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crtn.o
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_21618' '-shared-libgcc' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'cmTC_21618.'
+        gmake[1]: Leaving directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-xgdmsm'
         
       exitCode: 0
   -
@@ -388,7 +383,6 @@ events:
         found start of implicit include info
           add: [/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/include]
           add: [.]
-          add: [/home/lpelegri/cafpyana/envs/local/include]
           add: [/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/include]
           add: [/usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11]
           add: [/usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11/x86_64-redhat-linux]
@@ -399,7 +393,6 @@ events:
         end of search list found
         collapse include dir [/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/include] ==> [/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/include]
         skipping relative include dir [.]
-        collapse include dir [/home/lpelegri/cafpyana/envs/local/include] ==> [/home/lpelegri/cafpyana/envs/local/include]
         collapse include dir [/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/include] ==> [/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/include]
         collapse include dir [/usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11] ==> [/usr/include/c++/11]
         collapse include dir [/usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11/x86_64-redhat-linux] ==> [/usr/include/c++/11/x86_64-redhat-linux]
@@ -407,7 +400,7 @@ events:
         collapse include dir [/usr/lib/gcc/x86_64-redhat-linux/11/include] ==> [/usr/lib/gcc/x86_64-redhat-linux/11/include]
         collapse include dir [/usr/local/include] ==> [/usr/local/include]
         collapse include dir [/usr/include] ==> [/usr/include]
-        implicit include dirs: [/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/include;/home/lpelegri/cafpyana/envs/local/include;/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/include;/usr/include/c++/11;/usr/include/c++/11/x86_64-redhat-linux;/usr/include/c++/11/backward;/usr/lib/gcc/x86_64-redhat-linux/11/include;/usr/local/include;/usr/include]
+        implicit include dirs: [/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/include;/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/include;/usr/include/c++/11;/usr/include/c++/11/x86_64-redhat-linux;/usr/include/c++/11/backward;/usr/lib/gcc/x86_64-redhat-linux/11/include;/usr/local/include;/usr/include]
       
       
   -
@@ -419,12 +412,12 @@ events:
     message: |
       Parsed CXX implicit link information:
         link line regex: [^( *|.*[/\\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
-        ignore line: [Change Dir: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-5it9No]
+        ignore line: [Change Dir: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-xgdmsm]
         ignore line: []
-        ignore line: [Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_fa257/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_fa257.dir/build.make CMakeFiles/cmTC_fa257.dir/build]
-        ignore line: [gmake[1]: Entering directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-5it9No']
-        ignore line: [Building CXX object CMakeFiles/cmTC_fa257.dir/CMakeCXXCompilerABI.cpp.o]
-        ignore line: [/usr/bin/c++   -v -o CMakeFiles/cmTC_fa257.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_21618/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_21618.dir/build.make CMakeFiles/cmTC_21618.dir/build]
+        ignore line: [gmake[1]: Entering directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-xgdmsm']
+        ignore line: [Building CXX object CMakeFiles/cmTC_21618.dir/CMakeCXXCompilerABI.cpp.o]
+        ignore line: [/usr/bin/c++   -v -o CMakeFiles/cmTC_21618.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=/usr/bin/c++]
         ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none]
@@ -434,8 +427,8 @@ events:
         ignore line: [Thread model: posix]
         ignore line: [Supported LTO compression algorithms: zlib zstd]
         ignore line: [gcc version 11.5.0 20240719 (Red Hat 11.5.0-11) (GCC) ]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_fa257.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'CMakeFiles/cmTC_fa257.dir/']
-        ignore line: [ /usr/libexec/gcc/x86_64-redhat-linux/11/cc1plus -quiet -v -D_GNU_SOURCE /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_fa257.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64-v2 -version -o /tmp/ccwQwLHX.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_21618.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'CMakeFiles/cmTC_21618.dir/']
+        ignore line: [ /usr/libexec/gcc/x86_64-redhat-linux/11/cc1plus -quiet -v -D_GNU_SOURCE /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_21618.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64-v2 -version -o /tmp/cc8uJnlV.s]
         ignore line: [GNU C++17 (GCC) version 11.5.0 20240719 (Red Hat 11.5.0-11) (x86_64-redhat-linux)]
         ignore line: [	compiled by GNU C version 11.5.0 20240719 (Red Hat 11.5.0-11)  GMP version 6.2.0  MPFR version 4.1.0-p9  MPC version 1.2.1  isl version none]
         ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
@@ -445,7 +438,6 @@ events:
         ignore line: [#include <...> search starts here:]
         ignore line: [ /cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/include]
         ignore line: [ .]
-        ignore line: [ /home/lpelegri/cafpyana/envs/local/include]
         ignore line: [ /cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/include]
         ignore line: [ /usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11]
         ignore line: [ /usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11/x86_64-redhat-linux]
@@ -458,15 +450,15 @@ events:
         ignore line: [	compiled by GNU C version 11.5.0 20240719 (Red Hat 11.5.0-11)  GMP version 6.2.0  MPFR version 4.1.0-p9  MPC version 1.2.1  isl version none]
         ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
         ignore line: [Compiler executable checksum: 23c7f4d936a2f2617a213976173c3ccc]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_fa257.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'CMakeFiles/cmTC_fa257.dir/']
-        ignore line: [ as -v --64 -o CMakeFiles/cmTC_fa257.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccwQwLHX.s]
-        ignore line: [GNU assembler version 2.35.2 (x86_64-redhat-linux) using BFD version version 2.35.2-67.el9]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_21618.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'CMakeFiles/cmTC_21618.dir/']
+        ignore line: [ as -v --64 -o CMakeFiles/cmTC_21618.dir/CMakeCXXCompilerABI.cpp.o /tmp/cc8uJnlV.s]
+        ignore line: [GNU assembler version 2.35.2 (x86_64-redhat-linux) using BFD version version 2.35.2-67.el9_7.1]
         ignore line: [COMPILER_PATH=/usr/libexec/gcc/x86_64-redhat-linux/11/:/usr/libexec/gcc/x86_64-redhat-linux/11/:/usr/libexec/gcc/x86_64-redhat-linux/:/usr/lib/gcc/x86_64-redhat-linux/11/:/usr/lib/gcc/x86_64-redhat-linux/]
         ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-redhat-linux/11/:/usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/lib/intel64/gcc4.8/:/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/lib/:./:/usr/lib/gcc/x86_64-redhat-linux/11/../../../:/lib/:/usr/lib/]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_fa257.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'CMakeFiles/cmTC_fa257.dir/CMakeCXXCompilerABI.cpp.']
-        ignore line: [Linking CXX executable cmTC_fa257]
-        ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fa257.dir/link.txt --verbose=1]
-        ignore line: [/usr/bin/c++  -v CMakeFiles/cmTC_fa257.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_fa257 ]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_21618.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'CMakeFiles/cmTC_21618.dir/CMakeCXXCompilerABI.cpp.']
+        ignore line: [Linking CXX executable cmTC_21618]
+        ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_21618.dir/link.txt --verbose=1]
+        ignore line: [/usr/bin/c++  -v CMakeFiles/cmTC_21618.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_21618 ]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=/usr/bin/c++]
         ignore line: [COLLECT_LTO_WRAPPER=/usr/libexec/gcc/x86_64-redhat-linux/11/lto-wrapper]
@@ -479,13 +471,13 @@ events:
         ignore line: [gcc version 11.5.0 20240719 (Red Hat 11.5.0-11) (GCC) ]
         ignore line: [COMPILER_PATH=/usr/libexec/gcc/x86_64-redhat-linux/11/:/usr/libexec/gcc/x86_64-redhat-linux/11/:/usr/libexec/gcc/x86_64-redhat-linux/:/usr/lib/gcc/x86_64-redhat-linux/11/:/usr/lib/gcc/x86_64-redhat-linux/]
         ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-redhat-linux/11/:/usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/lib/intel64/gcc4.8/:/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/lib/:./:/usr/lib/gcc/x86_64-redhat-linux/11/../../../:/lib/:/usr/lib/]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_fa257' '-shared-libgcc' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'cmTC_fa257.']
-        link line: [ /usr/libexec/gcc/x86_64-redhat-linux/11/collect2 -plugin /usr/libexec/gcc/x86_64-redhat-linux/11/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/x86_64-redhat-linux/11/lto-wrapper -plugin-opt=-fresolution=/tmp/ccb7TZma.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --no-add-needed --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_fa257 /usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crt1.o /usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crti.o /usr/lib/gcc/x86_64-redhat-linux/11/crtbegin.o -L/usr/lib/gcc/x86_64-redhat-linux/11 -L/usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/lib/intel64/gcc4.8 -L/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/lib -L. -L/usr/lib/gcc/x86_64-redhat-linux/11/../../.. CMakeFiles/cmTC_fa257.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-redhat-linux/11/crtend.o /usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crtn.o]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_21618' '-shared-libgcc' '-mtune=generic' '-march=x86-64-v2' '-dumpdir' 'cmTC_21618.']
+        link line: [ /usr/libexec/gcc/x86_64-redhat-linux/11/collect2 -plugin /usr/libexec/gcc/x86_64-redhat-linux/11/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/x86_64-redhat-linux/11/lto-wrapper -plugin-opt=-fresolution=/tmp/ccdCWfps.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --no-add-needed --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_21618 /usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crt1.o /usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crti.o /usr/lib/gcc/x86_64-redhat-linux/11/crtbegin.o -L/usr/lib/gcc/x86_64-redhat-linux/11 -L/usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/lib/intel64/gcc4.8 -L/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/lib -L. -L/usr/lib/gcc/x86_64-redhat-linux/11/../../.. CMakeFiles/cmTC_21618.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-redhat-linux/11/crtend.o /usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crtn.o]
           arg [/usr/libexec/gcc/x86_64-redhat-linux/11/collect2] ==> ignore
           arg [-plugin] ==> ignore
           arg [/usr/libexec/gcc/x86_64-redhat-linux/11/liblto_plugin.so] ==> ignore
           arg [-plugin-opt=/usr/libexec/gcc/x86_64-redhat-linux/11/lto-wrapper] ==> ignore
-          arg [-plugin-opt=-fresolution=/tmp/ccb7TZma.res] ==> ignore
+          arg [-plugin-opt=-fresolution=/tmp/ccdCWfps.res] ==> ignore
           arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
           arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
           arg [-plugin-opt=-pass-through=-lc] ==> ignore
@@ -500,7 +492,7 @@ events:
           arg [-dynamic-linker] ==> ignore
           arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
           arg [-o] ==> ignore
-          arg [cmTC_fa257] ==> ignore
+          arg [cmTC_21618] ==> ignore
           arg [/usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crt1.o] ==> obj [/usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crt1.o]
           arg [/usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crti.o] ==> obj [/usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crti.o]
           arg [/usr/lib/gcc/x86_64-redhat-linux/11/crtbegin.o] ==> obj [/usr/lib/gcc/x86_64-redhat-linux/11/crtbegin.o]
@@ -512,7 +504,7 @@ events:
           arg [-L/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/lib] ==> dir [/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/lib]
           arg [-L.] ==> ignore
           arg [-L/usr/lib/gcc/x86_64-redhat-linux/11/../../..] ==> dir [/usr/lib/gcc/x86_64-redhat-linux/11/../../..]
-          arg [CMakeFiles/cmTC_fa257.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+          arg [CMakeFiles/cmTC_21618.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
           arg [-lstdc++] ==> lib [stdc++]
           arg [-lm] ==> lib [m]
           arg [-lgcc_s] ==> lib [gcc_s]
@@ -547,27 +539,27 @@ events:
     checks:
       - "Looking for setresuid"
     directories:
-      source: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-8IQj3R"
-      binary: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-8IQj3R"
+      source: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-Q5nf35"
+      binary: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-Q5nf35"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
-      CMAKE_MODULE_PATH: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/home/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
+      CMAKE_MODULE_PATH: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
     buildResult:
       variable: "HAVE_SETRESUID"
       cached: true
       stdout: |
-        Change Dir: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-8IQj3R
+        Change Dir: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-Q5nf35
         
-        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_824b2/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_824b2.dir/build.make CMakeFiles/cmTC_824b2.dir/build
-        gmake[1]: Entering directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-8IQj3R'
-        Building C object CMakeFiles/cmTC_824b2.dir/CheckFunctionExists.c.o
-        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=setresuid -o CMakeFiles/cmTC_824b2.dir/CheckFunctionExists.c.o -c /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-8IQj3R/CheckFunctionExists.c
-        Linking C executable cmTC_824b2
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_824b2.dir/link.txt --verbose=1
-        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=setresuid CMakeFiles/cmTC_824b2.dir/CheckFunctionExists.c.o -o cmTC_824b2 
-        gmake[1]: Leaving directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-8IQj3R'
+        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_c2730/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_c2730.dir/build.make CMakeFiles/cmTC_c2730.dir/build
+        gmake[1]: Entering directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-Q5nf35'
+        Building C object CMakeFiles/cmTC_c2730.dir/CheckFunctionExists.c.o
+        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=setresuid -o CMakeFiles/cmTC_c2730.dir/CheckFunctionExists.c.o -c /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-Q5nf35/CheckFunctionExists.c
+        Linking C executable cmTC_c2730
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c2730.dir/link.txt --verbose=1
+        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=setresuid CMakeFiles/cmTC_c2730.dir/CheckFunctionExists.c.o -o cmTC_c2730 
+        gmake[1]: Leaving directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-Q5nf35'
         
       exitCode: 0
   -
@@ -579,32 +571,32 @@ events:
     checks:
       - "Looking for strlcpy"
     directories:
-      source: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-vp3POu"
-      binary: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-vp3POu"
+      source: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-oqkYB0"
+      binary: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-oqkYB0"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
-      CMAKE_MODULE_PATH: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/home/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
+      CMAKE_MODULE_PATH: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
     buildResult:
       variable: "HAVE_STRLCPY"
       cached: true
       stdout: |
-        Change Dir: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-vp3POu
+        Change Dir: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-oqkYB0
         
-        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_27d29/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_27d29.dir/build.make CMakeFiles/cmTC_27d29.dir/build
-        gmake[1]: Entering directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-vp3POu'
-        Building C object CMakeFiles/cmTC_27d29.dir/CheckFunctionExists.c.o
-        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=strlcpy -o CMakeFiles/cmTC_27d29.dir/CheckFunctionExists.c.o -c /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-vp3POu/CheckFunctionExists.c
-        Linking C executable cmTC_27d29
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_27d29.dir/link.txt --verbose=1
-        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=strlcpy CMakeFiles/cmTC_27d29.dir/CheckFunctionExists.c.o -o cmTC_27d29 
-        /usr/bin/ld: CMakeFiles/cmTC_27d29.dir/CheckFunctionExists.c.o: in function `main':
+        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_98ad4/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_98ad4.dir/build.make CMakeFiles/cmTC_98ad4.dir/build
+        gmake[1]: Entering directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-oqkYB0'
+        Building C object CMakeFiles/cmTC_98ad4.dir/CheckFunctionExists.c.o
+        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=strlcpy -o CMakeFiles/cmTC_98ad4.dir/CheckFunctionExists.c.o -c /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-oqkYB0/CheckFunctionExists.c
+        Linking C executable cmTC_98ad4
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_98ad4.dir/link.txt --verbose=1
+        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=strlcpy CMakeFiles/cmTC_98ad4.dir/CheckFunctionExists.c.o -o cmTC_98ad4 
+        /usr/bin/ld: CMakeFiles/cmTC_98ad4.dir/CheckFunctionExists.c.o: in function `main':
         CheckFunctionExists.c:(.text+0x10): undefined reference to `strlcpy'
         collect2: error: ld returned 1 exit status
-        gmake[1]: *** [CMakeFiles/cmTC_27d29.dir/build.make:99: cmTC_27d29] Error 1
-        gmake[1]: Leaving directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-vp3POu'
-        gmake: *** [Makefile:127: cmTC_27d29/fast] Error 2
+        gmake[1]: *** [CMakeFiles/cmTC_98ad4.dir/build.make:99: cmTC_98ad4] Error 1
+        gmake[1]: Leaving directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-oqkYB0'
+        gmake: *** [Makefile:127: cmTC_98ad4/fast] Error 2
         
       exitCode: 2
   -
@@ -616,27 +608,27 @@ events:
     checks:
       - "Looking for fstatat"
     directories:
-      source: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-YlusJN"
-      binary: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-YlusJN"
+      source: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-PHVTJX"
+      binary: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-PHVTJX"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
-      CMAKE_MODULE_PATH: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/home/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
+      CMAKE_MODULE_PATH: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
     buildResult:
       variable: "HAVE_FSTATAT"
       cached: true
       stdout: |
-        Change Dir: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-YlusJN
+        Change Dir: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-PHVTJX
         
-        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_87784/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_87784.dir/build.make CMakeFiles/cmTC_87784.dir/build
-        gmake[1]: Entering directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-YlusJN'
-        Building C object CMakeFiles/cmTC_87784.dir/CheckFunctionExists.c.o
-        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=fstatat -o CMakeFiles/cmTC_87784.dir/CheckFunctionExists.c.o -c /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-YlusJN/CheckFunctionExists.c
-        Linking C executable cmTC_87784
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_87784.dir/link.txt --verbose=1
-        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=fstatat CMakeFiles/cmTC_87784.dir/CheckFunctionExists.c.o -o cmTC_87784 
-        gmake[1]: Leaving directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-YlusJN'
+        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_d5dd7/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_d5dd7.dir/build.make CMakeFiles/cmTC_d5dd7.dir/build
+        gmake[1]: Entering directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-PHVTJX'
+        Building C object CMakeFiles/cmTC_d5dd7.dir/CheckFunctionExists.c.o
+        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=fstatat -o CMakeFiles/cmTC_d5dd7.dir/CheckFunctionExists.c.o -c /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-PHVTJX/CheckFunctionExists.c
+        Linking C executable cmTC_d5dd7
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d5dd7.dir/link.txt --verbose=1
+        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=fstatat CMakeFiles/cmTC_d5dd7.dir/CheckFunctionExists.c.o -o cmTC_d5dd7 
+        gmake[1]: Leaving directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-PHVTJX'
         
       exitCode: 0
   -
@@ -648,27 +640,27 @@ events:
     checks:
       - "Looking for sigwaitinfo"
     directories:
-      source: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-ziRkfe"
-      binary: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-ziRkfe"
+      source: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-J0kzaf"
+      binary: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-J0kzaf"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
-      CMAKE_MODULE_PATH: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/home/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
+      CMAKE_MODULE_PATH: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
     buildResult:
       variable: "HAVE_SIGWTI"
       cached: true
       stdout: |
-        Change Dir: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-ziRkfe
+        Change Dir: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-J0kzaf
         
-        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_c3226/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_c3226.dir/build.make CMakeFiles/cmTC_c3226.dir/build
-        gmake[1]: Entering directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-ziRkfe'
-        Building C object CMakeFiles/cmTC_c3226.dir/CheckFunctionExists.c.o
-        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=sigwaitinfo -o CMakeFiles/cmTC_c3226.dir/CheckFunctionExists.c.o -c /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-ziRkfe/CheckFunctionExists.c
-        Linking C executable cmTC_c3226
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c3226.dir/link.txt --verbose=1
-        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=sigwaitinfo CMakeFiles/cmTC_c3226.dir/CheckFunctionExists.c.o -o cmTC_c3226 
-        gmake[1]: Leaving directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-ziRkfe'
+        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_e505c/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_e505c.dir/build.make CMakeFiles/cmTC_e505c.dir/build
+        gmake[1]: Entering directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-J0kzaf'
+        Building C object CMakeFiles/cmTC_e505c.dir/CheckFunctionExists.c.o
+        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=sigwaitinfo -o CMakeFiles/cmTC_e505c.dir/CheckFunctionExists.c.o -c /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-J0kzaf/CheckFunctionExists.c
+        Linking C executable cmTC_e505c
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e505c.dir/link.txt --verbose=1
+        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=sigwaitinfo CMakeFiles/cmTC_e505c.dir/CheckFunctionExists.c.o -o cmTC_e505c 
+        gmake[1]: Leaving directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-J0kzaf'
         
       exitCode: 0
   -
@@ -680,27 +672,27 @@ events:
     checks:
       - "Looking for shadow.h"
     directories:
-      source: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-vTxDqS"
-      binary: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-vTxDqS"
+      source: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-nFjXKe"
+      binary: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-nFjXKe"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
-      CMAKE_MODULE_PATH: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/home/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
+      CMAKE_MODULE_PATH: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
     buildResult:
       variable: "HAVE_SHADOWPW"
       cached: true
       stdout: |
-        Change Dir: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-vTxDqS
+        Change Dir: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-nFjXKe
         
-        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_56272/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_56272.dir/build.make CMakeFiles/cmTC_56272.dir/build
-        gmake[1]: Entering directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-vTxDqS'
-        Building C object CMakeFiles/cmTC_56272.dir/CheckIncludeFile.c.o
-        /usr/bin/cc    -o CMakeFiles/cmTC_56272.dir/CheckIncludeFile.c.o -c /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-vTxDqS/CheckIncludeFile.c
-        Linking C executable cmTC_56272
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_56272.dir/link.txt --verbose=1
-        /usr/bin/cc CMakeFiles/cmTC_56272.dir/CheckIncludeFile.c.o -o cmTC_56272 
-        gmake[1]: Leaving directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-vTxDqS'
+        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_d12d3/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_d12d3.dir/build.make CMakeFiles/cmTC_d12d3.dir/build
+        gmake[1]: Entering directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-nFjXKe'
+        Building C object CMakeFiles/cmTC_d12d3.dir/CheckIncludeFile.c.o
+        /usr/bin/cc    -o CMakeFiles/cmTC_d12d3.dir/CheckIncludeFile.c.o -c /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-nFjXKe/CheckIncludeFile.c
+        Linking C executable cmTC_d12d3
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d12d3.dir/link.txt --verbose=1
+        /usr/bin/cc CMakeFiles/cmTC_d12d3.dir/CheckIncludeFile.c.o -o cmTC_d12d3 
+        gmake[1]: Leaving directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-nFjXKe'
         
       exitCode: 0
   -
@@ -712,27 +704,27 @@ events:
     checks:
       - "Looking for getifaddrs"
     directories:
-      source: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-TXMOHZ"
-      binary: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-TXMOHZ"
+      source: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-BU3H1c"
+      binary: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-BU3H1c"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
-      CMAKE_MODULE_PATH: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/home/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
+      CMAKE_MODULE_PATH: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
     buildResult:
       variable: "HAVE_GETIFADDRS"
       cached: true
       stdout: |
-        Change Dir: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-TXMOHZ
+        Change Dir: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-BU3H1c
         
-        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_36acc/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_36acc.dir/build.make CMakeFiles/cmTC_36acc.dir/build
-        gmake[1]: Entering directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-TXMOHZ'
-        Building C object CMakeFiles/cmTC_36acc.dir/CheckFunctionExists.c.o
-        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=getifaddrs -o CMakeFiles/cmTC_36acc.dir/CheckFunctionExists.c.o -c /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-TXMOHZ/CheckFunctionExists.c
-        Linking C executable cmTC_36acc
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_36acc.dir/link.txt --verbose=1
-        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=getifaddrs CMakeFiles/cmTC_36acc.dir/CheckFunctionExists.c.o -o cmTC_36acc 
-        gmake[1]: Leaving directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-TXMOHZ'
+        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_7ebc4/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_7ebc4.dir/build.make CMakeFiles/cmTC_7ebc4.dir/build
+        gmake[1]: Entering directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-BU3H1c'
+        Building C object CMakeFiles/cmTC_7ebc4.dir/CheckFunctionExists.c.o
+        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=getifaddrs -o CMakeFiles/cmTC_7ebc4.dir/CheckFunctionExists.c.o -c /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-BU3H1c/CheckFunctionExists.c
+        Linking C executable cmTC_7ebc4
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7ebc4.dir/link.txt --verbose=1
+        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=getifaddrs CMakeFiles/cmTC_7ebc4.dir/CheckFunctionExists.c.o -o cmTC_7ebc4 
+        gmake[1]: Leaving directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-BU3H1c'
         
       exitCode: 0
   -
@@ -744,27 +736,27 @@ events:
     checks:
       - "Looking for getnameinfo"
     directories:
-      source: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-5nWVb7"
-      binary: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-5nWVb7"
+      source: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-PdR6pg"
+      binary: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-PdR6pg"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
-      CMAKE_MODULE_PATH: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/home/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
+      CMAKE_MODULE_PATH: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
     buildResult:
       variable: "HAVE_NAMEINFO"
       cached: true
       stdout: |
-        Change Dir: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-5nWVb7
+        Change Dir: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-PdR6pg
         
-        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_527fb/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_527fb.dir/build.make CMakeFiles/cmTC_527fb.dir/build
-        gmake[1]: Entering directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-5nWVb7'
-        Building C object CMakeFiles/cmTC_527fb.dir/CheckFunctionExists.c.o
-        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=getnameinfo -o CMakeFiles/cmTC_527fb.dir/CheckFunctionExists.c.o -c /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-5nWVb7/CheckFunctionExists.c
-        Linking C executable cmTC_527fb
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_527fb.dir/link.txt --verbose=1
-        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=getnameinfo CMakeFiles/cmTC_527fb.dir/CheckFunctionExists.c.o -o cmTC_527fb 
-        gmake[1]: Leaving directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-5nWVb7'
+        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_83bc3/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_83bc3.dir/build.make CMakeFiles/cmTC_83bc3.dir/build
+        gmake[1]: Entering directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-PdR6pg'
+        Building C object CMakeFiles/cmTC_83bc3.dir/CheckFunctionExists.c.o
+        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=getnameinfo -o CMakeFiles/cmTC_83bc3.dir/CheckFunctionExists.c.o -c /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-PdR6pg/CheckFunctionExists.c
+        Linking C executable cmTC_83bc3
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_83bc3.dir/link.txt --verbose=1
+        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=getnameinfo CMakeFiles/cmTC_83bc3.dir/CheckFunctionExists.c.o -o cmTC_83bc3 
+        gmake[1]: Leaving directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-PdR6pg'
         
       exitCode: 0
   -
@@ -776,27 +768,27 @@ events:
     checks:
       - "Looking for getprotobyname_r"
     directories:
-      source: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-K43Lbr"
-      binary: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-K43Lbr"
+      source: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-go3dzt"
+      binary: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-go3dzt"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
-      CMAKE_MODULE_PATH: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/home/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
+      CMAKE_MODULE_PATH: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
     buildResult:
       variable: "HAVE_PROTOR"
       cached: true
       stdout: |
-        Change Dir: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-K43Lbr
+        Change Dir: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-go3dzt
         
-        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_b1315/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_b1315.dir/build.make CMakeFiles/cmTC_b1315.dir/build
-        gmake[1]: Entering directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-K43Lbr'
-        Building C object CMakeFiles/cmTC_b1315.dir/CheckFunctionExists.c.o
-        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=getprotobyname_r -o CMakeFiles/cmTC_b1315.dir/CheckFunctionExists.c.o -c /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-K43Lbr/CheckFunctionExists.c
-        Linking C executable cmTC_b1315
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b1315.dir/link.txt --verbose=1
-        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=getprotobyname_r CMakeFiles/cmTC_b1315.dir/CheckFunctionExists.c.o -o cmTC_b1315 
-        gmake[1]: Leaving directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-K43Lbr'
+        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_65a26/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_65a26.dir/build.make CMakeFiles/cmTC_65a26.dir/build
+        gmake[1]: Entering directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-go3dzt'
+        Building C object CMakeFiles/cmTC_65a26.dir/CheckFunctionExists.c.o
+        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=getprotobyname_r -o CMakeFiles/cmTC_65a26.dir/CheckFunctionExists.c.o -c /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-go3dzt/CheckFunctionExists.c
+        Linking C executable cmTC_65a26
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_65a26.dir/link.txt --verbose=1
+        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=getprotobyname_r CMakeFiles/cmTC_65a26.dir/CheckFunctionExists.c.o -o cmTC_65a26 
+        gmake[1]: Leaving directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-go3dzt'
         
       exitCode: 0
   -
@@ -808,27 +800,27 @@ events:
     checks:
       - "Looking for gethostbyaddr_r"
     directories:
-      source: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-R3qWbs"
-      binary: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-R3qWbs"
+      source: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-XQWBol"
+      binary: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-XQWBol"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
-      CMAKE_MODULE_PATH: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/home/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
+      CMAKE_MODULE_PATH: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
     buildResult:
       variable: "HAVE_GETHBYXR"
       cached: true
       stdout: |
-        Change Dir: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-R3qWbs
+        Change Dir: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-XQWBol
         
-        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_6aa6a/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_6aa6a.dir/build.make CMakeFiles/cmTC_6aa6a.dir/build
-        gmake[1]: Entering directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-R3qWbs'
-        Building C object CMakeFiles/cmTC_6aa6a.dir/CheckFunctionExists.c.o
-        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=gethostbyaddr_r -o CMakeFiles/cmTC_6aa6a.dir/CheckFunctionExists.c.o -c /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-R3qWbs/CheckFunctionExists.c
-        Linking C executable cmTC_6aa6a
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6aa6a.dir/link.txt --verbose=1
-        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=gethostbyaddr_r CMakeFiles/cmTC_6aa6a.dir/CheckFunctionExists.c.o -o cmTC_6aa6a 
-        gmake[1]: Leaving directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-R3qWbs'
+        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_9ee3f/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_9ee3f.dir/build.make CMakeFiles/cmTC_9ee3f.dir/build
+        gmake[1]: Entering directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-XQWBol'
+        Building C object CMakeFiles/cmTC_9ee3f.dir/CheckFunctionExists.c.o
+        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=gethostbyaddr_r -o CMakeFiles/cmTC_9ee3f.dir/CheckFunctionExists.c.o -c /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-XQWBol/CheckFunctionExists.c
+        Linking C executable cmTC_9ee3f
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9ee3f.dir/link.txt --verbose=1
+        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=gethostbyaddr_r CMakeFiles/cmTC_9ee3f.dir/CheckFunctionExists.c.o -o cmTC_9ee3f 
+        gmake[1]: Leaving directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-XQWBol'
         
       exitCode: 0
   -
@@ -840,27 +832,27 @@ events:
     checks:
       - "Looking for sendfile"
     directories:
-      source: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-TPtvRt"
-      binary: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-TPtvRt"
+      source: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-n2sdFM"
+      binary: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-n2sdFM"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
-      CMAKE_MODULE_PATH: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/home/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
+      CMAKE_MODULE_PATH: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
     buildResult:
       variable: "HAVE_SENDFILE"
       cached: true
       stdout: |
-        Change Dir: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-TPtvRt
+        Change Dir: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-n2sdFM
         
-        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_82b5a/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_82b5a.dir/build.make CMakeFiles/cmTC_82b5a.dir/build
-        gmake[1]: Entering directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-TPtvRt'
-        Building C object CMakeFiles/cmTC_82b5a.dir/CheckFunctionExists.c.o
-        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=sendfile -o CMakeFiles/cmTC_82b5a.dir/CheckFunctionExists.c.o -c /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-TPtvRt/CheckFunctionExists.c
-        Linking C executable cmTC_82b5a
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_82b5a.dir/link.txt --verbose=1
-        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=sendfile CMakeFiles/cmTC_82b5a.dir/CheckFunctionExists.c.o -o cmTC_82b5a 
-        gmake[1]: Leaving directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-TPtvRt'
+        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_28eb8/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_28eb8.dir/build.make CMakeFiles/cmTC_28eb8.dir/build
+        gmake[1]: Entering directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-n2sdFM'
+        Building C object CMakeFiles/cmTC_28eb8.dir/CheckFunctionExists.c.o
+        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=sendfile -o CMakeFiles/cmTC_28eb8.dir/CheckFunctionExists.c.o -c /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-n2sdFM/CheckFunctionExists.c
+        Linking C executable cmTC_28eb8
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_28eb8.dir/link.txt --verbose=1
+        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=sendfile CMakeFiles/cmTC_28eb8.dir/CheckFunctionExists.c.o -o cmTC_28eb8 
+        gmake[1]: Leaving directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-n2sdFM'
         
       exitCode: 0
   -
@@ -872,32 +864,32 @@ events:
     checks:
       - "Looking for crypt"
     directories:
-      source: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-9KfKfz"
-      binary: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-9KfKfz"
+      source: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-caGEWr"
+      binary: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-caGEWr"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
-      CMAKE_MODULE_PATH: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/home/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
+      CMAKE_MODULE_PATH: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
     buildResult:
       variable: "HAVE_CRYPT"
       cached: true
       stdout: |
-        Change Dir: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-9KfKfz
+        Change Dir: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-caGEWr
         
-        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_82104/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_82104.dir/build.make CMakeFiles/cmTC_82104.dir/build
-        gmake[1]: Entering directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-9KfKfz'
-        Building C object CMakeFiles/cmTC_82104.dir/CheckFunctionExists.c.o
-        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=crypt -o CMakeFiles/cmTC_82104.dir/CheckFunctionExists.c.o -c /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-9KfKfz/CheckFunctionExists.c
-        Linking C executable cmTC_82104
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_82104.dir/link.txt --verbose=1
-        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=crypt CMakeFiles/cmTC_82104.dir/CheckFunctionExists.c.o -o cmTC_82104 
-        /usr/bin/ld: CMakeFiles/cmTC_82104.dir/CheckFunctionExists.c.o: in function `main':
+        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_3b2a5/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_3b2a5.dir/build.make CMakeFiles/cmTC_3b2a5.dir/build
+        gmake[1]: Entering directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-caGEWr'
+        Building C object CMakeFiles/cmTC_3b2a5.dir/CheckFunctionExists.c.o
+        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=crypt -o CMakeFiles/cmTC_3b2a5.dir/CheckFunctionExists.c.o -c /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-caGEWr/CheckFunctionExists.c
+        Linking C executable cmTC_3b2a5
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_3b2a5.dir/link.txt --verbose=1
+        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=crypt CMakeFiles/cmTC_3b2a5.dir/CheckFunctionExists.c.o -o cmTC_3b2a5 
+        /usr/bin/ld: CMakeFiles/cmTC_3b2a5.dir/CheckFunctionExists.c.o: in function `main':
         CheckFunctionExists.c:(.text+0x10): undefined reference to `crypt'
         collect2: error: ld returned 1 exit status
-        gmake[1]: *** [CMakeFiles/cmTC_82104.dir/build.make:99: cmTC_82104] Error 1
-        gmake[1]: Leaving directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-9KfKfz'
-        gmake: *** [Makefile:127: cmTC_82104/fast] Error 2
+        gmake[1]: *** [CMakeFiles/cmTC_3b2a5.dir/build.make:99: cmTC_3b2a5] Error 1
+        gmake[1]: Leaving directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-caGEWr'
+        gmake: *** [Makefile:127: cmTC_3b2a5/fast] Error 2
         
       exitCode: 2
   -
@@ -909,27 +901,27 @@ events:
     checks:
       - "Looking for crypt in crypt"
     directories:
-      source: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-gfmwGG"
-      binary: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-gfmwGG"
+      source: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-AFvxKI"
+      binary: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-AFvxKI"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
-      CMAKE_MODULE_PATH: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/home/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
+      CMAKE_MODULE_PATH: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
     buildResult:
       variable: "HAVE_CRYPT_IN_CRYPT"
       cached: true
       stdout: |
-        Change Dir: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-gfmwGG
+        Change Dir: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-AFvxKI
         
-        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_e26df/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_e26df.dir/build.make CMakeFiles/cmTC_e26df.dir/build
-        gmake[1]: Entering directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-gfmwGG'
-        Building C object CMakeFiles/cmTC_e26df.dir/CheckFunctionExists.c.o
-        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=crypt -o CMakeFiles/cmTC_e26df.dir/CheckFunctionExists.c.o -c /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-gfmwGG/CheckFunctionExists.c
-        Linking C executable cmTC_e26df
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e26df.dir/link.txt --verbose=1
-        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=crypt CMakeFiles/cmTC_e26df.dir/CheckFunctionExists.c.o -o cmTC_e26df  -lcrypt 
-        gmake[1]: Leaving directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-gfmwGG'
+        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_01e78/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_01e78.dir/build.make CMakeFiles/cmTC_01e78.dir/build
+        gmake[1]: Entering directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-AFvxKI'
+        Building C object CMakeFiles/cmTC_01e78.dir/CheckFunctionExists.c.o
+        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=crypt -o CMakeFiles/cmTC_01e78.dir/CheckFunctionExists.c.o -c /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-AFvxKI/CheckFunctionExists.c
+        Linking C executable cmTC_01e78
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_01e78.dir/link.txt --verbose=1
+        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=crypt CMakeFiles/cmTC_01e78.dir/CheckFunctionExists.c.o -o cmTC_01e78  -lcrypt 
+        gmake[1]: Leaving directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-AFvxKI'
         
       exitCode: 0
   -
@@ -941,32 +933,29 @@ events:
     checks:
       - "Looking for et/com_err.h"
     directories:
-      source: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-3Emvqe"
-      binary: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-3Emvqe"
+      source: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-8YF2TV"
+      binary: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-8YF2TV"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
-      CMAKE_MODULE_PATH: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/home/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
+      CMAKE_MODULE_PATH: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
     buildResult:
       variable: "HAVE_ET_COM_ERR_H"
       cached: true
       stdout: |
-        Change Dir: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-3Emvqe
+        Change Dir: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-8YF2TV
         
-        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_89d9f/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_89d9f.dir/build.make CMakeFiles/cmTC_89d9f.dir/build
-        gmake[1]: Entering directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-3Emvqe'
-        Building C object CMakeFiles/cmTC_89d9f.dir/CheckIncludeFile.c.o
-        /usr/bin/cc    -o CMakeFiles/cmTC_89d9f.dir/CheckIncludeFile.c.o -c /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-3Emvqe/CheckIncludeFile.c
-        /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-3Emvqe/CheckIncludeFile.c:1:10: fatal error: et/com_err.h: No such file or directory
-            1 | #include <et/com_err.h>
-              |          ^~~~~~~~~~~~~~
-        compilation terminated.
-        gmake[1]: *** [CMakeFiles/cmTC_89d9f.dir/build.make:78: CMakeFiles/cmTC_89d9f.dir/CheckIncludeFile.c.o] Error 1
-        gmake[1]: Leaving directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-3Emvqe'
-        gmake: *** [Makefile:127: cmTC_89d9f/fast] Error 2
+        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_c6cb5/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_c6cb5.dir/build.make CMakeFiles/cmTC_c6cb5.dir/build
+        gmake[1]: Entering directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-8YF2TV'
+        Building C object CMakeFiles/cmTC_c6cb5.dir/CheckIncludeFile.c.o
+        /usr/bin/cc    -o CMakeFiles/cmTC_c6cb5.dir/CheckIncludeFile.c.o -c /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-8YF2TV/CheckIncludeFile.c
+        Linking C executable cmTC_c6cb5
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c6cb5.dir/link.txt --verbose=1
+        /usr/bin/cc CMakeFiles/cmTC_c6cb5.dir/CheckIncludeFile.c.o -o cmTC_c6cb5 
+        gmake[1]: Leaving directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-8YF2TV'
         
-      exitCode: 2
+      exitCode: 0
   -
     kind: "try_compile-v1"
     backtrace:
@@ -979,27 +968,27 @@ events:
     checks:
       - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
     directories:
-      source: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-MrFG1a"
-      binary: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-MrFG1a"
+      source: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-vptcds"
+      binary: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-vptcds"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
-      CMAKE_MODULE_PATH: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/home/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
+      CMAKE_MODULE_PATH: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
     buildResult:
       variable: "CMAKE_HAVE_LIBC_PTHREAD"
       cached: true
       stdout: |
-        Change Dir: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-MrFG1a
+        Change Dir: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-vptcds
         
-        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_f3da9/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_f3da9.dir/build.make CMakeFiles/cmTC_f3da9.dir/build
-        gmake[1]: Entering directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-MrFG1a'
-        Building C object CMakeFiles/cmTC_f3da9.dir/src.c.o
-        /usr/bin/cc -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_f3da9.dir/src.c.o -c /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-MrFG1a/src.c
-        Linking C executable cmTC_f3da9
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f3da9.dir/link.txt --verbose=1
-        /usr/bin/cc CMakeFiles/cmTC_f3da9.dir/src.c.o -o cmTC_f3da9 
-        gmake[1]: Leaving directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-MrFG1a'
+        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_da811/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_da811.dir/build.make CMakeFiles/cmTC_da811.dir/build
+        gmake[1]: Entering directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-vptcds'
+        Building C object CMakeFiles/cmTC_da811.dir/src.c.o
+        /usr/bin/cc -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_da811.dir/src.c.o -c /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-vptcds/src.c
+        Linking C executable cmTC_da811
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_da811.dir/link.txt --verbose=1
+        /usr/bin/cc CMakeFiles/cmTC_da811.dir/src.c.o -o cmTC_da811 
+        gmake[1]: Leaving directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-vptcds'
         
       exitCode: 0
   -
@@ -1012,27 +1001,27 @@ events:
     checks:
       - "Performing Test HAVE_ATOMICS"
     directories:
-      source: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-B3PgCa"
-      binary: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-B3PgCa"
+      source: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-k08z8c"
+      binary: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-k08z8c"
     cmakeVariables:
       CMAKE_CXX_FLAGS: " -Wall -Wextra -Werror -Wno-unused-parameter"
       CMAKE_CXX_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
-      CMAKE_MODULE_PATH: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/home/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
+      CMAKE_MODULE_PATH: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
     buildResult:
       variable: "HAVE_ATOMICS_COMPILED"
       cached: true
       stdout: |
-        Change Dir: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-B3PgCa
+        Change Dir: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-k08z8c
         
-        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_4729e/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_4729e.dir/build.make CMakeFiles/cmTC_4729e.dir/build
-        gmake[1]: Entering directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-B3PgCa'
-        Building CXX object CMakeFiles/cmTC_4729e.dir/src.cxx.o
-        /usr/bin/c++ -DHAVE_ATOMICS  -Wall -Wextra -Werror -Wno-unused-parameter  -std=gnu++14 -o CMakeFiles/cmTC_4729e.dir/src.cxx.o -c /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-B3PgCa/src.cxx
-        Linking CXX executable cmTC_4729e
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4729e.dir/link.txt --verbose=1
-        /usr/bin/c++  -Wall -Wextra -Werror -Wno-unused-parameter  CMakeFiles/cmTC_4729e.dir/src.cxx.o -o cmTC_4729e 
-        gmake[1]: Leaving directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-B3PgCa'
+        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_cfe8c/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_cfe8c.dir/build.make CMakeFiles/cmTC_cfe8c.dir/build
+        gmake[1]: Entering directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-k08z8c'
+        Building CXX object CMakeFiles/cmTC_cfe8c.dir/src.cxx.o
+        /usr/bin/c++ -DHAVE_ATOMICS  -Wall -Wextra -Werror -Wno-unused-parameter  -std=gnu++14 -o CMakeFiles/cmTC_cfe8c.dir/src.cxx.o -c /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-k08z8c/src.cxx
+        Linking CXX executable cmTC_cfe8c
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cfe8c.dir/link.txt --verbose=1
+        /usr/bin/c++  -Wall -Wextra -Werror -Wno-unused-parameter  CMakeFiles/cmTC_cfe8c.dir/src.cxx.o -o cmTC_cfe8c 
+        gmake[1]: Leaving directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-k08z8c'
         
       exitCode: 0
     runResult:
@@ -1052,27 +1041,100 @@ events:
     checks:
       - "Performing Test HAVE_CXX_ATOMICS_WITHOUT_LIB"
     directories:
-      source: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-bv64HG"
-      binary: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-bv64HG"
+      source: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-8E9q0m"
+      binary: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-8E9q0m"
     cmakeVariables:
       CMAKE_CXX_FLAGS: " -Wall -Wextra -Werror -Wno-unused-parameter"
       CMAKE_CXX_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
-      CMAKE_MODULE_PATH: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/home/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
+      CMAKE_MODULE_PATH: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
     buildResult:
       variable: "HAVE_CXX_ATOMICS_WITHOUT_LIB"
       cached: true
       stdout: |
-        Change Dir: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-bv64HG
+        Change Dir: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-8E9q0m
         
-        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_c14ce/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_c14ce.dir/build.make CMakeFiles/cmTC_c14ce.dir/build
-        gmake[1]: Entering directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-bv64HG'
-        Building CXX object CMakeFiles/cmTC_c14ce.dir/src.cxx.o
-        /usr/bin/c++ -DHAVE_CXX_ATOMICS_WITHOUT_LIB  -Wall -Wextra -Werror -Wno-unused-parameter  -std=c++11 -std=gnu++14 -o CMakeFiles/cmTC_c14ce.dir/src.cxx.o -c /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-bv64HG/src.cxx
-        Linking CXX executable cmTC_c14ce
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c14ce.dir/link.txt --verbose=1
-        /usr/bin/c++  -Wall -Wextra -Werror -Wno-unused-parameter  -std=c++11 CMakeFiles/cmTC_c14ce.dir/src.cxx.o -o cmTC_c14ce 
-        gmake[1]: Leaving directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-bv64HG'
+        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_1b464/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_1b464.dir/build.make CMakeFiles/cmTC_1b464.dir/build
+        gmake[1]: Entering directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-8E9q0m'
+        Building CXX object CMakeFiles/cmTC_1b464.dir/src.cxx.o
+        /usr/bin/c++ -DHAVE_CXX_ATOMICS_WITHOUT_LIB  -Wall -Wextra -Werror -Wno-unused-parameter  -std=c++11 -std=gnu++14 -o CMakeFiles/cmTC_1b464.dir/src.cxx.o -c /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-8E9q0m/src.cxx
+        Linking CXX executable cmTC_1b464
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1b464.dir/link.txt --verbose=1
+        /usr/bin/c++  -Wall -Wextra -Werror -Wno-unused-parameter  -std=c++11 CMakeFiles/cmTC_1b464.dir/src.cxx.o -o cmTC_1b464 
+        gmake[1]: Leaving directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-8E9q0m'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CheckSymbolExists.cmake:145 (try_compile)"
+      - "/usr/share/cmake/Modules/CheckCXXSymbolExists.cmake:77 (__CHECK_SYMBOL_EXISTS_IMPL)"
+      - "cmake/Findlibuuid.cmake:46 (check_cxx_symbol_exists)"
+      - "cmake/XRootDFindLibs.cmake:6 (find_package)"
+      - "CMakeLists.txt:28 (include)"
+    checks:
+      - "Looking for uuid_generate_random"
+    directories:
+      source: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-aV38j7"
+      binary: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-aV38j7"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: " -Wall -Wextra -Werror -Wno-unused-parameter"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
+    buildResult:
+      variable: "_uuid_header_only"
+      cached: true
+      stdout: |
+        Change Dir: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-aV38j7
+        
+        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_a53cc/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_a53cc.dir/build.make CMakeFiles/cmTC_a53cc.dir/build
+        gmake[1]: Entering directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-aV38j7'
+        Building CXX object CMakeFiles/cmTC_a53cc.dir/CheckSymbolExists.cxx.o
+        /usr/bin/c++   -Wall -Wextra -Werror -Wno-unused-parameter  -std=gnu++14 -o CMakeFiles/cmTC_a53cc.dir/CheckSymbolExists.cxx.o -c /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-aV38j7/CheckSymbolExists.cxx
+        Linking CXX executable cmTC_a53cc
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a53cc.dir/link.txt --verbose=1
+        /usr/bin/c++  -Wall -Wextra -Werror -Wno-unused-parameter  CMakeFiles/cmTC_a53cc.dir/CheckSymbolExists.cxx.o -o cmTC_a53cc 
+        /usr/bin/ld: CMakeFiles/cmTC_a53cc.dir/CheckSymbolExists.cxx.o: in function `main':
+        CheckSymbolExists.cxx:(.text+0x16): undefined reference to `uuid_generate_random'
+        collect2: error: ld returned 1 exit status
+        gmake[1]: *** [CMakeFiles/cmTC_a53cc.dir/build.make:99: cmTC_a53cc] Error 1
+        gmake[1]: Leaving directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-aV38j7'
+        gmake: *** [Makefile:127: cmTC_a53cc/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CheckSymbolExists.cmake:145 (try_compile)"
+      - "/usr/share/cmake/Modules/CheckCXXSymbolExists.cmake:77 (__CHECK_SYMBOL_EXISTS_IMPL)"
+      - "cmake/Findlibuuid.cmake:56 (check_cxx_symbol_exists)"
+      - "cmake/XRootDFindLibs.cmake:6 (find_package)"
+      - "CMakeLists.txt:28 (include)"
+    checks:
+      - "Looking for uuid_generate_random"
+    directories:
+      source: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-KyoYNg"
+      binary: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-KyoYNg"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: " -Wall -Wextra -Werror -Wno-unused-parameter"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
+    buildResult:
+      variable: "_have_libuuid"
+      cached: true
+      stdout: |
+        Change Dir: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-KyoYNg
+        
+        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_9f4f6/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_9f4f6.dir/build.make CMakeFiles/cmTC_9f4f6.dir/build
+        gmake[1]: Entering directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-KyoYNg'
+        Building CXX object CMakeFiles/cmTC_9f4f6.dir/CheckSymbolExists.cxx.o
+        /usr/bin/c++   -Wall -Wextra -Werror -Wno-unused-parameter  -std=gnu++14 -o CMakeFiles/cmTC_9f4f6.dir/CheckSymbolExists.cxx.o -c /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-KyoYNg/CheckSymbolExists.cxx
+        Linking CXX executable cmTC_9f4f6
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9f4f6.dir/link.txt --verbose=1
+        /usr/bin/c++  -Wall -Wextra -Werror -Wno-unused-parameter  CMakeFiles/cmTC_9f4f6.dir/CheckSymbolExists.cxx.o -o cmTC_9f4f6  /usr/lib64/libuuid.so 
+        gmake[1]: Leaving directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-KyoYNg'
         
       exitCode: 0
   -
@@ -1086,38 +1148,70 @@ events:
     checks:
       - "Performing Test READLINE_OK"
     directories:
-      source: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-SlREE4"
-      binary: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-SlREE4"
+      source: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-AJza7n"
+      binary: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-AJza7n"
     cmakeVariables:
       CMAKE_CXX_FLAGS: " -Wall -Wextra -Werror -Wno-unused-parameter"
       CMAKE_CXX_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
-      CMAKE_MODULE_PATH: "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/home/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
+      CMAKE_MODULE_PATH: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
     buildResult:
       variable: "READLINE_OK"
       cached: true
       stdout: |
-        Change Dir: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-SlREE4
+        Change Dir: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-AJza7n
         
-        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_6098d/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_6098d.dir/build.make CMakeFiles/cmTC_6098d.dir/build
-        gmake[1]: Entering directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-SlREE4'
-        Building CXX object CMakeFiles/cmTC_6098d.dir/src.cxx.o
-        /usr/bin/c++ -DREADLINE_OK -I/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/readline-8.3-edszmzcegh2cn2g2sh5x46ity5uul62x/include -Wall -Wextra -Werror -Wno-unused-parameter  -std=gnu++14 -o CMakeFiles/cmTC_6098d.dir/src.cxx.o -c /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-SlREE4/src.cxx
-        /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-SlREE4/src.cxx: In function ‘int main()’:
-        /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-SlREE4/src.cxx:7:17: error: ‘shell_prompt’ may be used uninitialized [-Werror=maybe-uninitialized]
+        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_575b7/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_575b7.dir/build.make CMakeFiles/cmTC_575b7.dir/build
+        gmake[1]: Entering directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-AJza7n'
+        Building CXX object CMakeFiles/cmTC_575b7.dir/src.cxx.o
+        /usr/bin/c++ -DREADLINE_OK -I/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/readline-8.3-edszmzcegh2cn2g2sh5x46ity5uul62x/include -Wall -Wextra -Werror -Wno-unused-parameter  -std=gnu++14 -o CMakeFiles/cmTC_575b7.dir/src.cxx.o -c /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-AJza7n/src.cxx
+        /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-AJza7n/src.cxx: In function ‘int main()’:
+        /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-AJza7n/src.cxx:7:17: error: ‘shell_prompt’ may be used uninitialized [-Werror=maybe-uninitialized]
             7 |         readline(shell_prompt);
               |         ~~~~~~~~^~~~~~~~~~~~~~
-        In file included from /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-SlREE4/src.cxx:3:
+        In file included from /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-AJza7n/src.cxx:3:
         /cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/readline-8.3-edszmzcegh2cn2g2sh5x46ity5uul62x/include/readline/readline.h:300:14: note: by argument 1 of type ‘const char*’ to ‘char* readline(const char*)’ declared here
           300 | extern char *readline (const char *);
               |              ^~~~~~~~
-        /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-SlREE4/src.cxx:6:14: note: ‘shell_prompt’ declared here
+        /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-AJza7n/src.cxx:6:14: note: ‘shell_prompt’ declared here
             6 |         char shell_prompt[100];
               |              ^~~~~~~~~~~~
         cc1plus: all warnings being treated as errors
-        gmake[1]: *** [CMakeFiles/cmTC_6098d.dir/build.make:78: CMakeFiles/cmTC_6098d.dir/src.cxx.o] Error 1
-        gmake[1]: Leaving directory '/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-SlREE4'
-        gmake: *** [Makefile:127: cmTC_6098d/fast] Error 2
+        gmake[1]: *** [CMakeFiles/cmTC_575b7.dir/build.make:78: CMakeFiles/cmTC_575b7.dir/src.cxx.o] Error 1
+        gmake[1]: Leaving directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-AJza7n'
+        gmake: *** [Makefile:127: cmTC_575b7/fast] Error 2
         
       exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CheckFunctionExists.cmake:91 (try_compile)"
+      - "cmake/XRootDFindLibs.cmake:102 (check_function_exists)"
+      - "CMakeLists.txt:28 (include)"
+    checks:
+      - "Looking for curl_multi_wait"
+    directories:
+      source: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-OWOGTe"
+      binary: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-OWOGTe"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src;/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/cmake"
+    buildResult:
+      variable: "HAVE_CURL_MULTI_WAIT"
+      cached: true
+      stdout: |
+        Change Dir: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-OWOGTe
+        
+        Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_307fc/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_307fc.dir/build.make CMakeFiles/cmTC_307fc.dir/build
+        gmake[1]: Entering directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-OWOGTe'
+        Building C object CMakeFiles/cmTC_307fc.dir/CheckFunctionExists.c.o
+        /usr/bin/cc  -I/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/readline-8.3-edszmzcegh2cn2g2sh5x46ity5uul62x/include -DCHECK_FUNCTION_EXISTS=curl_multi_wait -o CMakeFiles/cmTC_307fc.dir/CheckFunctionExists.c.o -c /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-OWOGTe/CheckFunctionExists.c
+        Linking C executable cmTC_307fc
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_307fc.dir/link.txt --verbose=1
+        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=curl_multi_wait CMakeFiles/cmTC_307fc.dir/CheckFunctionExists.c.o -o cmTC_307fc  /usr/lib64/libcurl.so 
+        gmake[1]: Leaving directory '/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles/CMakeScratch/TryCompile-OWOGTe'
+        
+      exitCode: 0
 ...

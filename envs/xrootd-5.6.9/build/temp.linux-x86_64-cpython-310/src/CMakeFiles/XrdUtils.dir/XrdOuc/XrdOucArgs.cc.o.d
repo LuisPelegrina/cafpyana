@@ -1,5 +1,5 @@
 src/CMakeFiles/XrdUtils.dir/XrdOuc/XrdOucArgs.cc.o: \
- /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucArgs.cc \
+ /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucArgs.cc \
  /usr/include/stdc-predef.h /usr/include/c++/11/cstdarg \
  /usr/include/c++/11/x86_64-redhat-linux/bits/c++config.h \
  /usr/include/bits/wordsize.h \
@@ -40,10 +40,10 @@ src/CMakeFiles/XrdUtils.dir/XrdOuc/XrdOucArgs.cc.o: \
  /usr/include/bits/types/cookie_io_functions_t.h \
  /usr/include/bits/stdio_lim.h /usr/include/bits/stdio.h \
  /usr/include/strings.h \
- /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucArgs.hh \
+ /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucArgs.hh \
  /usr/include/c++/11/cstring /usr/include/string.h \
- /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucTokenizer.hh \
- /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysError.hh \
+ /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucTokenizer.hh \
+ /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysError.hh \
  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
  /usr/include/bits/environments.h /usr/include/bits/confname.h \
  /usr/include/bits/getopt_posix.h /usr/include/bits/getopt_core.h \

@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
-  "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdPosix.pdb"
-  "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdPosix.so"
-  "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdPosix.so.3"
-  "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdPosix.so.3.0.0"
+  "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdPosix.pdb"
+  "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdPosix.so"
+  "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdPosix.so.3"
+  "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdPosix.so.3.0.0"
   "CMakeFiles/XrdPosix.dir/XrdPosix/XrdPosixAdmin.cc.o"
   "CMakeFiles/XrdPosix.dir/XrdPosix/XrdPosixAdmin.cc.o.d"
   "CMakeFiles/XrdPosix.dir/XrdPosix/XrdPosixCache.cc.o"

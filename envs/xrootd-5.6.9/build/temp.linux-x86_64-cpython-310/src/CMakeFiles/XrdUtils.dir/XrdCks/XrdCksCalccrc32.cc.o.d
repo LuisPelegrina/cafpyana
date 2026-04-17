@@ -1,7 +1,7 @@
 src/CMakeFiles/XrdUtils.dir/XrdCks/XrdCksCalccrc32.cc.o: \
- /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCks/XrdCksCalccrc32.cc \
+ /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCks/XrdCksCalccrc32.cc \
  /usr/include/stdc-predef.h \
- /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCks/XrdCksCalccrc32.hh \
+ /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCks/XrdCksCalccrc32.hh \
  /usr/include/c++/11/cstring \
  /usr/include/c++/11/x86_64-redhat-linux/bits/c++config.h \
  /usr/include/bits/wordsize.h \
@@ -43,8 +43,8 @@ src/CMakeFiles/XrdUtils.dir/XrdCks/XrdCksCalccrc32.cc.o: \
  /usr/include/c++/11/cinttypes /usr/include/c++/11/cstdint \
  /usr/lib/gcc/x86_64-redhat-linux/11/include/stdint.h \
  /usr/include/stdint.h /usr/include/bits/wchar.h /usr/include/inttypes.h \
- /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCks/XrdCksCalc.hh \
- /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysPlatform.hh \
+ /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCks/XrdCksCalc.hh \
+ /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysPlatform.hh \
  /usr/include/c++/11/cstdlib /usr/include/stdlib.h \
  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
  /usr/include/bits/floatn.h /usr/include/bits/floatn-common.h \

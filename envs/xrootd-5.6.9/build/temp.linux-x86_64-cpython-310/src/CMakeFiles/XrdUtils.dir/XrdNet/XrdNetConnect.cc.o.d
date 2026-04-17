@@ -1,5 +1,5 @@
 src/CMakeFiles/XrdUtils.dir/XrdNet/XrdNetConnect.cc.o: \
- /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdNet/XrdNetConnect.cc \
+ /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdNet/XrdNetConnect.cc \
  /usr/include/stdc-predef.h /usr/include/errno.h /usr/include/features.h \
  /usr/include/features-time64.h /usr/include/bits/wordsize.h \
  /usr/include/bits/timesize.h /usr/include/sys/cdefs.h \
@@ -40,8 +40,8 @@ src/CMakeFiles/XrdUtils.dir/XrdNet/XrdNetConnect.cc.o: \
  /usr/include/asm/bitsperlong.h /usr/include/asm-generic/bitsperlong.h \
  /usr/include/asm/sockios.h /usr/include/asm-generic/sockios.h \
  /usr/include/bits/types/struct_osockaddr.h \
- /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdNet/XrdNetConnect.hh \
- /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysPlatform.hh \
+ /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdNet/XrdNetConnect.hh \
+ /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysPlatform.hh \
  /usr/include/c++/11/cstdint \
  /usr/include/c++/11/x86_64-redhat-linux/bits/c++config.h \
  /usr/include/c++/11/x86_64-redhat-linux/bits/os_defines.h \

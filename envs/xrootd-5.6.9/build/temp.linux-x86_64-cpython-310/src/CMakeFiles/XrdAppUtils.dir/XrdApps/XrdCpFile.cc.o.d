@@ -1,5 +1,5 @@
 src/CMakeFiles/XrdAppUtils.dir/XrdApps/XrdCpFile.cc.o: \
- /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdApps/XrdCpFile.cc \
+ /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdApps/XrdCpFile.cc \
  /usr/include/stdc-predef.h /usr/include/c++/11/cerrno \
  /usr/include/c++/11/x86_64-redhat-linux/bits/c++config.h \
  /usr/include/bits/wordsize.h \
@@ -44,10 +44,10 @@ src/CMakeFiles/XrdAppUtils.dir/XrdApps/XrdCpFile.cc.o: \
  /usr/include/asm-generic/posix_types.h /usr/include/bits/statx-generic.h \
  /usr/include/bits/types/struct_statx_timestamp.h \
  /usr/include/bits/types/struct_statx.h \
- /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdApps/XrdCpFile.hh \
+ /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdApps/XrdCpFile.hh \
  /usr/include/c++/11/cstdlib /usr/include/stdlib.h \
  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
  /usr/include/bits/floatn.h /usr/include/bits/floatn-common.h \
  /usr/include/alloca.h /usr/include/bits/stdlib-bsearch.h \
  /usr/include/bits/stdlib-float.h /usr/include/c++/11/bits/std_abs.h \
- /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucNSWalk.hh
+ /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucNSWalk.hh

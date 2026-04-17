@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdSec-5.pdb"
-  "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdSec-5.so"
+  "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdSec-5.pdb"
+  "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdSec-5.so"
   "CMakeFiles/XrdSec-5.dir/XrdSec/XrdSecClient.cc.o"
   "CMakeFiles/XrdSec-5.dir/XrdSec/XrdSecClient.cc.o.d"
   "CMakeFiles/XrdSec-5.dir/XrdSec/XrdSecPManager.cc.o"

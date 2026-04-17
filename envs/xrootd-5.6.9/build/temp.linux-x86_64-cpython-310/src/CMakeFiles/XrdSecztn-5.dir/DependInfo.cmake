@@ -8,8 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSecztn/XrdSecProtocolztn.cc" "src/CMakeFiles/XrdSecztn-5.dir/XrdSecztn/XrdSecProtocolztn.cc.o" "gcc" "src/CMakeFiles/XrdSecztn-5.dir/XrdSecztn/XrdSecProtocolztn.cc.o.d"
-  "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSecztn/XrdSecztn.cc" "src/CMakeFiles/XrdSecztn-5.dir/XrdSecztn/XrdSecztn.cc.o" "gcc" "src/CMakeFiles/XrdSecztn-5.dir/XrdSecztn/XrdSecztn.cc.o.d"
+  "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSecztn/XrdSecProtocolztn.cc" "src/CMakeFiles/XrdSecztn-5.dir/XrdSecztn/XrdSecProtocolztn.cc.o" "gcc" "src/CMakeFiles/XrdSecztn-5.dir/XrdSecztn/XrdSecProtocolztn.cc.o.d"
+  "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSecztn/XrdSecztn.cc" "src/CMakeFiles/XrdSecztn-5.dir/XrdSecztn/XrdSecztn.cc.o" "gcc" "src/CMakeFiles/XrdSecztn-5.dir/XrdSecztn/XrdSecztn.cc.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

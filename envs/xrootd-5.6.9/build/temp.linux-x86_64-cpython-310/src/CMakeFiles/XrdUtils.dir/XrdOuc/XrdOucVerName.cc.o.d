@@ -1,5 +1,5 @@
 src/CMakeFiles/XrdUtils.dir/XrdOuc/XrdOucVerName.cc.o: \
- /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucVerName.cc \
+ /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucVerName.cc \
  /usr/include/stdc-predef.h /usr/include/c++/11/cstdio \
  /usr/include/c++/11/x86_64-redhat-linux/bits/c++config.h \
  /usr/include/bits/wordsize.h \
@@ -40,5 +40,5 @@ src/CMakeFiles/XrdUtils.dir/XrdOuc/XrdOucVerName.cc.o: \
  /usr/include/bits/stdlib-bsearch.h /usr/include/bits/stdlib-float.h \
  /usr/include/c++/11/bits/std_abs.h /usr/include/c++/11/cstring \
  /usr/include/string.h /usr/include/strings.h \
- /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdVersionPlugin.hh \
- /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucVerName.hh
+ /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdVersionPlugin.hh \
+ /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucVerName.hh

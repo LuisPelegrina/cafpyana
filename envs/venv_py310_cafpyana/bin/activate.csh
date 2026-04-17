@@ -8,7 +8,7 @@ alias deactivate 'test $?_OLD_VIRTUAL_PATH != 0 && setenv PATH "$_OLD_VIRTUAL_PA
 # Unset irrelevant variables.
 deactivate nondestructive
 
-setenv VIRTUAL_ENV /home/lpelegri/cafpyana/envs/venv_py310_cafpyana
+setenv VIRTUAL_ENV /exp/sbnd/data/users/lpelegri/cafpyana/envs/venv_py310_cafpyana
 
 set _OLD_VIRTUAL_PATH="$PATH"
 setenv PATH "$VIRTUAL_ENV/"bin":$PATH"

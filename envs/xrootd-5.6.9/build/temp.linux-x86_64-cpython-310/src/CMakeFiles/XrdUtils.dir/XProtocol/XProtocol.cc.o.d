@@ -1,5 +1,5 @@
 src/CMakeFiles/XrdUtils.dir/XProtocol/XProtocol.cc.o: \
- /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XProtocol/XProtocol.cc \
+ /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XProtocol/XProtocol.cc \
  /usr/include/stdc-predef.h /usr/include/c++/11/cinttypes \
  /usr/include/c++/11/cstdint \
  /usr/include/c++/11/x86_64-redhat-linux/bits/c++config.h \
@@ -64,8 +64,8 @@ src/CMakeFiles/XrdUtils.dir/XProtocol/XProtocol.cc.o: \
  /usr/include/bits/confname.h /usr/include/bits/getopt_posix.h \
  /usr/include/bits/getopt_core.h /usr/include/bits/unistd_ext.h \
  /usr/include/linux/close_range.h \
- /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XProtocol/XProtocol.hh \
- /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XProtocol/XPtypes.hh \
+ /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XProtocol/XProtocol.hh \
+ /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XProtocol/XPtypes.hh \
  /usr/include/c++/11/cerrno /usr/include/errno.h \
  /usr/include/bits/errno.h /usr/include/linux/errno.h \
  /usr/include/asm/errno.h /usr/include/asm-generic/errno.h \

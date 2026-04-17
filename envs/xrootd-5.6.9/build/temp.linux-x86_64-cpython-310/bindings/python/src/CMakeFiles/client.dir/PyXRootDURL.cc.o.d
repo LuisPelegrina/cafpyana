@@ -1,7 +1,7 @@
 bindings/python/src/CMakeFiles/client.dir/PyXRootDURL.cc.o: \
- /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDURL.cc \
+ /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDURL.cc \
  /usr/include/stdc-predef.h \
- /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootD.hh \
+ /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootD.hh \
  /cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/python-3.10.16-artasofgepjz3l7wggy7im4zv2m4dfyf/include/python3.10/Python.h \
  /cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/python-3.10.16-artasofgepjz3l7wggy7im4zv2m4dfyf/include/python3.10/patchlevel.h \
  /cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/python-3.10.16-artasofgepjz3l7wggy7im4zv2m4dfyf/include/python3.10/pyconfig.h \
@@ -231,8 +231,8 @@ bindings/python/src/CMakeFiles/client.dir/PyXRootDURL.cc.o: \
  /usr/include/c++/11/bits/hash_bytes.h \
  /usr/include/c++/11/bits/basic_string.tcc \
  /cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/python-3.10.16-artasofgepjz3l7wggy7im4zv2m4dfyf/include/python3.10/structmember.h \
- /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDURL.hh \
- /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClURL.hh \
+ /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDURL.hh \
+ /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClURL.hh \
  /usr/include/c++/11/map /usr/include/c++/11/bits/stl_tree.h \
  /usr/include/c++/11/ext/aligned_buffer.h \
  /usr/include/c++/11/bits/stl_map.h /usr/include/c++/11/tuple \

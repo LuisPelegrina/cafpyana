@@ -1,7 +1,7 @@
 src/CMakeFiles/XrdUtils.dir/XrdSys/XrdSysDir.cc.o: \
- /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysDir.cc \
+ /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysDir.cc \
  /usr/include/stdc-predef.h \
- /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysDir.hh \
+ /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysDir.hh \
  /usr/include/sys/types.h /usr/include/features.h \
  /usr/include/features-time64.h /usr/include/bits/wordsize.h \
  /usr/include/bits/timesize.h /usr/include/sys/cdefs.h \

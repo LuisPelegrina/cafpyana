@@ -90,9 +90,8 @@ regen_systematics = [
 ]
 
 
-'''
 #These are the AR23p syst
-regen_systematics = [
+ar23p_genie_systematics = [
     # CCQE
     'ZExpPCAWeighter_SBNNuSyst_multisigma_D_ZExp_b1',
     'ZExpPCAWeighter_SBNNuSyst_multisigma_D_ZExp_b2',
@@ -212,7 +211,6 @@ regen_systematics = [
     'GENIEReWeight_SBN_v1_multisigma_MaNCEL',
     'GENIEReWeight_SBN_v1_multisigma_EtaNCEL',
 ]
-'''
 
 
 # grouped syst knobs

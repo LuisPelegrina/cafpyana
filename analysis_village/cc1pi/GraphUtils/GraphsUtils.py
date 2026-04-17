@@ -7,7 +7,89 @@ import matplotlib.lines as mlines
 from matplotlib.colors import LinearSegmentedColormap
 from dataclasses import dataclass, field
 
-# --------------------------------------------------
+# ----------------import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D 
+from matplotlib.patches import Patch
+from matplotlib.colors import to_rgba
+import matplotlib.gridspec as gridspec
+from matplotlib.legend_handler import HandlerTuple, HandlerBase
+
+import numpy as np
+from scipy.stats import chi2 as chi2_dist
+
+
+def get_stat_covariance_matrix(cv_contents, sum_w2):
+    """
+    cv_contents: array of bin contents (sum of weights)
+    sum_w2: array of the sum of the squares of the weights per bin
+    """
+    cv_contents = np.asarray(cv_contents)
+    sum_w2 = np.asarray(sum_w2)
+    n_bins = len(cv_contents)
+
+    # 1. Variance for weighted Poisson is Sum(W^2)
+    cov = np.diag(sum_w2)
+
+    # 2. Fractional covariance: Var / (Content^2) = Sum(W^2) / (Sum W)^2
+    with np.errstate(divide='ignore', invalid='ignore'):
+        # This is the squared fractional error
+        frac_variance = np.where(cv_contents > 0, sum_w2 / (cv_contents**2), 0.0)
+        cov_frac = np.diag(frac_variance)
+
+    # 3. Correlation matrix
+    corr = np.eye(n_bins)
+
+    return {
+        "cov": cov,
+        "cov_frac": cov_frac,
+        "corr": corr,
+    }
+    
+def get_chi2(data, mc, cov, n_params=0):
+    # Ensure inputs are numpy arrays
+    data = np.atleast_1d(data)
+    mc = np.atleast_1d(mc)
+    
+    # Create mask (e.g., where mc > 0)
+    mask = (mc > 0)
+    
+    # Check if mask dimension matches data dimension
+    if mask.shape[0] != data.shape[0]:
+        print(f"Warning: Mask length {mask.shape[0]} doesn't match data length {data.shape[0]}")
+        # Fallback: if data is a single value, don't use the 40-bin mask
+        if data.size == 1:
+            mask = np.array([True])
+    
+    data_filtered = data[mask]
+    mc_filtered = mc[mask]
+
+    # Slice rows AND columns of the covariance matrix
+    cov_filtered  = cov[np.ix_(mask, mask)]
+    
+    # 3. Check if we have enough bins left to do a calculation
+    n_bins = len(data_filtered)
+    if n_bins <= n_params:
+        return np.nan, 0, np.nan
+
+    # 4. Compute χ² using filtered data
+    delta = mc_filtered - data_filtered
+    
+    try:
+        # Using solve is numerically more stable than inv()
+        # It solves: cov_filtered * x = delta, then computes delta * x
+        chi2 = delta @ np.linalg.solve(cov_filtered, delta)
+    except np.linalg.LinAlgError:
+        # Fallback if matrix is still singular (e.g., highly correlated empty bins)
+        return np.nan, n_bins - n_params, np.nan
+
+    ndof = n_bins - n_params
+    reduced_chi2 = chi2 / ndof if ndof > 0 else np.nan
+    pval = chi2_dist.sf(chi2, ndof) if ndof > 0 else np.nan
+
+    return chi2, ndof, pval
+    ----------------------------------
 # Config class (columns, bins, colors, labels)
 # --------------------------------------------------
 
@@ -150,80 +232,298 @@ def make_hist_legend_from_ax(ax, alpha_fill=0.3, linewidth=2.0):
 # --------------------------------------------------
 # Plotting function
 # --------------------------------------------------
-def plot_stacked_histogram(
-    df,
-    config: HistogramConfig,
-    type_column: tuple,
-    first_per_slice: bool = False,
+def plot_stacked_histogram_with_ratio(
+    mc_df,
+    data_df,
+    config,
+    cov_frac_matrix = None,
+    cov_matrix = None,
+    title: str = None,
+    weight_column: tuple = None,
+    data_pot: float = None,
+    normalize: bool = False,
+    show_stats: bool = True,
+    symmetric_ratio: bool = False,
+    divide_by_bin_width: bool = False
 ):
-  
-
+    # 1. Pre-processing and Scaling
     slice_levels = ['__ntuple', 'entry', 'rec.slc..index']
+    if config.first_per_slice:
+        mc_df = mc_df.groupby(level=slice_levels, sort=False).first()
+        data_df = data_df.groupby(level=slice_levels, sort=False).first()
 
-    # Optionally reduce to first PFP per slice
-    if first_per_slice:
-        df = (
-            df
-            .groupby(level=slice_levels, sort=False)
-            .first()
-        )
+    mc_data = mc_df[config.var_evt_reco_col]
+    mc_types = mc_df[config.truth_column]
+    mc_weights = mc_df[weight_column] if weight_column in mc_df.columns else pd.Series(1.0, index=mc_df.index)
 
-    # Extract series
-    data = df[config.data_column]
-    types = df[type_column]
+    # --- Palette Selection ---
+    present_categories = set(mc_types.dropna().unique())
+    palettes = [category_colors, category_colors_pfp, proton_distinction_category_colors, genie_category_colors]
+    
+    chosen_map = category_colors
+    max_overlap = -1
+    for p in palettes:
+        overlap = len(present_categories.intersection(p.keys()))
+        if overlap > max_overlap:
+            max_overlap = overlap
+            chosen_map = p
 
-    # Unique type values (preserve order of appearance)
-    type_values = list(types.dropna().unique())
+    # 2. Sorting Categories
+    category_totals = [(t, mc_weights[mc_types == t].sum()) for t in mc_types.dropna().unique()]
+    signal_keys = ["CC1pi"]
+    signals = sorted([x for x in category_totals if x[0] in signal_keys], key=lambda x: x[1], reverse=True)
+    backgrounds = sorted([x for x in category_totals if x[0] not in signal_keys], key=lambda x: x[1], reverse=True)
+    
+    sorted_types = [x[0] for x in signals + backgrounds]
+    stack_data_mc = [mc_data[mc_types == t].dropna() for t in sorted_types]
+    stack_weights = [mc_weights[mc_types == t].loc[mc_data[mc_types == t].dropna().index] for t in sorted_types]
 
-    # Build stack data
-    stack_data = {
-        t: data[types == t].dropna()
-        for t in type_values
-    }
+    # 3. Setup Figure
+    fig = plt.figure(figsize=(10, 8))
+    gs = gridspec.GridSpec(2, 1, height_ratios=[4, 1], hspace=0.07)
+    ax_top = fig.add_subplot(gs[0])
+    ax_ratio = fig.add_subplot(gs[1], sharex=ax_top)
 
-    # Colors (list-based, stable)
-    colors = [COLORS[i % len(COLORS)] for i in range(len(type_values))]
-
-    # Create figure
-    fig, ax = plt.subplots()
-
-    # Filled stack
-    ax.hist(
-        [stack_data[t] for t in type_values],
+    # 4. TOP PLOT
+    max_bin_edge = config.bins[-1]
+    if config.clip:
+        stack_mc_clipped = [np.clip(data, config.bins[0], max_bin_edge) for data in stack_data_mc] 
+    else:
+        stack_mc_clipped = stack_data_mc
+        
+    colors = [chosen_map.get(t, "#7f7f7f") for t in sorted_types]
+    all_mc_weights = pd.concat(stack_weights)
+    
+    mc_sum, bins = np.histogram(
+        pd.concat(stack_mc_clipped),
         bins=config.bins,
-        stacked=True,
-        histtype='stepfilled',
-        color=colors,
-        alpha=0.1,
-        linewidth=0,
+        weights=all_mc_weights
     )
 
-    # Outline stack
-    ax.hist(
-        [stack_data[t] for t in type_values],
-        bins=config.bins,
-        stacked=True,
-        histtype='step',
-        color=colors,
-        linewidth=2.0,
-    )
-
-    # Legend
-    legend_handles = [
-        Patch(
-            facecolor=to_rgba(c, 0.1),
-            edgecolor=to_rgba(c, 1.0),
-            linewidth=2.0,
-            label=t
+    
+    bin_centers = (bins[:-1] + bins[1:]) / 2
+    bin_widths = np.diff(bins)
+    
+    # --- MC UNCERTAINTY ---
+    # If a fractional covariance matrix is provided, use it
+    if cov_frac_matrix is not None:
+        frac_err = np.sqrt(np.diag(cov_frac_matrix))
+        mc_error = frac_err * mc_sum    
+    else:
+        mc_sum_w2, _ = np.histogram(
+            pd.concat(stack_mc_clipped),
+            bins=config.bins,
+            weights=all_mc_weights**2
         )
-        for c, t in zip(colors, type_values)
-    ]
+        mc_error = np.sqrt(mc_sum_w2)
+        cov_matrix = get_stat_covariance_matrix(mc_sum, mc_sum_w2)["cov"]
+        cov_frac_matrix = get_stat_covariance_matrix(mc_sum, mc_sum_w2)["cov_frac"]
 
-    ax.set_xlabel(config.xlabel)
-    ax.set_ylabel(config.ylabel)
-    if config.title:
-        ax.set_title(config.title)
+    if normalize:
+        norm_fact = mc_sum.sum()
+        if norm_fact > 0:
+            mc_sum /= norm_fact
+            mc_error /= norm_fact
+            stack_weights = [w / norm_fact for w in stack_weights]
+    
+ 
+    
 
-    ax.legend(handles=legend_handles, loc='upper right')
+    # 1. Identify which columns we actually need to check for NaNs
+    cols_to_check = [config.var_evt_reco_col]
+    if weight_column in data_df.columns:
+        cols_to_check.append(weight_column)
+    
+    # 2. Create a temporary dataframe with only valid (non-NaN) rows for both columns
+    valid_df = data_df.dropna(subset=cols_to_check)
+    
+    # 3. Extract data and weights from the SAME filtered dataframe
+    data = valid_df[config.var_evt_reco_col]
+    
+    if weight_column in valid_df.columns:
+        data_weights = valid_df[weight_column]
+    else:
+        data_weights = np.ones(len(data))
+    
+    # 4. Now clipping and histogramming will work because shapes are guaranteed to match
+    if config.clip:
+        data_clipped = np.clip(data, config.bins[0], max_bin_edge)
+    else:
+        data_clipped = data
+    
+    data_counts, _ = np.histogram(data_clipped, bins=bins, weights=data_weights)
+    data_plot_counts = data_counts.astype(float)
+    data_sum_w2, _ = np.histogram(
+            data_clipped,
+            bins=bins,
+            weights=data_weights**2
+        )
+    data_errors = np.sqrt(data_sum_w2)
+    
+    if normalize:
+        denom = len(data) if len(data) > 0 else 1
+        data_plot_counts = data_counts / denom
+        data_errors = np.sqrt(data_counts) / denom
+    else:
+        data_plot_counts = data_counts.astype(float)
+        data_errors = np.sqrt(data_counts)
 
+    # 6. STATISTICS   
+    ret_stats_data_rate = get_stat_covariance_matrix(data_plot_counts , data_plot_counts)    
+    chi2_val, ndof, p_val = get_chi2(data_counts, mc_sum, cov_matrix + ret_stats_data_rate["cov"])
+
+    if divide_by_bin_width:
+        mc_sum /= bin_widths
+        mc_error /= bin_widths
+        data_plot_counts /= bin_widths
+        data_errors /= bin_widths
+        # FIX FOR INDEX ERROR: Map every event to its bin width and divide weight
+        new_stack_weights = []
+        for i, d in enumerate(stack_mc_clipped):
+            bin_indices = np.clip(np.digitize(d, bins) - 1, 0, len(bin_widths) - 1)
+            new_stack_weights.append(stack_weights[i] / bin_widths[bin_indices])
+        stack_weights = new_stack_weights
+
+
+    ax_top.hist(stack_mc_clipped, bins=bins, stacked=True, weights=stack_weights,
+                histtype='stepfilled', color=colors, alpha=0.3)
+    ax_top.hist(stack_mc_clipped, bins=bins, stacked=True, weights=stack_weights,
+                histtype='step', color=colors, linewidth=2)
+
+    ax_top.bar(bin_centers, 2*mc_error, bottom=mc_sum-mc_error, width=bin_widths, 
+               edgecolor='grey', facecolor='grey', alpha=0.2, linewidth=0)
+    ax_top.bar(bin_centers, 2*mc_error, bottom=mc_sum-mc_error, width=bin_widths,
+               edgecolor='grey', facecolor='none', hatch='////', alpha=0.5, linewidth=0)
+    ax_top.errorbar(bin_centers, data_plot_counts, yerr=data_errors, xerr=bin_widths/2, 
+                    fmt='ko', markersize=6, zorder=10, capsize=0)
+
+    # 5. RATIO PLOT CALCULATION
+    with np.errstate(divide='ignore', invalid='ignore'):
+        ratio = np.divide(data_plot_counts, mc_sum, out=np.zeros_like(data_plot_counts), where=mc_sum!=0)
+        ratio_error = np.divide(data_errors, mc_sum, out=np.zeros_like(data_errors), where=mc_sum!=0)
+        mc_rel_error = np.divide(mc_error, mc_sum, out=np.zeros_like(mc_error), where=mc_sum!=0)
+    
+    # --- DYNAMIC Y-LIMIT CALCULATION ---
+    # We look at the deviation from 1.0 (abs(ratio - 1)) + the error bar
+    # and find the maximum such value across all bins.
+    valid_ratio = (mc_sum > 0)
+
+    # --- SYMMETRIC Y-LIMIT CALCULATION (MAXIMUM EXTENT) ---
+    valid_ratio = (mc_sum > 0)
+    if np.any(valid_ratio) and symmetric_ratio:
+        data_extrema = np.maximum(np.abs((ratio[valid_ratio] + ratio_error[valid_ratio]) - 1), 
+                                  np.abs((ratio[valid_ratio] - ratio_error[valid_ratio]) - 1))
+        mc_extrema = mc_rel_error[valid_ratio]
+        # Take the global maximum across all bins and all components
+        max_deviation = np.max(np.maximum(data_extrema, mc_extrema))
+        
+        y_padding = max_deviation * 1.4
+        y_padding = max(y_padding, 0.1)
+        
+        ax_ratio.set_ylim(1 - y_padding, 1 + y_padding)
+    elif np.any(valid_ratio):
+        # Distance of point (including error) from 1.0
+        max_deviation = np.max(np.abs(ratio[valid_ratio] - 1) + ratio_error[valid_ratio])
+        # Add 10% headroom and clip to a maximum of 0.5 (which results in ylim 0.5 to 1.5)
+        y_padding = min(max_deviation * 1.4, 0.75)
+        # Ensure we have a minimum padding so the plot isn't flat
+        y_padding = max(y_padding, 0.1)
+
+        ax_ratio.set_ylim(1 - y_padding, 1 + y_padding)
+    else:
+        ax_ratio.set_ylim(0.5, 1.5)
+        
+        
+    ax_ratio.bar(bin_centers, 2*mc_rel_error, bottom=1-mc_rel_error, width=bin_widths,
+                 edgecolor='grey', facecolor='grey', alpha=0.2, linewidth=0)
+    ax_ratio.bar(bin_centers, 2*mc_rel_error, bottom=1-mc_rel_error, width=bin_widths,
+                 edgecolor='grey', facecolor='none', hatch='////', alpha=0.4, linewidth=0)
+    ax_ratio.errorbar(bin_centers, ratio, yerr=ratio_error, xerr=bin_widths/2, fmt='ko', markersize=6, capsize=0)
+    ax_ratio.axhline(1.0, color='#d62728', linestyle='--', linewidth=2)
+
+
+    # 5.5 VERTICAL CUT LINE
+    cut_val = config.cut_value # Use getattr to be safe
+    draw_cut = any(v != -999 for v in cut_val) if isinstance(cut_val, (list, np.ndarray)) else (cut_val != -999)
+    
+    if draw_cut:
+        # Ensure cut_val is iterable even if it's a single float
+        cuts_to_draw = cut_val if isinstance(cut_val, (list, np.ndarray)) else [cut_val]
+        
+        for ax in [ax_top, ax_ratio]:
+            for val in cuts_to_draw:
+                if val != -999: # Skip placeholder values
+                    ax.axvline(val, color='black', linestyle='--', linewidth=2, zorder=2)
+    
+    # Create a single handle for the legend (representing all cut lines)
+    cut_hand = Line2D([0], [0], color='black', linestyle='--', linewidth=2, label='Selection Cut')
+        
+    
+    # 7. LEGEND
+    total_data_counts = len(data_clipped)
+    mc_hand = [Patch(facecolor=to_rgba(chosen_map.get(t, "#7f7f7f"), 0.3), 
+                     edgecolor=chosen_map.get(t, "#7f7f7f"), 
+                     label=bkg_name_nice_map.get(t, t)) for t in sorted_types]
+
+    err_label = 'MC Stat. Error'
+    if show_stats:
+        err_label = 'MC Total Error'
+        
+    err_hand = Patch(edgecolor='grey', facecolor='none', hatch='////', alpha=0.5, label = err_label)
+    dat_hand = Line2D([0], [0], color='black', marker='o', linestyle='', label= 'Data', markersize=8)
+
+    if show_stats:
+        chi2_str = f"$\chi^{2}$ / ndf: {chi2_val:.2f} / {ndof} = {chi2_val/ndof:.3f}"
+        p_value_str = f"$p_{{value}}$ = {p_val:.3f}"
+        data_str = f'$N_{{\\mathrm{{Data}}}} = {total_data_counts}$'
+        chi2_handle = Patch(color='none', label=chi2_str)
+        p_value_handle = Patch(color='none', label=p_value_str)
+        N_data_evts_handle = Patch(color='none', label=data_str)
+    
+
+    all_handles = mc_hand + [err_hand, dat_hand]
+    all_labels = [h.get_label() for h in mc_hand] + [err_label ,'Data']
+    if draw_cut:
+        all_handles.append(cut_hand)
+        all_labels.append(cut_hand.get_label())
+    if show_stats:
+        all_handles +=  [chi2_handle, p_value_handle, N_data_evts_handle]
+        all_labels += [chi2_str, p_value_str, data_str]
+        
+    n_cols = (len(all_handles) + 3) // 4 
+    
+        
+    leg = ax_top.legend(
+        handles=all_handles, labels=all_labels,
+        loc='upper ' + config.stats_horizontal_alignment, ncol=n_cols,
+        fontsize=12, framealpha=1.0, edgecolor='black', fancybox=False, 
+        borderaxespad=1, columnspacing=1.5, handlelength=1.5, handletextpad=0.5,
+    )
+    leg.get_frame().set_linewidth(1.5)
+
+    plt.draw() 
+    if show_stats:
+        texts = leg.get_texts()
+        for t in texts[-3:]:
+            t.set_position((-28, 0))
+
+    # 8. FINAL STYLING
+    ax_top.set_xlim(bins[0], bins[-1])
+    ax_top.set_ylim(0, ax_top.get_ylim()[1] * 1.4)
+
+    ylabel = config.ylabel
+    if divide_by_bin_width:
+        ylabel += " / bin width"
+    
+    ax_top.set_ylabel(f"{ylabel} (POT = {data_tot_pot:.2e})")
+    ax_ratio.set_ylabel("Data/MC")
+    ax_ratio.set_xlabel(config.xlabel, fontsize=20)
+    ax_ratio.tick_params(axis='x', which='both', direction='inout', length=6)
+    ax_top.set_title("")
+    
+    plt.setp(ax_top.get_xticklabels(), visible=False)
+    fig.align_ylabels([ax_top, ax_ratio])
+    plt.subplots_adjust(top=0.92, bottom=0.12, left=0.12, right=0.95, hspace=0.07)
+    
     plt.show()
+    return fig, chi2_val/ndof

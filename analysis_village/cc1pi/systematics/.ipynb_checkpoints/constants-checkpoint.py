@@ -6,58 +6,13 @@ import matplotlib.pyplot as plt
 from makedf.constants import *
 from os import path
 import pandas as pd
+
 from pyanalib.split_df_helpers import *
 from pyanalib.pandas_helpers import *
 from analysis_village.cc1pi.Constants import CTE as CTE
+from analysis_village.cc1pi.GraphUtils.Utils import *
 plot = False
 
-topology_list = ["CC1pi",       
-    "CC_mu_0pi_0p",       
-    "CC_mu_0pi_1p",      
-    "CC_mu_0pi_2p",   
-    "CC_mu_2pi",       
-    "other_CC1pi",      
-    "NC",               
-    "out_AV_nu",        
-    "cosmic",
-    "CC_e"]    
-
-bkg_name_nice_map = {
-    "no_match": "Not matched",
-    "out_AV_nu": "out-AV $\\nu$",
-    "cosmic": "cosmic",
-    "CC1pi": "$\\nu_{\\mu}$CC1$\\pi^{\\pm}$",
-    "CC_mu_0pi_1p": "$\\nu_{\\mu}$CC0$\\pi^{\\pm}$1p",
-    "CC_mu_0pi_2p": "$\\nu_{\\mu}$CC0$\\pi^{\\pm}2^{+}p$",
-    "CC_mu_0pi_0p": "$\\nu_{\\mu}$CC0$\\pi^{\\pm}$0p",
-    "CC_mu_0pi": "$\\nu_{\\mu}$CC0$\\pi^{\\pm}$",
-    "CC_mu_2pi": "$\\nu_{\\mu}$CC2$^{+}\\pi^{\\pm}$",
-    "NC": "NC",
-    "other_nu": "Other $\\nu$ events",
-    "other_CC1pi": "Excluded 1$\\mu$1$\\pi^{\\pm}$",
-    "CC_e": "$\\nu_{e}$CC",
-    "0p_CC1Pi": "$\\nu_{\\mu}$CC1$\\pi^{\\pm}$0p",
-    "1p_CC1Pi": "$\\nu_{\\mu}$CC1$\\pi^{\\pm}$1p",
-    "plus2p_CC1Pi": "$\\nu_{\\mu}$CC1$\\pi^{\\pm}$2p",
-    "bkg": "Background"
-}
-
-topology_labels = [bkg_name_nice_map[topo] for topo in topology_list]
-
-topology_color_dict = {
-    "CC1pi":        "#1f77b4", # Blue
-    "CC_mu_0pi_1p": "#d62728", # Red
-    "NC":           "#17becf", # Cyan-ish
-    "CC_mu_0pi_0p": "#ffbb78", # Orange-Yellow
-    "CC_mu_0pi_2p": "#2ca02c", # Green
-    "out_AV_nu":    "#bcbd22", # Olive/Yellow-green
-    "cosmic":       "#ff7f0e", # Orange
-    "other_CC1pi":  "#7f7f7f", # Grey
-    "CC_mu_2pi":    "#e377c2", # Pink
-    "CC_e":         "#756bb1", # Light Green
-}
-
-topology_colors = [topology_color_dict[topo] for topo in topology_list]
 
 
 
@@ -159,7 +114,14 @@ def get_xsec_unit():
     
     print("# of targets: ", NTARGETS)
 
-    xsec_unit = 1 / (integrated_flux * NTARGETS)
+    print(integrated_flux)
+    
+    flux_64 = np.float64(integrated_flux)
+    targets_64 = np.float64(NTARGETS)
+    
+    denom = flux_64 * targets_64
+
+    xsec_unit = 1. / denom
     # TODO: fix scalar overflow error in python v3.10+
     if xsec_unit == 0:
         print("XSEC_UNIT is 0, setting to 1e-38")

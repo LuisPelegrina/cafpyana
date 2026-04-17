@@ -191,9 +191,9 @@ def run_grid(inputfiles):
 --append_condor_requirements='(TARGET.HAS_SINGULARITY=?=true)' \\
 --tar_file_name "dropbox://$(pwd)/bin_dir.tar" \\
 -N %d \\
---disk 100GB \\
+--disk 10GB \\
 --cpu 7 \\
---memory 8GB \\
+--memory 4GB \\
 --expected-lifetime 1h \\
 "file://$(pwd)/grid_executable.sh" \\
 "%s" \\

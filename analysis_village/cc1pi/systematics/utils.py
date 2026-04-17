@@ -117,7 +117,7 @@ def get_univ_rates(cov_type="rate",
         # Using .copy() is safer if you don't want to modify the underlying dataframe
         current_evt_univ_weights = evtdf_signal[syst_column].copy()
         current_evt_univ_weights[np.isnan(current_evt_univ_weights)] = 1.0
-        current_evt_univ_weights[current_evt_univ_weights >= 10] = 1.0
+        current_evt_univ_weights[current_evt_univ_weights >= 10] = 10.0
     
         # ---- uncertainty on the signal rate ----
         if cov_type == "xsec":
@@ -134,7 +134,7 @@ def get_univ_rates(cov_type="rate",
 
             current_nu_univ_weights = nudf_signal[syst_column].copy()
             current_nu_univ_weights[np.isnan(current_nu_univ_weights)] = 1.0
-            current_nu_univ_weights[current_nu_univ_weights >= 10] = 1.0
+            current_nu_univ_weights[current_nu_univ_weights >= 10] = 10.0
             
             # efficiency
             signal_allmc_univ, _ = np.histogram(ret["var_allmc"],
@@ -167,7 +167,7 @@ def get_univ_rates(cov_type="rate",
             var, wgt = get_clipped_evts(this_evtdf, var_config.var_evt_reco_col, bins)
             univ_wgt = this_evtdf[syst_column].copy()
             univ_wgt[np.isnan(univ_wgt)] = 1 
-            univ_wgt[univ_wgt >= 10] = 1.0
+            univ_wgt[univ_wgt >= 10] = 10.0
             
             background_cv, _   = np.histogram(var, bins=bins, weights=wgt)
             background_univ, _ = np.histogram(var, bins=bins, weights=wgt*univ_wgt)

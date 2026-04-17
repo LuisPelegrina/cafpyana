@@ -109,7 +109,7 @@ def chi2_cut_mask(df, group_levels):
     return final_mask
 
 def angle_cut_mask(df):
-    return df.slc.measure_var.angle_between_candidates < CTE.max_angle_between_candidates
+    return df.slc.measure_var.max_angle_between_candidates < CTE.max_angle_between_candidates
 
 def exiting_pfp_mask(df):
     xmin = -200 + CTE.min_distance_to_consider_contained

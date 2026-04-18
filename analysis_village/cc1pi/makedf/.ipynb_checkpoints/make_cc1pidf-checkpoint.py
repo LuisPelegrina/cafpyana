@@ -1093,6 +1093,7 @@ def add_transverse_vars_column(df):
 
     return df
 
+
 '''
 def get_mu_pi_vars(group, best_hit_df):
 
@@ -1287,9 +1288,8 @@ def get_mu_pi_vars(group, best_hit_df):
         'pi_true_costheta':pi_true_costheta,
         'mu_true_costheta':mu_true_costheta             
     })
+    
 '''
-
-
 def get_mu_pi_vars(group, best_hit_df):
     """
     Selects a Muon and a Pion from a group of PFPs based on:
@@ -1300,7 +1300,7 @@ def get_mu_pi_vars(group, best_hit_df):
     # --- 1. SAFETY CHECK ---
     # If less than 2 PFPs, we cannot have a Muon + Pion pair.
     if len(group) < 2:
-        return pd.Series({
+        return {
             'p_mu_x': -999.0, 'p_mu_y': -999.0, 'p_mu_z': -999.0,
             'p_pi_x': -999.0, 'p_pi_y': -999.0, 'p_pi_z': -999.0,
             'reco_p_mu': -999.0, 'cos_theta_mu': -999.0,
@@ -1316,8 +1316,7 @@ def get_mu_pi_vars(group, best_hit_df):
             'pi_true_pdg': -1, 'pi_true_p_type': "none", 'pi_true_end_process': -1,
             'pi_true_p': -999.0, 'mu_true_p': -999.0,
             'pi_true_costheta': -999.0, 'mu_true_costheta': -999.0             
-        })
-
+        }
     # --- 2. MUON SELECTION ---
     exiting_mask = CutMasks.exiting_pfp_mask(group)
     
@@ -1371,7 +1370,7 @@ def get_mu_pi_vars(group, best_hit_df):
 
     # --- 5. TRUTH MATCHING ---
     # Check if the muon has a valid truth association
-    if m.pfp.trk.truth.p.pdg > -2147483648:
+    if (m.pfp.trk.truth.p.pdg > -2147483648).any():
         mu_true_pdg = m.pfp.trk.truth.p.pdg
         mu_true_p_type = m.pfp.trk.truth.p.p_type
         mu_true_end_process = m.pfp.trk.truth.p.end_process
@@ -1434,7 +1433,6 @@ def get_mu_pi_vars(group, best_hit_df):
         'pi_true_costheta': pi_true_costheta,
         'mu_true_costheta': mu_true_costheta             
     })
-
     
 import numpy as np
 
@@ -1576,7 +1574,7 @@ cols = [
         ('pfp', 'max_daughter_hits', '', '', '', ''),
 
         #angle cut
-        ('slc', 'measure_var', 'angle_between_candidates', '', '', ''),
+        ('slc', 'measure_var', 'min_angle_between_candidates', '', '', ''),
         ('slc', 'measure_var', 'max_angle_between_candidates', '', '', ''),
     
         #BDT vars
@@ -1663,6 +1661,9 @@ cols = [
         ('slc','measure_var','delta_alpha_T','','',''),
         ('slc','measure_var','delta_phi_T','','',''),
 
+        ('pfp', 'trk', 'dir', 'x', '', ''),
+        ('pfp', 'trk', 'dir', 'y', '', ''),
+        ('pfp', 'trk', 'dir', 'z', '', ''),
     ]
 
 def make_cc1pi_finaldf(f, updatecalo = None):
@@ -1788,8 +1789,8 @@ def make_cc1pi_finaldf(f, updatecalo = None):
     pandora_df[('slc', 'cut', 'proton_BDT_sideband', '', '', '')] = CutMasks.proton_BDT_sideband_mask(pandora_df, group_levels)
 
     
-    #candidate_df = pandora_df[pandora_df.slc.cut.MIP_candidates & CutMasks.is_MIP_candidate_mask(pandora_df) & pandora_df.slc.cut.containment]
-     candidate_df = pandora_df[pandora_df.slc.cut.inside_FV & pandora_df.slc.cut.t0 & pandora_df.slc.cut.track & CutMasks.is_MIP_candidate_mask(pandora_df) & pandora_df.slc.cut.containment]
+    candidate_df = pandora_df[pandora_df.slc.cut.MIP_candidates & CutMasks.is_MIP_candidate_mask(pandora_df) & pandora_df.slc.cut.containment]
+    #candidate_df = pandora_df[pandora_df.slc.cut.inside_FV & pandora_df.slc.cut.t0 & pandora_df.slc.cut.track & CutMasks.is_MIP_candidate_mask(pandora_df) & pandora_df.slc.cut.containment]
  
     pandora_df = add_n_primary_tracks_column(pandora_df)
     pandora_df = add_n_primary_showers_column(pandora_df)
@@ -1887,6 +1888,7 @@ def make_cc1pi_finaldf(f, updatecalo = None):
         slcdf = slcdf.reindex(all_slices_idx)
     
     # 4. Enforce schema and nullable dtypes
+    '''
     for col, dtype in schema.items():
         # Replace missing values for non-nullable types
         if dtype == 'bool':
@@ -1897,7 +1899,19 @@ def make_cc1pi_finaldf(f, updatecalo = None):
             slcdf[col] = slcdf[col].fillna("none").astype('object')
         else:  # float32 or object
             slcdf[col] = slcdf[col].astype(dtype)
-    
+    '''
+    for col, dtype in schema.items():
+        if dtype == 'bool':
+            slcdf[col] = slcdf[col].fillna(False).astype(bool)
+        elif dtype == 'int32':
+            # Use to_numeric first to safely handle any Series-like objects in the cells
+            slcdf[col] = pd.to_numeric(slcdf[col], errors='coerce').fillna(-9999).astype('int32')
+        elif dtype == 'object':
+            slcdf[col] = slcdf[col].fillna("none").astype('object')
+        else:  # float32 
+            # Use to_numeric here as well to kill the FutureWarning
+            slcdf[col] = pd.to_numeric(slcdf[col], errors='coerce').astype('float32')
+            
     # 5. Optional: rename columns
     slcdf = slcdf.rename(columns={
         'cos_theta_mu': 'reco_cos_theta_mu',

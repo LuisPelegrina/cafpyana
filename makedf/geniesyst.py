@@ -212,7 +212,6 @@ ar23p_genie_systematics = [
     'GENIEReWeight_SBN_v1_multisigma_EtaNCEL',
 ]
 
-
 # grouped syst knobs
 qe_genie_systematics = [
 'GENIEReWeight_SBN_v1_multisim_RPA_CCQE',

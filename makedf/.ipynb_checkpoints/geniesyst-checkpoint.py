@@ -193,6 +193,7 @@ ar23p_genie_systematics = [
     'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_NormCCMEC',
     'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_NormNCMEC',
     'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_DecayAngMEC',
+
     
     'GENIEReWeight_SBN_v1_multisigma_MFP_N',
     'GENIEReWeight_SBN_v1_multisigma_FrCEx_N',
@@ -211,7 +212,6 @@ ar23p_genie_systematics = [
     'GENIEReWeight_SBN_v1_multisigma_MaNCEL',
     'GENIEReWeight_SBN_v1_multisigma_EtaNCEL',
 ]
-
 
 # grouped syst knobs
 qe_genie_systematics = [

@@ -1276,7 +1276,7 @@ config_p_pi_final = FullHistogramConfig(
     first_per_slice = True,
     start_cut = "energy",
     end_cut = "energy",
-    bins= np.array([0.13, 0.205, 0.28,0.35, 0.45,0.8]),
+    bins= np.array([0.13, 0.205, 0.28,0.35, 0.45,2]),
     xlabel=r'Pion candidate P [GeV]',
     ylabel=slices_y_label
 )

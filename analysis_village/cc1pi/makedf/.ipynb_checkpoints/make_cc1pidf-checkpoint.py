@@ -1300,7 +1300,7 @@ def get_mu_pi_vars(group, best_hit_df):
     # --- 1. SAFETY CHECK ---
     # If less than 2 PFPs, we cannot have a Muon + Pion pair.
     if len(group) < 2:
-        return {
+        return pd.Series({  # <--- MUST BE pd.Series
             'p_mu_x': -999.0, 'p_mu_y': -999.0, 'p_mu_z': -999.0,
             'p_pi_x': -999.0, 'p_pi_y': -999.0, 'p_pi_z': -999.0,
             'reco_p_mu': -999.0, 'cos_theta_mu': -999.0,
@@ -1316,7 +1316,7 @@ def get_mu_pi_vars(group, best_hit_df):
             'pi_true_pdg': -1, 'pi_true_p_type': "none", 'pi_true_end_process': -1,
             'pi_true_p': -999.0, 'mu_true_p': -999.0,
             'pi_true_costheta': -999.0, 'mu_true_costheta': -999.0             
-        }
+        })
     # --- 2. MUON SELECTION ---
     exiting_mask = CutMasks.exiting_pfp_mask(group)
     
@@ -1334,8 +1334,6 @@ def get_mu_pi_vars(group, best_hit_df):
         muon_contained = True
         # For contained muons, we use Range momentum
         p_mu = muon_row.pfp.trk.rangeP.p_muon.iloc[0]
-
-    print("A")
     
     # --- 3. PION SELECTION ---
     # The pion is the longest remaining track. 
@@ -1576,6 +1574,7 @@ cols = [
         #angle cut
         ('slc', 'measure_var', 'min_angle_between_candidates', '', '', ''),
         ('slc', 'measure_var', 'max_angle_between_candidates', '', '', ''),
+        ('slc', 'measure_var', 'angle_between_candidates', '', '', ''),
     
         #BDT vars
         ('pfp', 'trk', 'chi2_exp_pol', '', '', ''),
@@ -1738,6 +1737,8 @@ def make_cc1pi_finaldf(f, updatecalo = None):
     pandora_df = add_scatter_angle_ratio_column(pandora_df,mcs_df)
     pandora_df = add_max_angle_between_candidates_column(pandora_df)
     pandora_df = add_min_angle_between_candidates_column(pandora_df)
+    pandora_df[('slc', 'measure_var', 'angle_between_candidates', '', '', '')] = pandora_df[('slc', 'measure_var', 'max_angle_between_candidates', '', '', '')]
+    
     
     pandora_df[('pfp', 'is_exiting', '', '', '', '')] = CutMasks.exiting_pfp_mask(pandora_df)
     pandora_df[('pfp', 'is_exiting_z', '', '', '', '')] = CutMasks.exiting_z_pfp_mask(pandora_df)
@@ -1789,8 +1790,8 @@ def make_cc1pi_finaldf(f, updatecalo = None):
     pandora_df[('slc', 'cut', 'proton_BDT_sideband', '', '', '')] = CutMasks.proton_BDT_sideband_mask(pandora_df, group_levels)
 
     
-    candidate_df = pandora_df[pandora_df.slc.cut.MIP_candidates & CutMasks.is_MIP_candidate_mask(pandora_df) & pandora_df.slc.cut.containment]
-    #candidate_df = pandora_df[pandora_df.slc.cut.inside_FV & pandora_df.slc.cut.t0 & pandora_df.slc.cut.track & CutMasks.is_MIP_candidate_mask(pandora_df) & pandora_df.slc.cut.containment]
+    #candidate_df = pandora_df[pandora_df.slc.cut.MIP_candidates & CutMasks.is_MIP_candidate_mask(pandora_df) & pandora_df.slc.cut.containment]
+    candidate_df = pandora_df[pandora_df.slc.cut.inside_FV & pandora_df.slc.cut.t0 & pandora_df.slc.cut.track & CutMasks.is_MIP_candidate_mask(pandora_df) & pandora_df.slc.cut.containment]
  
     pandora_df = add_n_primary_tracks_column(pandora_df)
     pandora_df = add_n_primary_showers_column(pandora_df)
@@ -1882,6 +1883,19 @@ def make_cc1pi_finaldf(f, updatecalo = None):
     if muon_pion_vars.empty:
         slcdf = pd.DataFrame(index=all_slices_idx, columns=EXPECTED_COLS)
     else:
+        if isinstance(muon_pion_vars, pd.Series):
+            # If it's a Series but has the Expected Columns as its index, 
+            # we need to unstack it or convert it.
+            # But usually, if apply returns a Series per group, 
+            # the result is already a DF. 
+            # If it's a single group, it might be a Series.
+            if not isinstance(muon_pion_vars.index, pd.MultiIndex):
+                 muon_pion_vars = muon_pion_vars.to_frame().T
+            else:
+                 # It's a Series with a MultiIndex (likely from a single group)
+                 # We want the columns to be the inner-most labels
+                 muon_pion_vars = muon_pion_vars.unstack()
+                
         # Keep only expected columns
         slcdf = muon_pion_vars.reindex(columns=EXPECTED_COLS)
         # Reindex to include all slices

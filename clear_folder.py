@@ -2,7 +2,7 @@ import nbformat
 import os
 
 # Define the extensions we want to delete
-EXTENSIONS_TO_DELETE = {".png", ".pdf"}
+EXTENSIONS_TO_DELETE = {".png", ".pdf",".df"}
 
 for root, dirs, files in os.walk("."):
     # Skip hidden folders like .ipynb_checkpoints or .git

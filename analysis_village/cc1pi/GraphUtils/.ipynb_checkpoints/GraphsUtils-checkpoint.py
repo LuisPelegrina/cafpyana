@@ -19,6 +19,7 @@ from matplotlib.legend_handler import HandlerTuple, HandlerBase
 import numpy as np
 from scipy.stats import chi2 as chi2_dist
 
+from analysis_village.cc1pi.GraphUtils.Utils import *
 
 def get_stat_covariance_matrix(cv_contents, sum_w2):
     """
@@ -89,7 +90,7 @@ def get_chi2(data, mc, cov, n_params=0):
     pval = chi2_dist.sf(chi2, ndof) if ndof > 0 else np.nan
 
     return chi2, ndof, pval
-    ----------------------------------
+    
 # Config class (columns, bins, colors, labels)
 # --------------------------------------------------
 
@@ -515,7 +516,7 @@ def plot_stacked_histogram_with_ratio(
     if divide_by_bin_width:
         ylabel += " / bin width"
     
-    ax_top.set_ylabel(f"{ylabel} (POT = {data_tot_pot:.2e})")
+    ax_top.set_ylabel(f"{ylabel} (POT = {data_pot:.2e})")
     ax_ratio.set_ylabel("Data/MC")
     ax_ratio.set_xlabel(config.xlabel, fontsize=20)
     ax_ratio.tick_params(axis='x', which='both', direction='inout', length=6)

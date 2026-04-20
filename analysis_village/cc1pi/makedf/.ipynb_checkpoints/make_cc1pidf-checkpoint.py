@@ -1335,6 +1335,8 @@ def get_mu_pi_vars(group, best_hit_df):
         # For contained muons, we use Range momentum
         p_mu = muon_row.pfp.trk.rangeP.p_muon.iloc[0]
 
+    print("A")
+    
     # --- 3. PION SELECTION ---
     # The pion is the longest remaining track. 
     # We drop the muon's index to ensure we don't pick the same track twice.
@@ -1345,45 +1347,43 @@ def get_mu_pi_vars(group, best_hit_df):
     
     # --- 4. VARIABLE EXTRACTION ---
     # Create helper aliases to keep lines short
-    m = muon_row.iloc[0]
-    p = pion_row.iloc[0]
     
     # Muon kinematics
-    cos_theta_mu = m.pfp.trk.dir.z
-    p_mu_x = p_mu * m.pfp.trk.dir.x
-    p_mu_y = p_mu * m.pfp.trk.dir.y
-    p_mu_z = p_mu * m.pfp.trk.dir.z
+    cos_theta_mu = muon_row.pfp.trk.dir.z.iloc[0]
+    p_mu_x = p_mu * muon_row.pfp.trk.dir.x.iloc[0]
+    p_mu_y = p_mu * muon_row.pfp.trk.dir.y.iloc[0]
+    p_mu_z = p_mu * muon_row.pfp.trk.dir.z.iloc[0]
 
     # Pion kinematics
-    p_pi_range = p.pfp.trk.rangeP.p_pion
-    cos_theta_pi = p.pfp.trk.dir.z
+    p_pi_range = pion_row.pfp.trk.rangeP.p_pion.iloc[0]
+    cos_theta_pi = pion_row.pfp.trk.dir.z.iloc[0]
     pion_id = pion_row.index[0] # (ntuple, entry, slc, pfp)
-    best_plane = p.pfp.trk.bestplane
+    best_plane = pion_row.pfp.trk.bestplane.iloc[0]
     
     # Calculate Hypfit (TLE) Momentum
     p_pi_TLE = calculate_hypfit_p(track_id=pion_id, best_plane=best_plane, 
                                   hit_df=best_hit_df, target_pdg=211, cleaning="all")
     
-    p_pi_x = p_pi_TLE * p.pfp.trk.dir.x
-    p_pi_y = p_pi_TLE * p.pfp.trk.dir.y
-    p_pi_z = p_pi_TLE * p.pfp.trk.dir.z
+    p_pi_x = p_pi_TLE * pion_row.pfp.trk.dir.x.iloc[0]
+    p_pi_y = p_pi_TLE * pion_row.pfp.trk.dir.y.iloc[0]
+    p_pi_z = p_pi_TLE * pion_row.pfp.trk.dir.z.iloc[0]
 
     # --- 5. TRUTH MATCHING ---
     # Check if the muon has a valid truth association
-    if (m.pfp.trk.truth.p.pdg > -2147483648).any():
-        mu_true_pdg = m.pfp.trk.truth.p.pdg
-        mu_true_p_type = m.pfp.trk.truth.p.p_type
-        mu_true_end_process = m.pfp.trk.truth.p.end_process
+    if (muon_row.pfp.trk.truth.p.pdg > -2147483648).any():
+        mu_true_pdg = muon_row.pfp.trk.truth.p.pdg.iloc[0]
+        mu_true_p_type =muon_row.pfp.trk.truth.p.p_type.iloc[0]
+        mu_true_end_process = muon_row.pfp.trk.truth.p.end_process.iloc[0]
         
-        pi_true_pdg = p.pfp.trk.truth.p.pdg
-        pi_true_p_type = p.pfp.trk.truth.p.p_type
-        pi_true_end_process = p.pfp.trk.truth.p.end_process
+        pi_true_pdg = pion_row.pfp.trk.truth.p.pdg.iloc[0]
+        pi_true_p_type = pion_row.pfp.trk.truth.p.p_type.iloc[0]
+        pi_true_end_process = pion_row.pfp.trk.truth.p.end_process.iloc[0]
         
         mu_true_p = magdf(muon_row.pfp.trk.truth.p.genp).iloc[0]
         pi_true_p = magdf(pion_row.pfp.trk.truth.p.genp).iloc[0]
         
-        mu_true_costheta = m.pfp.trk.truth.p.genp.z / mu_true_p
-        pi_true_costheta = p.pfp.trk.truth.p.genp.z / pi_true_p
+        mu_true_costheta = muon_row.pfp.trk.truth.p.genp.z.iloc[0] / mu_true_p
+        pi_true_costheta = pion_row.pfp.trk.truth.p.genp.z.iloc[0] / pi_true_p
     else:
         mu_true_pdg = pi_true_pdg = -1
         mu_true_p_type = pi_true_p_type = "none"
@@ -1398,26 +1398,26 @@ def get_mu_pi_vars(group, best_hit_df):
         
         'reco_p_mu': p_mu,
         'cos_theta_mu': cos_theta_mu,
-        'mu_chi2_proton': m.pfp.trk.chi2pid.best.chi2_proton,
-        'mu_chi2_mu': m.pfp.trk.chi2pid.best.chi2_muon,
-        'mu_chi2_exp_pol': m.pfp.trk.chi2_exp_pol,
-        'mu_scatter_angle_ratio': m.pfp.scatter_angle_ratio,
-        'mu_max_daughter_hits': m.pfp.max_daughter_hits,
-        'mu_frac50': m.pfp.trk.frac50,
-        'mu_bdt_score_proton': m.pfp.trk.bdt_proton_score,
-        'mu_bdt_score_muon_pion': m.pfp.trk.bdt_muon_pion_score,
+        'mu_chi2_proton': muon_row.pfp.trk.chi2pid.best.chi2_proton.iloc[0],
+        'mu_chi2_mu': muon_row.pfp.trk.chi2pid.best.chi2_muon.iloc[0],
+        'mu_chi2_exp_pol': muon_row.pfp.trk.chi2_exp_pol.iloc[0],
+        'mu_scatter_angle_ratio': muon_row.pfp.scatter_angle_ratio.iloc[0],
+        'mu_max_daughter_hits': muon_row.pfp.max_daughter_hits.iloc[0],
+        'mu_frac50': muon_row.pfp.trk.frac50.iloc[0],
+        'mu_bdt_score_proton': muon_row.pfp.trk.bdt_proton_score.iloc[0],
+        'mu_bdt_score_muon_pion': muon_row.pfp.trk.bdt_muon_pion_score.iloc[0],
 
         'range_p_pi': p_pi_range,
         'TLE_p_pi': p_pi_TLE,
         'cos_theta_pi': cos_theta_pi,        
-        'pi_chi2_proton': p.pfp.trk.chi2pid.best.chi2_proton,
-        'pi_chi2_mu': p.pfp.trk.chi2pid.best.chi2_muon,
-        'pi_chi2_exp_pol': p.pfp.trk.chi2_exp_pol,
-        'pi_scatter_angle_ratio': p.pfp.scatter_angle_ratio,
-        'pi_max_daughter_hits': p.pfp.max_daughter_hits,
-        'pi_frac50': p.pfp.trk.frac50,
-        'pi_bdt_score_proton': p.pfp.trk.bdt_proton_score,
-        'pi_bdt_score_muon_pion': p.pfp.trk.bdt_muon_pion_score,
+        'pi_chi2_proton': pion_row.pfp.trk.chi2pid.best.chi2_proton.iloc[0],
+        'pi_chi2_mu': pion_row.pfp.trk.chi2pid.best.chi2_muon.iloc[0],
+        'pi_chi2_exp_pol': pion_row.pfp.trk.chi2_exp_pol.iloc[0],
+        'pi_scatter_angle_ratio': pion_row.pfp.scatter_angle_ratio.iloc[0],
+        'pi_max_daughter_hits': pion_row.pfp.max_daughter_hits.iloc[0],
+        'pi_frac50': pion_row.pfp.trk.frac50.iloc[0],
+        'pi_bdt_score_proton': pion_row.pfp.trk.bdt_proton_score.iloc[0],
+        'pi_bdt_score_muon_pion': pion_row.pfp.trk.bdt_muon_pion_score.iloc[0],
 
         'muon_contained': muon_contained,
 

@@ -207,16 +207,16 @@ def extra_pion_cut_mask(df, group_levels):
     
 # Create a column filled with NaN first
 def proton_BDT_cut_mask(df, group_levels):
-    BDT_proton_df = df[(is_MIP_candidate_mask(df)) & (df.pfp.trk.bdt_proton_score > CTE.BDT_proton_max_score)]
+    BDT_proton_df = df[(is_MIP_candidate_mask(df)) & (df.pfp.trk.bdt_proton_score < CTE.BDT_proton_max_score)]
     
     # Count how many pfps per slice
     candidate_counts = BDT_proton_df.groupby(level=group_levels).size()
  
     # Get only slices with at least 2 pfps
-    valid_slices = candidate_counts[candidate_counts == 2].index
+    invalid_slices = candidate_counts[candidate_counts > 0].index
 
     # Apply the mask to original DataFrame
-    final_mask = pd.Series(df.index.droplevel('rec.slc.reco.pfp..index').isin(valid_slices), index=df.index)
+    final_mask = pd.Series(~df.index.droplevel('rec.slc.reco.pfp..index').isin(invalid_slices), index=df.index)
 
     return final_mask
     

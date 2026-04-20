@@ -99,7 +99,7 @@ def IsNu(df):
     return is_numu | is_nue   
 
 def isCC1Pi(df): # definition
-    is_1pi1mu = (df.nmu_P_100MeV_3000MeV == 1) & (df.npi_P_130MeV_800MeV == 1) & (df.npi_P_85MeV_10000MeV == 1)
+    is_1pi1mu = (df.nmu_P_100MeV_3000MeV == 1) & (df.npi_P_130MeV_2000MeV == 1) & (df.npi_P_85MeV_10000MeV == 1)
     is_NpiNmuNnNp = df.nprim - df.nmu - df.npi - df.np - df.nn == 0
 
     # Initialize full theta mask (False by default)
@@ -1356,7 +1356,7 @@ def get_mu_pi_vars(group, best_hit_df):
 
     # Pion kinematics
     p_pi_range = pion_row.pfp.trk.rangeP.p_pion.iloc[0]
-    cos_theta_pi = pion_row.pfp.trk.dir.z.iloc[0]
+    cos_theta_pi = pion_row. pfp.trk.dir.z.iloc[0]
     pion_id = pion_row.index[0] # (ntuple, entry, slc, pfp)
     best_plane = pion_row.pfp.trk.bestplane.iloc[0]
     
@@ -1931,7 +1931,7 @@ def make_cc1pi_finaldf(f, updatecalo = None):
 
     pandora_df = add_transverse_vars_column(pandora_df)
     
-    pandora_df[('slc', 'cut', 'energy', '', '', '')] = (pandora_df.slc.measure_var.reco_p_mu > 0.1) & (pandora_df.slc.measure_var.reco_p_mu < 3) & (pandora_df.slc.measure_var.TLE_p_pi > 0.13) & (pandora_df.slc.measure_var.TLE_p_pi < 0.8)   
+    pandora_df[('slc', 'cut', 'energy', '', '', '')] = (pandora_df.slc.measure_var.reco_p_mu > 0.1) & (pandora_df.slc.measure_var.reco_p_mu < 3) & (pandora_df.slc.measure_var.TLE_p_pi > 0.13) & (pandora_df.slc.measure_var.TLE_p_pi < 2)   
     
     
     min_df = pandora_df[cols].copy()

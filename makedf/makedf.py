@@ -40,6 +40,7 @@ TRUE_P_THRESHOLDS = {"nmu_P_100MeV_3000MeV": ["muon", 0.1, 3],
                      "npi_P_130MeV_800MeV": ["pipm", 0.130, 0.8], 
                      "npi_P_85MeV_10000MeV": ["pipm", 0.085,1000],
                      "npi_P_130MeV_10000MeV": ["pipm", 0.130,1000],
+                     "npi_P_130MeV_2000MeV": ["pipm", 0.130,2],
                       "np_P_325MeV_10000MeV": ["proton", 0.325,1000]
                     }
 def make_histgenevtdf(f):

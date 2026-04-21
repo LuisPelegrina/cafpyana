@@ -112,34 +112,35 @@ def _loaddf(applyfs, preprocess, g):
                     dfs.append(df)
 
 
-          # --- 3. Safe POT Extraction ---
-            if "TotalPOT" in f:
-                df_histpot = make_histpotdf(f)
-            else:
-                print(f"File ({fname}) missing TotalPOT. Using empty DF.")
-                df_histpot = None
-
-            # Guard against empty/failed make_histpotdf
-            if df_histpot is not None:
-                df_histpot["__ntuple"] = index
-                df_histpot.set_index("__ntuple", append=True, inplace=True)
-                new_order = [df_histpot.index.nlevels - 1] + list(range(df_histpot.index.nlevels - 1))
-                df_histpot = df_histpot.reorder_levels(new_order)
-                dfs.append(df_histpot)
-
-            # --- 4. Safe GenEvents Extraction ---
-            if "TotalGenEvents" in f:
-                df_histgenevt = make_histgenevtdf(f)
-            else:
-                print(f"File ({fname}) missing TotalGenEvents. Using empty DF.")
-                df_histgenevt = None
-
-            if df_histgenevt is not None:
-                df_histgenevt["__ntuple"] = index
-                df_histgenevt.set_index("__ntuple", append=True, inplace=True)
-                new_order = [df_histgenevt.index.nlevels - 1] + list(range(df_histgenevt.index.nlevels - 1))
-                df_histgenevt = df_histgenevt.reorder_levels(new_order)
-                dfs.append(df_histgenevt)
+        # --- 3. Safe POT Extraction ---
+        if "TotalPOT" in f:
+            df_histpot = make_histpotdf(f)
+        else:
+            print(f"File ({fname}) missing TotalPOT. Using empty DF.")
+            df_histpot = pd.DataFrame() # Create empty DF instead of None
+        
+        # Always process and append, even if empty
+        if df_histpot is not None:
+            # Handle the ntuple index (even for empty DFs to keep schema consistent)
+            df_histpot["__ntuple"] = index
+            df_histpot.set_index("__ntuple", append=True, inplace=True)
+            new_order = [df_histpot.index.nlevels - 1] + list(range(df_histpot.index.nlevels - 1))
+            df_histpot = df_histpot.reorder_levels(new_order)
+        dfs.append(df_histpot) # ALWAYS append
+        
+        # --- 4. Safe GenEvents Extraction ---
+        if "TotalGenEvents" in f:
+            df_histgenevt = make_histgenevtdf(f)
+        else:
+            print(f"File ({fname}) missing TotalGenEvents. Using empty DF.")
+            df_histgenevt = pd.DataFrame() # Create empty DF instead of None
+        
+        if df_histgenevt is not None:
+            df_histgenevt["__ntuple"] = index
+            df_histgenevt.set_index("__ntuple", append=True, inplace=True)
+            new_order = [df_histgenevt.index.nlevels - 1] + list(range(df_histgenevt.index.nlevels - 1))
+            df_histgenevt = df_histgenevt.reorder_levels(new_order)
+        dfs.append(df_histgenevt) # ALWAYS append
 
     except (OSError, ValueError) as e:
         print(f"Could not open file ({fname}). Skipping...")

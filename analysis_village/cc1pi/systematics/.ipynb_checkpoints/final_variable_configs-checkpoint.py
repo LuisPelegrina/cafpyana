@@ -71,7 +71,7 @@ class VariableConfig:
             var_save_name="pion_p",
             var_plot_name=r"$P_\pi$",
             var_unit="[GeV/c]",
-            bins= np.array([0.13, 0.205, 0.28,0.35, 0.45,2]),
+            bins= np.array([0.13, 0.205, 0.28,0.35, 0.45,1]),
             var_evt_reco_col=('slc', 'measure_var', 'TLE_p_pi', ''),
             var_evt_truth_col=('truth', 'true_var', 'true_p_pi', ''),
             var_nu_col=('truth', 'true_var', 'true_p_pi', ''),

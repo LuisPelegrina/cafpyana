@@ -153,24 +153,28 @@ def run_grid(inputfiles):
         
         # We will build the command string using the NEW unique names
         local_files = [] 
-        for i_f in range(0,len(flist)):
-            # Create a unique local name: e.g., input0_out16.flat.caf.root
-            original_name = flist[i_f].split('/')[-1]
-            unique_name = 'input%d_%s'%(i_f, original_name)
+        for i_f in range(0, len(flist)):
+            # flist[i_f] looks like: .../SBNDSpringMC/27118490_152/out16.flat.caf.root
+            
+            path_parts = flist[i_f].split('/')
+            if len(path_parts) > 1:
+                parent_folder = path_parts[-2]  # Gets '27118490_152'
+                filename = path_parts[-1]       # Gets 'out16.flat.caf.root'
+                unique_name = "%s_%s" % (parent_folder, filename)
+            else:
+                unique_name = flist[i_f] # Fallback
+    
             local_files.append(unique_name)
-            
-            out.write('echo "[run_%s.sh] input %d : %s -> %s"\n'%(i_flist, i_f, flist[i_f], unique_name))
-            
-            # Copy to the unique local name instead of '.'
-            out.write('xrdcp ' + flist[i_f] + ' ' + unique_name + '\n')
-
-        # Now build the python command using our list of unique_name strings
-        cmd = 'python run_df_maker.py -c ' + args.config + ' -o ' + args.output + '_%d'%i_flist + '.df -ncpu 7 -i '
-        cmd += ','.join(local_files) # Join them with commas
+    
+            out.write('echo "[run_%s.sh] copying: %s -> %s"\n' % (i_flist, flist[i_f], unique_name))
+            out.write('xrdcp %s %s\n' % (flist[i_f], unique_name))
+    
+        # Build the final command
+        file_arg = ','.join(local_files)
+        cmd = 'python run_df_maker.py -c %s -o %s_%d.df -ncpu 7 -i %s' % (args.config, args.output, i_flist, file_arg)
         
         out.write('ls -alh\n')
         out.write(cmd + '\n')
-        out.close()
 
     os.system('cp ./bin/grid_executable.sh %s' %MasterJobDir)
 
@@ -201,9 +205,9 @@ def run_grid(inputfiles):
 --append_condor_requirements='(TARGET.HAS_SINGULARITY=?=true)' \\
 --tar_file_name "dropbox://$(pwd)/bin_dir.tar" \\
 -N %d \\
---disk 10GB \\
+--disk 5GB \\
 --cpu 7 \\
---memory 4GB \\
+--memory 6GB \\
 --expected-lifetime 1h \\
 "file://$(pwd)/grid_executable.sh" \\
 "%s" \\

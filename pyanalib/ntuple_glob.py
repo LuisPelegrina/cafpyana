@@ -55,18 +55,14 @@ def _open_with_retries(path, attempts=5, sleep=2.0):
     raise last_exc
 
 def _loaddf(applyfs, preprocess, g):
-    # fname, index, applyfs = inp
     index, fname = g
-    # Convert pnfs to xroot URL's
+    
+    # Path handling
     if fname.startswith("/pnfs"):
         fname = fname.replace("/pnfs", "root://fndcadoor.fnal.gov:1094/pnfs/fnal.gov/usr")
-    # fix xroot URL's
     elif fname.startswith("xroot"):
         fname = fname[1:]
 
-    madef = False
-
-    # run any preprocess-ing commands
     tempfiles = []
     if preprocess is not None:
         for i, p in enumerate(preprocess):
@@ -75,18 +71,19 @@ def _loaddf(applyfs, preprocess, g):
             p.run(fname, temp_file_name)
             tempfiles.append(temp_file_name)
             fname = temp_file_name
-
+            
+            
+    dfs = []
     try:
         # Open AND close strictly within the context manager
         with _open_with_retries(fname) as f:
-            dfs = []
-            # Check if the key exists first
+            totevt = 0
             if 'TotalEvents' in f:
-                totevt = f['TotalEvents'].values()[0]
-            else:
-                print(f"Warning: 'TotalEvents' missing in {fname}. Defaulting to 0.")
-                totevt = 0
-                
+                try:
+                    totevt = f['TotalEvents'].values()[0]
+                except Exception:
+                    totevt = 0
+                    
             if "recTree" not in f:
                 print("File (%s) missing recTree. Try only histpotdf & histgenevtdf and skipping other dfs..." % fname)
             elif totevt < 1e-6:
@@ -115,23 +112,34 @@ def _loaddf(applyfs, preprocess, g):
                     dfs.append(df)
 
 
-            df_histpot = make_histpotdf(f)
-            if "TotalPOT" not in f:
-                print(f"File ({fname}) missing TotalPOT histogram. Using empty DataFrame.")
-            df_histpot["__ntuple"] = index
-            df_histpot.set_index("__ntuple", append=True, inplace=True)
-            new_order = [df_histpot.index.nlevels - 1] + list(range(df_histpot.index.nlevels - 1))
-            df_histpot = df_histpot.reorder_levels(new_order)
-            dfs.append(df_histpot)
+          # --- 3. Safe POT Extraction ---
+            if "TotalPOT" in f:
+                df_histpot = make_histpotdf(f)
+            else:
+                print(f"File ({fname}) missing TotalPOT. Using empty DF.")
+                df_histpot = None
 
-            df_histgenevt = make_histgenevtdf(f)
-            if "TotalGenEvents" not in f:
-                print(f"File ({fname}) missing TotalGenEvents histogram. Using empty DataFrame.")
-            df_histgenevt["__ntuple"] = index
-            df_histgenevt.set_index("__ntuple", append=True, inplace=True)
-            new_order = [df_histgenevt.index.nlevels - 1] + list(range(df_histgenevt.index.nlevels - 1))
-            df_histgenevt = df_histgenevt.reorder_levels(new_order)
-            dfs.append(df_histgenevt)
+            # Guard against empty/failed make_histpotdf
+            if df_histpot is not None:
+                df_histpot["__ntuple"] = index
+                df_histpot.set_index("__ntuple", append=True, inplace=True)
+                new_order = [df_histpot.index.nlevels - 1] + list(range(df_histpot.index.nlevels - 1))
+                df_histpot = df_histpot.reorder_levels(new_order)
+                dfs.append(df_histpot)
+
+            # --- 4. Safe GenEvents Extraction ---
+            if "TotalGenEvents" in f:
+                df_histgenevt = make_histgenevtdf(f)
+            else:
+                print(f"File ({fname}) missing TotalGenEvents. Using empty DF.")
+                df_histgenevt = None
+
+            if df_histgenevt is not None:
+                df_histgenevt["__ntuple"] = index
+                df_histgenevt.set_index("__ntuple", append=True, inplace=True)
+                new_order = [df_histgenevt.index.nlevels - 1] + list(range(df_histgenevt.index.nlevels - 1))
+                df_histgenevt = df_histgenevt.reorder_levels(new_order)
+                dfs.append(df_histgenevt)
 
     except (OSError, ValueError) as e:
         print(f"Could not open file ({fname}). Skipping...")
@@ -139,8 +147,9 @@ def _loaddf(applyfs, preprocess, g):
         dfs = None
 
 
-    for f in tempfiles:
-        os.remove(f)
+    for tf in tempfiles:
+        if os.path.exists(tf):
+            os.remove(tf)
             
     if not dfs:
         return None

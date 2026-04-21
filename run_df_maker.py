@@ -150,16 +150,26 @@ def run_grid(inputfiles):
         flist = flistForEachJob[i_flist]
         out = open(MasterJobDir + '/run_%s.sh'%(i_flist),'w')
         out.write('#!/bin/bash\n')
-        cmd = 'python run_df_maker.py -c ' + args.config + ' -o ' + args.output + '_%d'%i_flist + '.df -ncpu 7 -i'
+        
+        # We will build the command string using the NEW unique names
+        local_files = [] 
         for i_f in range(0,len(flist)):
-            out.write('echo "[run_%s.sh] input %d : %s"\n'%(i_flist, i_f, flist[i_f]))
-            if i_f == 0:
-                cmd += ' ' + flist[i_f].split('/')[-1]
-            else: 
-                cmd += ',' + flist[i_f].split('/')[-1]
-            out.write('xrdcp ' + flist[i_f] + ' .\n') ## -- for checking auth
+            # Create a unique local name: e.g., input0_out16.flat.caf.root
+            original_name = flist[i_f].split('/')[-1]
+            unique_name = 'input%d_%s'%(i_f, original_name)
+            local_files.append(unique_name)
+            
+            out.write('echo "[run_%s.sh] input %d : %s -> %s"\n'%(i_flist, i_f, flist[i_f], unique_name))
+            
+            # Copy to the unique local name instead of '.'
+            out.write('xrdcp ' + flist[i_f] + ' ' + unique_name + '\n')
+
+        # Now build the python command using our list of unique_name strings
+        cmd = 'python run_df_maker.py -c ' + args.config + ' -o ' + args.output + '_%d'%i_flist + '.df -ncpu 7 -i '
+        cmd += ','.join(local_files) # Join them with commas
+        
         out.write('ls -alh\n')
-        out.write(cmd)
+        out.write(cmd + '\n')
         out.close()
 
     os.system('cp ./bin/grid_executable.sh %s' %MasterJobDir)

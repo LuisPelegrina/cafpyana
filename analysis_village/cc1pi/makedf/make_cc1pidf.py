@@ -1550,9 +1550,9 @@ cols = [
         ('pfp', 'trk', 'truth', 'p', 'pdg', ''),
         ('pfp', 'trk', 'truth', 'p', 'end_process', ''),
         
-        ('pfp', 'trk', 'truth', 'p', 'genp', 'x'),
-        ('pfp', 'trk', 'truth', 'p', 'genp', 'y'),
-        ('pfp', 'trk', 'truth', 'p', 'genp', 'z'),
+        #('pfp', 'trk', 'truth', 'p', 'genp', 'x'),
+        #('pfp', 'trk', 'truth', 'p', 'genp', 'y'),
+        #('pfp', 'trk', 'truth', 'p', 'genp', 'z'),
 
         #track optimization
         ('pfp', 'trk', 'len', '', '', ''),

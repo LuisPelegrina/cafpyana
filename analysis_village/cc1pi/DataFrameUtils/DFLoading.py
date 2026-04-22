@@ -96,3 +96,33 @@ def perform_truth_matching(mc_evt_df,mc_nu_df):
     )
 
     return matchdf
+
+
+import gc
+def perform_truth_matching_low_memory(mc_evt_df, mc_nu_df, ntuple_chunk_size=10):
+    # 1. Ensure both are sorted for fast slicing
+    mc_evt_df = mc_evt_df.sort_index()
+    mc_nu_df = mc_nu_df.sort_index()
+    
+    unique_ntuples = mc_evt_df.index.get_level_values("__ntuple").unique()
+    num_ntuples = len(unique_ntuples)
+    matched_chunks = []
+
+    print(f"Starting chunked merge ({ntuple_chunk_size} ntuples per chunk)...")
+
+    for i in range(0, num_ntuples, ntuple_chunk_size):
+        # Select a range of ntuples
+        batch_ntuples = unique_ntuples[i : i + ntuple_chunk_size]
+        
+        # Fast slicing using .loc and a slice
+        evt_chunk = mc_evt_df.loc[batch_ntuples[0] : batch_ntuples[-1]]
+        nu_chunk = mc_nu_df.loc[batch_ntuples[0] : batch_ntuples[-1]]
+        
+        # Merge the batch
+        matched_batch = perform_truth_matching(evt_chunk, nu_chunk)
+        matched_chunks.append(matched_batch)
+        
+        print(f"Merged through ntuple index {min(i + ntuple_chunk_size, num_ntuples)} / {num_ntuples}")
+        gc.collect()
+
+    return pd.concat(matched_chunks)

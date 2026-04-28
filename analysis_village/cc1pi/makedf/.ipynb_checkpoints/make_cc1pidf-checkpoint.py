@@ -1665,6 +1665,14 @@ cols = [
         ('pfp', 'trk', 'dir', 'x', '', ''),
         ('pfp', 'trk', 'dir', 'y', '', ''),
         ('pfp', 'trk', 'dir', 'z', '', ''),
+    
+        ('pfp', 'trk', 'start', 'x', '', ''),
+        ('pfp', 'trk', 'start', 'y', '', ''),
+        ('pfp', 'trk', 'start', 'z', '', ''),
+
+        ('pfp', 'trk', 'end', 'x', '', ''),
+        ('pfp', 'trk', 'end', 'y', '', ''),
+        ('pfp', 'trk', 'end', 'z', '', ''),
     ]
 
 def make_cc1pi_finaldf(f, updatecalo = None):

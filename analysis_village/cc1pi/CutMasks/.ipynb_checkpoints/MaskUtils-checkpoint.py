@@ -1,8 +1,8 @@
 
 from analysis_village.cc1pi.Constants import CTE as CTE
-def build_event_cumulative_masks(evt_df, plot_sideband = False):
+group_levels = ['__ntuple', 'entry', 'rec.slc..index']
+def build_event_cumulative_masks(evt_df, sideband = "shower"):
     # Define which BDT mask to use
-    bdt_mask = evt_df.slc.cut.proton_BDT_sideband if plot_sideband else evt_df.slc.cut.proton_BDT
     
     cut_sequence = [
         ("cosmic",      evt_df.slc.cut.obvious_cosmic),
@@ -13,12 +13,48 @@ def build_event_cumulative_masks(evt_df, plot_sideband = False):
         ("chi2",        evt_df.slc.cut.MIP_candidates),
         ("shower",      evt_df.slc.cut.shower),
         ("angle",       evt_df.slc.cut.angle),
-        ("proton_BDT",  bdt_mask),
+        ("proton_BDT",  evt_df.slc.cut.proton_BDT),
         ("containment", evt_df.slc.cut.containment),
         ("michel",      evt_df.slc.cut.michel),
         ("extra_pion",  evt_df.slc.cut.extra_pion),
+        #("TPC_containment",  evt_df.slc.cut.TPC_containment),
         ("energy",      evt_df.slc.cut.energy),
     ]
+    
+
+    if sideband == "proton": 
+        cut_sequence = [
+            ("cosmic",      evt_df.slc.cut.obvious_cosmic),
+            ("t0",          evt_df.slc.cut.t0),
+            ("FV",          evt_df.slc.cut.inside_FV),
+            ("nu_score",    evt_df.slc.nu_score > CTE.min_nu_score),
+            ("track",       evt_df.slc.cut.track),
+            ("chi2",        evt_df.slc.cut.MIP_candidates),
+            ("shower",      evt_df.slc.cut.shower),
+            ("angle",       evt_df.slc.cut.angle),
+            ("proton_BDT",  evt_df.slc.cut.proton_BDT_sideband),
+            ("containment", evt_df.slc.cut.containment),
+            ("michel",      evt_df.slc.cut.michel),
+            ("extra_pion",  evt_df.slc.cut.extra_pion),
+            #("TPC_containment",  evt_df.slc.cut.TPC_containment),
+            ("energy",      evt_df.slc.cut.energy),
+        ]
+    elif sideband == "two_pions": 
+        cut_sequence = [
+            ("cosmic",      evt_df.slc.cut.obvious_cosmic),
+            ("t0",          evt_df.slc.cut.t0),
+            ("FV",          evt_df.slc.cut.inside_FV),
+            ("nu_score",    evt_df.slc.nu_score > CTE.min_nu_score),
+            ("track",       evt_df.slc.cut.track),
+            ("chi2",        evt_df.slc.cut_var.n_MIP_candidates > 2),
+            ("shower",      evt_df.slc.cut.shower),
+            ("angle",       evt_df.slc.cut.angle),
+            ("proton_BDT",  evt_df.slc.cut.proton_BDT_2pi),
+            ("containment", evt_df.slc.cut.containment),
+            ("michel",      evt_df.slc.cut.michel),
+            #("TPC_containment",  evt_df.slc.cut.TPC_containment),
+            ("energy",      evt_df.slc.cut.energy),
+        ]
 
     # 2️⃣ Build cumulative masks
     cumulative_masks = {}
@@ -34,7 +70,6 @@ def build_event_cumulative_masks(evt_df, plot_sideband = False):
         cumulative_masks[name] = current_mask.copy()
 
     return cumulative_masks
-
 
 
 def get_n_evt(df, use_weight=True):

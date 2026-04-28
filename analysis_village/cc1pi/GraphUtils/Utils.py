@@ -40,7 +40,8 @@ cut_name_nice_map = {
     "michel": "Michel removal",
     "extra_pion": "Extra pion removal",
     "energy": "Energy",
-    "MIP_refinement": "Michel & extra pion removal"
+    "MIP_refinement": "Michel & extra pion removal",
+    "TPC_containment": "TPC containment",
 }
 
 category_colors = {

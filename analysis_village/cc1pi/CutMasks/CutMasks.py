@@ -233,4 +233,44 @@ def proton_BDT_sideband_mask(df, group_levels):
     final_mask = pd.Series(df.index.droplevel('rec.slc.reco.pfp..index').isin(valid_slices), index=df.index)
 
     return final_mask
+
+def proton_BDT_cut_mask_2pi(df, group_levels):
+    BDT_proton_df = df[(is_MIP_candidate_mask(df)) & (df.pfp.trk.bdt_proton_score < CTE.BDT_proton_max_score_sideband_pion)]
     
+    # Count how many pfps per sliceVenga, mucho ani
+    candidate_counts = BDT_proton_df.groupby(level=group_levels).size()
+ 
+    # Get only slices with at least 2 pfps
+    invalid_slices = candidate_counts[candidate_counts > 0].index
+
+    # Apply the mask to original DataFrame
+    final_mask = pd.Series(~df.index.droplevel('rec.slc.reco.pfp..index').isin(invalid_slices), index=df.index)
+
+    return final_mask
+
+
+def TPC_containment_mask(df, group_levels):
+    """
+    Keeps only slices where ALL pfp track endpoints (start and end)
+    have the same sign in x as the slice vertex x.
+    """
+    vertex_x = df[('slc','vertex','x','','','')] .groupby(level=group_levels).first()
+    
+    # Map vertex x sign back to every row
+    vertex_sign = np.sign(vertex_x)
+    row_vertex_sign = df.index.droplevel('rec.slc.reco.pfp..index').map(vertex_sign)
+    
+    # Check if either endpoint violates the sign condition
+    start_bad = np.sign(df[('pfp','trk','start','x','','')]) != row_vertex_sign
+    end_bad   = np.sign(df[('pfp','trk','end','x','','')])   != row_vertex_sign
+
+    # A slice is invalid if ANY of its pfps violates the condition
+    violating_df = df[start_bad | end_bad]
+    violating_slices = violating_df.groupby(level=group_levels).size()
+    invalid_slices = violating_slices[violating_slices > 0].index
+
+    mask = pd.Series(
+        ~df.index.droplevel('rec.slc.reco.pfp..index').isin(invalid_slices),
+        index=df.index
+    )
+    return mask

@@ -1,5 +1,5 @@
 src/CMakeFiles/XrdXml.dir/XrdXml/XrdXmlRdrXml2.cc.o: \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/XrdXmlRdrXml2.cc \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/XrdXmlRdrXml2.cc \
  /usr/include/stdc-predef.h /usr/include/c++/11/cctype \
  /usr/include/c++/11/x86_64-redhat-linux/bits/c++config.h \
  /usr/include/bits/wordsize.h \
@@ -160,6 +160,6 @@ src/CMakeFiles/XrdXml.dir/XrdXml/XrdXmlRdrXml2.cc.o: \
  /cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/libxml2-2.13.5-5k2gkz7uz5rlxcjewbrx3mspqzlk326c/include/libxml2/libxml/threads.h \
  /cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/libxml2-2.13.5-5k2gkz7uz5rlxcjewbrx3mspqzlk326c/include/libxml2/libxml/relaxng.h \
  /cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/libxml2-2.13.5-5k2gkz7uz5rlxcjewbrx3mspqzlk326c/include/libxml2/libxml/xmlschemas.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysE2T.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/XrdXmlRdrXml2.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/XrdXmlReader.hh
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysE2T.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/XrdXmlRdrXml2.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/XrdXmlReader.hh

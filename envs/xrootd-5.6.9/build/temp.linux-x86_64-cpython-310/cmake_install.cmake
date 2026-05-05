@@ -1,4 +1,4 @@
-# Install script for directory: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9
+# Install script for directory: /home/lpelegri/cafpyana/envs/xrootd-5.6.9
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -44,31 +44,31 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/src/cmake_install.cmake")
+  include("/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/src/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/cmake_install.cmake")
+  include("/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/tests/cmake_install.cmake")
+  include("/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/tests/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/docs/cmake_install.cmake")
+  include("/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/docs/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/utils/cmake_install.cmake")
+  include("/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/utils/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64/cmake/XRootD" TYPE DIRECTORY FILES "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/cmake/")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64/cmake/XRootD" TYPE DIRECTORY FILES "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/cmake/")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -79,5 +79,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

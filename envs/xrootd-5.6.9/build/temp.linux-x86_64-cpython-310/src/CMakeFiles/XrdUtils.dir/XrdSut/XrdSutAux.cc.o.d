@@ -1,5 +1,5 @@
 src/CMakeFiles/XrdUtils.dir/XrdSut/XrdSutAux.cc.o: \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSut/XrdSutAux.cc \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSut/XrdSutAux.cc \
  /usr/include/stdc-predef.h /usr/include/c++/11/cstdio \
  /usr/include/c++/11/x86_64-redhat-linux/bits/c++config.h \
  /usr/include/bits/wordsize.h \
@@ -64,8 +64,8 @@ src/CMakeFiles/XrdUtils.dir/XrdSut/XrdSutAux.cc.o: \
  /usr/include/bits/types/struct_statx.h /usr/include/fcntl.h \
  /usr/include/bits/fcntl.h /usr/include/bits/fcntl-linux.h \
  /usr/include/bits/types/struct_iovec.h /usr/include/linux/falloc.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysLogger.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysPthread.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysLogger.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysPthread.hh \
  /usr/include/pthread.h /usr/include/sched.h /usr/include/bits/sched.h \
  /usr/include/linux/sched/types.h \
  /usr/include/bits/types/struct_sched_param.h /usr/include/bits/cpu-set.h \
@@ -85,10 +85,10 @@ src/CMakeFiles/XrdUtils.dir/XrdSut/XrdSutAux.cc.o: \
  /usr/include/bits/types/struct_sigstack.h /usr/include/bits/sigthread.h \
  /usr/include/bits/signal_ext.h /usr/include/semaphore.h \
  /usr/include/bits/semaphore.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysError.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysPwd.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucString.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysHeaders.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysError.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysPwd.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucString.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysHeaders.hh \
  /usr/include/c++/11/iostream /usr/include/c++/11/ostream \
  /usr/include/c++/11/ios /usr/include/c++/11/iosfwd \
  /usr/include/c++/11/bits/stringfwd.h \
@@ -163,8 +163,8 @@ src/CMakeFiles/XrdUtils.dir/XrdSut/XrdSutAux.cc.o: \
  /usr/include/c++/11/bits/basic_ios.tcc \
  /usr/include/c++/11/bits/ostream.tcc /usr/include/c++/11/istream \
  /usr/include/c++/11/bits/istream.tcc /usr/include/c++/11/cstdarg \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSut/XrdSutAux.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XProtocol/XPtypes.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSut/XrdSutRndm.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSut/XrdSutTrace.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucTrace.hh
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSut/XrdSutAux.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XProtocol/XPtypes.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSut/XrdSutRndm.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSut/XrdSutTrace.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucTrace.hh

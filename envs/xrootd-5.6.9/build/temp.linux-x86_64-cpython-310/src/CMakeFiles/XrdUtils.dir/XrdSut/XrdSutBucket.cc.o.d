@@ -1,5 +1,5 @@
 src/CMakeFiles/XrdUtils.dir/XrdSut/XrdSutBucket.cc.o: \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSut/XrdSutBucket.cc \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSut/XrdSutBucket.cc \
  /usr/include/stdc-predef.h /usr/include/c++/11/cstdio \
  /usr/include/c++/11/x86_64-redhat-linux/bits/c++config.h \
  /usr/include/bits/wordsize.h \
@@ -23,8 +23,8 @@ src/CMakeFiles/XrdUtils.dir/XrdSut/XrdSutBucket.cc.o: \
  /usr/include/c++/11/cstring /usr/include/string.h \
  /usr/include/bits/types/locale_t.h /usr/include/bits/types/__locale_t.h \
  /usr/include/strings.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucString.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysHeaders.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucString.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysHeaders.hh \
  /usr/include/c++/11/iostream /usr/include/c++/11/ostream \
  /usr/include/c++/11/ios /usr/include/c++/11/iosfwd \
  /usr/include/c++/11/bits/stringfwd.h \
@@ -133,12 +133,12 @@ src/CMakeFiles/XrdUtils.dir/XrdSut/XrdSutBucket.cc.o: \
  /usr/include/c++/11/bits/basic_ios.tcc \
  /usr/include/c++/11/bits/ostream.tcc /usr/include/c++/11/istream \
  /usr/include/c++/11/bits/istream.tcc /usr/include/c++/11/cstdarg \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSut/XrdSutBucket.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSut/XrdSutAux.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XProtocol/XPtypes.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSut/XrdSutTrace.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucTrace.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysError.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSut/XrdSutBucket.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSut/XrdSutAux.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XProtocol/XPtypes.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSut/XrdSutTrace.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucTrace.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysError.hh \
  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
  /usr/include/bits/environments.h /usr/include/bits/confname.h \
  /usr/include/bits/getopt_posix.h /usr/include/bits/getopt_core.h \

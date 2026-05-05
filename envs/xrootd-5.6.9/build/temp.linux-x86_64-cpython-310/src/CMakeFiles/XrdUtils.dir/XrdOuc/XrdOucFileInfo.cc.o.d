@@ -1,7 +1,7 @@
 src/CMakeFiles/XrdUtils.dir/XrdOuc/XrdOucFileInfo.cc.o: \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucFileInfo.cc \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucFileInfo.cc \
  /usr/include/stdc-predef.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucFileInfo.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucFileInfo.hh \
  /usr/include/c++/11/cctype \
  /usr/include/c++/11/x86_64-redhat-linux/bits/c++config.h \
  /usr/include/bits/wordsize.h \

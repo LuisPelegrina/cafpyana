@@ -1,5 +1,5 @@
 src/CMakeFiles/XrdAppUtils.dir/XrdApps/XrdMpxXml.cc.o: \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdApps/XrdMpxXml.cc \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdApps/XrdMpxXml.cc \
  /usr/include/stdc-predef.h /usr/include/c++/11/iostream \
  /usr/include/c++/11/x86_64-redhat-linux/bits/c++config.h \
  /usr/include/bits/wordsize.h \
@@ -145,5 +145,5 @@ src/CMakeFiles/XrdAppUtils.dir/XrdApps/XrdMpxXml.cc.o: \
  /usr/include/linux/close_range.h /usr/include/sys/uio.h \
  /usr/include/bits/types/struct_iovec.h /usr/include/bits/uio_lim.h \
  /usr/include/bits/uio-ext.h /usr/include/c++/11/ctime \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdApps/XrdMpxXml.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucTokenizer.hh
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdApps/XrdMpxXml.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucTokenizer.hh

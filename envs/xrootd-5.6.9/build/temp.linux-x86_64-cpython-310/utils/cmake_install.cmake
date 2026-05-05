@@ -1,4 +1,4 @@
-# Install script for directory: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/utils
+# Install script for directory: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/utils
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -44,10 +44,10 @@ endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/xrootd/utils" TYPE PROGRAM FILES
-    "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/utils/XrdCmsNotify.pm"
-    "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/utils/netchk"
-    "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/utils/XrdOlbMonPerf"
-    "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/utils/cms_monPerf"
+    "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/utils/XrdCmsNotify.pm"
+    "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/utils/netchk"
+    "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/utils/XrdOlbMonPerf"
+    "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/utils/cms_monPerf"
     )
 endif()
 

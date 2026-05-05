@@ -1,8 +1,8 @@
 src/CMakeFiles/XrdUtils.dir/XrdOuc/XrdOucExport.cc.o: \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucExport.cc \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucExport.cc \
  /usr/include/stdc-predef.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucExport.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysError.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucExport.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysError.hh \
  /usr/include/c++/11/cstdlib \
  /usr/include/c++/11/x86_64-redhat-linux/bits/c++config.h \
  /usr/include/bits/wordsize.h \
@@ -39,7 +39,7 @@ src/CMakeFiles/XrdUtils.dir/XrdOuc/XrdOucExport.cc.o: \
  /usr/include/bits/getopt_core.h /usr/include/bits/unistd_ext.h \
  /usr/include/linux/close_range.h /usr/include/c++/11/cstring \
  /usr/include/string.h /usr/include/strings.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucPList.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucPList.hh \
  /usr/include/c++/11/cstdio /usr/include/stdio.h \
  /usr/lib/gcc/x86_64-redhat-linux/11/include/stdarg.h \
  /usr/include/bits/types/__fpos_t.h /usr/include/bits/types/__mbstate_t.h \
@@ -47,7 +47,7 @@ src/CMakeFiles/XrdUtils.dir/XrdOuc/XrdOucExport.cc.o: \
  /usr/include/bits/types/FILE.h /usr/include/bits/types/struct_FILE.h \
  /usr/include/bits/types/cookie_io_functions_t.h \
  /usr/include/bits/stdio_lim.h /usr/include/bits/stdio.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucStream.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucStream.hh \
  /usr/include/signal.h /usr/include/bits/signum-generic.h \
  /usr/include/bits/signum-arch.h /usr/include/bits/types/sig_atomic_t.h \
  /usr/include/bits/types/siginfo_t.h /usr/include/bits/types/__sigval_t.h \
@@ -60,7 +60,7 @@ src/CMakeFiles/XrdUtils.dir/XrdOuc/XrdOucExport.cc.o: \
  /usr/include/bits/sigstksz.h /usr/include/bits/ss_flags.h \
  /usr/include/bits/types/struct_sigstack.h /usr/include/bits/sigthread.h \
  /usr/include/bits/signal_ext.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysPlatform.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysPlatform.hh \
  /usr/include/c++/11/cstdint \
  /usr/lib/gcc/x86_64-redhat-linux/11/include/stdint.h \
  /usr/include/stdint.h /usr/include/bits/wchar.h \

@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9
+CMAKE_SOURCE_DIR = /home/lpelegri/cafpyana/envs/xrootd-5.6.9
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310
+CMAKE_BINARY_DIR = /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -142,9 +142,9 @@ install/strip/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -822,19 +822,6 @@ XrdSecztn-5/fast:
 .PHONY : XrdSecztn-5/fast
 
 #=============================================================================
-# Target rules for targets named XrdSeckrb5-5
-
-# Build rule for target.
-XrdSeckrb5-5: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 XrdSeckrb5-5
-.PHONY : XrdSeckrb5-5
-
-# fast build rule for target.
-XrdSeckrb5-5/fast:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/XrdSeckrb5-5.dir/build.make src/CMakeFiles/XrdSeckrb5-5.dir/build
-.PHONY : XrdSeckrb5-5/fast
-
-#=============================================================================
 # Target rules for targets named XrdCl
 
 # Build rule for target.
@@ -931,7 +918,6 @@ help:
 	@echo "... XrdSecgsi-5"
 	@echo "... XrdSecgsiAUTHZVO-5"
 	@echo "... XrdSecgsiGMAPDN-5"
-	@echo "... XrdSeckrb5-5"
 	@echo "... XrdSecpwd-5"
 	@echo "... XrdSecsss-5"
 	@echo "... XrdSecunix-5"

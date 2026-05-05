@@ -1,7 +1,7 @@
 src/XrdClHttp/CMakeFiles/XrdClHttp-5.dir/XrdClHttpFileSystemPlugIn.cc.o: \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdClHttp/XrdClHttpFileSystemPlugIn.cc \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdClHttp/XrdClHttpFileSystemPlugIn.cc \
  /usr/include/stdc-predef.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdClHttp/XrdClHttpFileSystemPlugIn.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdClHttp/XrdClHttpFileSystemPlugIn.hh \
  /cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/davix-0.8.10-h5a7jomxivld6g5xlxsju2glsj7zirf6/include/davix/davix.hpp \
  /cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/davix-0.8.10-h5a7jomxivld6g5xlxsju2glsj7zirf6/include/davix/davix_file_types.hpp \
  /usr/include/c++/11/memory /usr/include/c++/11/bits/stl_algobase.h \
@@ -203,25 +203,25 @@ src/XrdClHttp/CMakeFiles/XrdClHttp-5.dir/XrdClHttpFileSystemPlugIn.cc.o: \
  /cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/davix-0.8.10-h5a7jomxivld6g5xlxsju2glsj7zirf6/include/davix/utils/davix_azure_utils.hpp \
  /cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/davix-0.8.10-h5a7jomxivld6g5xlxsju2glsj7zirf6/include/davix/utils/davix_misc_utils.hpp \
  /cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/davix-0.8.10-h5a7jomxivld6g5xlxsju2glsj7zirf6/include/davix/copy/davixcopy.hpp \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClPlugInInterface.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClFile.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClFileSystem.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClURL.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClStatus.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClPlugInInterface.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClFile.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClFileSystem.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClURL.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClStatus.hh \
  /usr/include/c++/11/sstream /usr/include/c++/11/bits/sstream.tcc \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucEnum.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucCompiler.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClXRootDResponses.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClBuffer.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucEnum.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucCompiler.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClXRootDResponses.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClBuffer.hh \
  /usr/include/c++/11/cstring /usr/include/string.h /usr/include/strings.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClAnyObject.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XProtocol/XProtocol.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XProtocol/XPtypes.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClAnyObject.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XProtocol/XProtocol.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XProtocol/XPtypes.hh \
  /usr/include/c++/11/list /usr/include/c++/11/bits/stl_list.h \
  /usr/include/c++/11/bits/list.tcc /usr/include/c++/11/ctime \
  /usr/include/sys/uio.h /usr/include/bits/uio_lim.h \
  /usr/include/bits/uio-ext.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysPthread.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysPthread.hh \
  /usr/include/signal.h /usr/include/bits/signum-generic.h \
  /usr/include/bits/signum-arch.h /usr/include/bits/types/sig_atomic_t.h \
  /usr/include/bits/types/siginfo_t.h /usr/include/bits/types/__sigval_t.h \
@@ -235,8 +235,8 @@ src/XrdClHttp/CMakeFiles/XrdClHttp-5.dir/XrdClHttpFileSystemPlugIn.cc.o: \
  /usr/include/bits/types/struct_sigstack.h /usr/include/bits/sigthread.h \
  /usr/include/bits/signal_ext.h /usr/include/semaphore.h \
  /usr/include/bits/semaphore.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysError.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClOptional.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysError.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClOptional.hh \
  /usr/include/c++/11/unordered_map /usr/include/c++/11/bits/hashtable.h \
  /usr/include/c++/11/bits/hashtable_policy.h \
  /usr/include/c++/11/bits/enable_special_members.h \
@@ -245,11 +245,11 @@ src/XrdClHttp/CMakeFiles/XrdClHttp-5.dir/XrdClHttpFileSystemPlugIn.cc.o: \
  /usr/include/c++/11/limits /usr/include/c++/11/bits/parse_numbers.h \
  /usr/include/c++/11/bits/std_mutex.h \
  /usr/include/c++/11/bits/unique_lock.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClDefaultEnv.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClEnv.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/src/XrdVersion.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClLog.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClDefaultEnv.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClEnv.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/src/XrdVersion.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClLog.hh \
  /usr/include/c++/11/atomic \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdClHttp/XrdClHttpFilePlugIn.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdClHttp/XrdClHttpPlugInUtil.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdClHttp/XrdClHttpPosix.hh
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdClHttp/XrdClHttpFilePlugIn.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdClHttp/XrdClHttpPlugInUtil.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdClHttp/XrdClHttpPosix.hh

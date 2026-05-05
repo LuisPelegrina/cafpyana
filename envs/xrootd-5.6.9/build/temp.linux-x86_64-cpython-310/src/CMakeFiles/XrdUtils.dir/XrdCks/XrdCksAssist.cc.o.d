@@ -1,5 +1,5 @@
 src/CMakeFiles/XrdUtils.dir/XrdCks/XrdCksAssist.cc.o: \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCks/XrdCksAssist.cc \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCks/XrdCksAssist.cc \
  /usr/include/stdc-predef.h /usr/include/c++/11/cctype \
  /usr/include/c++/11/x86_64-redhat-linux/bits/c++config.h \
  /usr/include/bits/wordsize.h \
@@ -113,4 +113,4 @@ src/CMakeFiles/XrdUtils.dir/XrdCks/XrdCksAssist.cc.o: \
  /usr/include/c++/11/bits/stl_vector.h \
  /usr/include/c++/11/bits/stl_bvector.h \
  /usr/include/c++/11/bits/vector.tcc \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCks/XrdCksData.hh
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCks/XrdCksData.hh

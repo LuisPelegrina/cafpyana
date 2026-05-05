@@ -1,7 +1,7 @@
 src/CMakeFiles/XrdUtils.dir/XrdCks/XrdCksCalccrc32C.cc.o: \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCks/XrdCksCalccrc32C.cc \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCks/XrdCksCalccrc32C.cc \
  /usr/include/stdc-predef.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCks/XrdCksCalccrc32C.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCks/XrdCksCalccrc32C.hh \
  /usr/include/c++/11/cstring \
  /usr/include/c++/11/x86_64-redhat-linux/bits/c++config.h \
  /usr/include/bits/wordsize.h \
@@ -43,8 +43,8 @@ src/CMakeFiles/XrdUtils.dir/XrdCks/XrdCksCalccrc32C.cc.o: \
  /usr/include/c++/11/cinttypes /usr/include/c++/11/cstdint \
  /usr/lib/gcc/x86_64-redhat-linux/11/include/stdint.h \
  /usr/include/stdint.h /usr/include/bits/wchar.h /usr/include/inttypes.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCks/XrdCksCalc.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysPlatform.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCks/XrdCksCalc.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysPlatform.hh \
  /usr/include/c++/11/cstdlib /usr/include/stdlib.h \
  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
  /usr/include/bits/floatn.h /usr/include/bits/floatn-common.h \
@@ -76,5 +76,5 @@ src/CMakeFiles/XrdUtils.dir/XrdCks/XrdCksCalccrc32C.cc.o: \
  /usr/include/bits/signal_ext.h /usr/include/bits/param.h \
  /usr/include/linux/param.h /usr/include/asm/param.h \
  /usr/include/asm-generic/param.h /usr/include/byteswap.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucCRC.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysPageSize.hh
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucCRC.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysPageSize.hh

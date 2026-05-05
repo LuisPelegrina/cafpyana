@@ -1,4 +1,4 @@
-# Install script for directory: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdClHttp
+# Install script for directory: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdClHttp
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -43,7 +43,7 @@ if(NOT DEFINED CMAKE_OBJDUMP)
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64" TYPE MODULE FILES "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdClHttp-5.so")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64" TYPE MODULE FILES "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdClHttp-5.so")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/libXrdClHttp-5.so" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/libXrdClHttp-5.so")
     if(CMAKE_INSTALL_DO_STRIP)

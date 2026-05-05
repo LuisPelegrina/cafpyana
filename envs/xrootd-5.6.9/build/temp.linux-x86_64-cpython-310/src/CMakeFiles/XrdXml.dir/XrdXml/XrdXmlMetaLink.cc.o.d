@@ -1,5 +1,5 @@
 src/CMakeFiles/XrdXml.dir/XrdXml/XrdXmlMetaLink.cc.o: \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/XrdXmlMetaLink.cc \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/XrdXmlMetaLink.cc \
  /usr/include/stdc-predef.h /usr/include/c++/11/cctype \
  /usr/include/c++/11/x86_64-redhat-linux/bits/c++config.h \
  /usr/include/bits/wordsize.h \
@@ -34,19 +34,19 @@ src/CMakeFiles/XrdXml.dir/XrdXml/XrdXmlMetaLink.cc.o: \
  /usr/include/bits/pthread_stack_min-dynamic.h \
  /usr/include/bits/posix2_lim.h /usr/include/bits/xopen_lim.h \
  /usr/include/bits/uio_lim.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysAtomics.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysAtomics.hh \
  /usr/include/c++/11/atomic /usr/include/c++/11/bits/atomic_base.h \
  /usr/lib/gcc/x86_64-redhat-linux/11/include/stdint.h \
  /usr/include/stdint.h /usr/include/bits/wchar.h \
  /usr/include/bits/stdint-intn.h /usr/include/bits/stdint-uintn.h \
  /usr/include/c++/11/bits/atomic_lockfree_defines.h \
  /usr/include/c++/11/bits/move.h /usr/include/c++/11/type_traits \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysE2T.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysE2T.hh \
  /usr/include/c++/11/cerrno /usr/include/errno.h \
  /usr/include/bits/errno.h /usr/include/linux/errno.h \
  /usr/include/asm/errno.h /usr/include/asm-generic/errno.h \
  /usr/include/asm-generic/errno-base.h /usr/include/bits/types/error_t.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysFD.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysFD.hh \
  /usr/include/sys/types.h /usr/include/bits/types/clock_t.h \
  /usr/include/bits/types/clockid_t.h /usr/include/bits/types/time_t.h \
  /usr/include/bits/types/timer_t.h /usr/include/endian.h \
@@ -78,7 +78,7 @@ src/CMakeFiles/XrdXml.dir/XrdXml/XrdXmlMetaLink.cc.o: \
  /usr/include/bits/fcntl.h /usr/include/bits/fcntl-linux.h \
  /usr/include/linux/falloc.h /usr/include/dirent.h \
  /usr/include/bits/dirent.h /usr/include/bits/dirent_ext.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysPthread.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysPthread.hh \
  /usr/include/pthread.h /usr/include/sched.h /usr/include/bits/sched.h \
  /usr/include/linux/sched/types.h \
  /usr/include/bits/types/struct_sched_param.h /usr/include/bits/cpu-set.h \
@@ -99,14 +99,14 @@ src/CMakeFiles/XrdXml.dir/XrdXml/XrdXmlMetaLink.cc.o: \
  /usr/include/bits/types/struct_sigstack.h /usr/include/bits/sigthread.h \
  /usr/include/bits/signal_ext.h /usr/include/semaphore.h \
  /usr/include/bits/semaphore.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysError.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysError.hh \
  /usr/include/c++/11/cstdlib /usr/include/stdlib.h \
  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
  /usr/include/alloca.h /usr/include/bits/stdlib-bsearch.h \
  /usr/include/bits/stdlib-float.h /usr/include/c++/11/bits/std_abs.h \
  /usr/include/c++/11/cstring /usr/include/string.h /usr/include/strings.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/XrdXmlMetaLink.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucFileInfo.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/XrdXmlMetaLink.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucFileInfo.hh \
  /usr/include/c++/11/string /usr/include/c++/11/bits/stringfwd.h \
  /usr/include/c++/11/bits/memoryfwd.h \
  /usr/include/c++/11/bits/char_traits.h \
@@ -155,4 +155,4 @@ src/CMakeFiles/XrdXml.dir/XrdXml/XrdXmlMetaLink.cc.o: \
  /usr/include/c++/11/bits/functional_hash.h \
  /usr/include/c++/11/bits/hash_bytes.h \
  /usr/include/c++/11/bits/basic_string.tcc \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/XrdXmlReader.hh
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/XrdXmlReader.hh

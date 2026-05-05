@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
-  "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdCl.pdb"
-  "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdCl.so"
-  "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdCl.so.3"
-  "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdCl.so.3.0.0"
+  "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdCl.pdb"
+  "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdCl.so"
+  "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdCl.so.3"
+  "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdCl.so.3.0.0"
   "CMakeFiles/XrdCl.dir/XrdClAsyncSocketHandler.cc.o"
   "CMakeFiles/XrdCl.dir/XrdClAsyncSocketHandler.cc.o.d"
   "CMakeFiles/XrdCl.dir/XrdClChannel.cc.o"

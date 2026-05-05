@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdCryptossl-5.pdb"
-  "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdCryptossl-5.so"
+  "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdCryptossl-5.pdb"
+  "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdCryptossl-5.so"
   "CMakeFiles/XrdCryptossl-5.dir/XrdCrypto/XrdCryptosslAux.cc.o"
   "CMakeFiles/XrdCryptossl-5.dir/XrdCrypto/XrdCryptosslAux.cc.o.d"
   "CMakeFiles/XrdCryptossl-5.dir/XrdCrypto/XrdCryptosslCipher.cc.o"

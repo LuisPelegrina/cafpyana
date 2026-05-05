@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
-  "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdCrypto.pdb"
-  "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdCrypto.so"
-  "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdCrypto.so.2"
-  "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdCrypto.so.2.0.0"
+  "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdCrypto.pdb"
+  "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdCrypto.so"
+  "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdCrypto.so.2"
+  "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdCrypto.so.2.0.0"
   "CMakeFiles/XrdCrypto.dir/XrdCrypto/XrdCryptoAux.cc.o"
   "CMakeFiles/XrdCrypto.dir/XrdCrypto/XrdCryptoAux.cc.o.d"
   "CMakeFiles/XrdCrypto.dir/XrdCrypto/XrdCryptoBasic.cc.o"

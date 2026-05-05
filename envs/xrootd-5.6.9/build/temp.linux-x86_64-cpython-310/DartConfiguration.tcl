@@ -4,14 +4,14 @@
 
 
 # Configuration directories and files
-SourceDirectory: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9
-BuildDirectory: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310
+SourceDirectory: /home/lpelegri/cafpyana/envs/xrootd-5.6.9
+BuildDirectory: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310
 
 # Where to place the cost data store
 CostDataFile: 
 
 # Site is something like machine.domain, i.e. pragmatic.crd
-Site: sbndgpvm03.fnal.gov
+Site: jupyter-lpelegri
 
 # Build name is osname-revision-compiler, i.e. Linux-2.4.2-2smp-c++
 BuildName: Linux-c++
@@ -27,7 +27,7 @@ SubmitInactivityTimeout:
 NightlyStartTime: 00:00:00 EDT
 
 # Commands for the build/test/submit cycle
-ConfigureCommand: "/usr/bin/cmake" "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9"
+ConfigureCommand: "/usr/bin/cmake" "/home/lpelegri/cafpyana/envs/xrootd-5.6.9"
 MakeCommand: /usr/bin/cmake --build . --config "${CTEST_CONFIGURATION_TYPE}"
 DefaultCTestConfigurationType: Release
 
@@ -76,7 +76,7 @@ CudaSanitizerCommand:
 CudaSanitizerCommandOptions: 
 MemoryCheckType: 
 MemoryCheckSanitizerOptions: 
-MemoryCheckCommand: /usr/bin/valgrind
+MemoryCheckCommand: MEMORYCHECK_COMMAND-NOTFOUND
 MemoryCheckCommandOptions: 
 MemoryCheckSuppressionFile: 
 

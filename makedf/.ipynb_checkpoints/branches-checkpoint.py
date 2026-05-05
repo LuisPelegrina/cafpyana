@@ -326,6 +326,7 @@ mcbranches = [
     "rec.mc.nu.parent_pdg",
     "rec.mc.nu.parent_dcy_E",
     "rec.mc.nu.genie_evtrec_idx",
+    "rec.mc.nu.genweight",    
 ]
 
 mcprimbranches = [

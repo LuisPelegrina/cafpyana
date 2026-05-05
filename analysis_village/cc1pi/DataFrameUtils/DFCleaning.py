@@ -40,8 +40,8 @@ def find_duplicate_run_evt_combinations(df):
 
     #return duplicates_sorted[['__ntuple', 'entry', 'run', 'subrun', 'evt']]
 
-    print(duplicates_sorted[['__ntuple', 'entry', 'run', 'subrun', 'evt']])
-    #return duplicates_sorted[['__ntuple', 'entry', 'run', 'subrun', 'evt']]
+    #print(duplicates_sorted[['__ntuple', 'entry', 'run', 'subrun', 'evt']])
+    return duplicates_sorted[['__ntuple', 'entry', 'run', 'subrun', 'evt']]
 
 def plot_duplicate_run_subrun_evt_distribution(df, title=""):
     """

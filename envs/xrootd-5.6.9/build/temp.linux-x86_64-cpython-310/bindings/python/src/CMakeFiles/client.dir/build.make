@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9
+CMAKE_SOURCE_DIR = /home/lpelegri/cafpyana/envs/xrootd-5.6.9
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310
+CMAKE_BINARY_DIR = /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310
 
 # Include any dependencies generated for this target.
 include bindings/python/src/CMakeFiles/client.dir/depend.make
@@ -70,102 +70,102 @@ include bindings/python/src/CMakeFiles/client.dir/progress.make
 include bindings/python/src/CMakeFiles/client.dir/flags.make
 
 bindings/python/src/CMakeFiles/client.dir/PyXRootDCopyProcess.cc.o: bindings/python/src/CMakeFiles/client.dir/flags.make
-bindings/python/src/CMakeFiles/client.dir/PyXRootDCopyProcess.cc.o: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDCopyProcess.cc
+bindings/python/src/CMakeFiles/client.dir/PyXRootDCopyProcess.cc.o: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDCopyProcess.cc
 bindings/python/src/CMakeFiles/client.dir/PyXRootDCopyProcess.cc.o: bindings/python/src/CMakeFiles/client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object bindings/python/src/CMakeFiles/client.dir/PyXRootDCopyProcess.cc.o"
-	cd /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT bindings/python/src/CMakeFiles/client.dir/PyXRootDCopyProcess.cc.o -MF CMakeFiles/client.dir/PyXRootDCopyProcess.cc.o.d -o CMakeFiles/client.dir/PyXRootDCopyProcess.cc.o -c /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDCopyProcess.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object bindings/python/src/CMakeFiles/client.dir/PyXRootDCopyProcess.cc.o"
+	cd /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT bindings/python/src/CMakeFiles/client.dir/PyXRootDCopyProcess.cc.o -MF CMakeFiles/client.dir/PyXRootDCopyProcess.cc.o.d -o CMakeFiles/client.dir/PyXRootDCopyProcess.cc.o -c /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDCopyProcess.cc
 
 bindings/python/src/CMakeFiles/client.dir/PyXRootDCopyProcess.cc.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/client.dir/PyXRootDCopyProcess.cc.i"
-	cd /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDCopyProcess.cc > CMakeFiles/client.dir/PyXRootDCopyProcess.cc.i
+	cd /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDCopyProcess.cc > CMakeFiles/client.dir/PyXRootDCopyProcess.cc.i
 
 bindings/python/src/CMakeFiles/client.dir/PyXRootDCopyProcess.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/client.dir/PyXRootDCopyProcess.cc.s"
-	cd /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDCopyProcess.cc -o CMakeFiles/client.dir/PyXRootDCopyProcess.cc.s
+	cd /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDCopyProcess.cc -o CMakeFiles/client.dir/PyXRootDCopyProcess.cc.s
 
 bindings/python/src/CMakeFiles/client.dir/PyXRootDCopyProgressHandler.cc.o: bindings/python/src/CMakeFiles/client.dir/flags.make
-bindings/python/src/CMakeFiles/client.dir/PyXRootDCopyProgressHandler.cc.o: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDCopyProgressHandler.cc
+bindings/python/src/CMakeFiles/client.dir/PyXRootDCopyProgressHandler.cc.o: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDCopyProgressHandler.cc
 bindings/python/src/CMakeFiles/client.dir/PyXRootDCopyProgressHandler.cc.o: bindings/python/src/CMakeFiles/client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object bindings/python/src/CMakeFiles/client.dir/PyXRootDCopyProgressHandler.cc.o"
-	cd /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT bindings/python/src/CMakeFiles/client.dir/PyXRootDCopyProgressHandler.cc.o -MF CMakeFiles/client.dir/PyXRootDCopyProgressHandler.cc.o.d -o CMakeFiles/client.dir/PyXRootDCopyProgressHandler.cc.o -c /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDCopyProgressHandler.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object bindings/python/src/CMakeFiles/client.dir/PyXRootDCopyProgressHandler.cc.o"
+	cd /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT bindings/python/src/CMakeFiles/client.dir/PyXRootDCopyProgressHandler.cc.o -MF CMakeFiles/client.dir/PyXRootDCopyProgressHandler.cc.o.d -o CMakeFiles/client.dir/PyXRootDCopyProgressHandler.cc.o -c /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDCopyProgressHandler.cc
 
 bindings/python/src/CMakeFiles/client.dir/PyXRootDCopyProgressHandler.cc.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/client.dir/PyXRootDCopyProgressHandler.cc.i"
-	cd /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDCopyProgressHandler.cc > CMakeFiles/client.dir/PyXRootDCopyProgressHandler.cc.i
+	cd /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDCopyProgressHandler.cc > CMakeFiles/client.dir/PyXRootDCopyProgressHandler.cc.i
 
 bindings/python/src/CMakeFiles/client.dir/PyXRootDCopyProgressHandler.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/client.dir/PyXRootDCopyProgressHandler.cc.s"
-	cd /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDCopyProgressHandler.cc -o CMakeFiles/client.dir/PyXRootDCopyProgressHandler.cc.s
+	cd /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDCopyProgressHandler.cc -o CMakeFiles/client.dir/PyXRootDCopyProgressHandler.cc.s
 
 bindings/python/src/CMakeFiles/client.dir/PyXRootDFile.cc.o: bindings/python/src/CMakeFiles/client.dir/flags.make
-bindings/python/src/CMakeFiles/client.dir/PyXRootDFile.cc.o: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDFile.cc
+bindings/python/src/CMakeFiles/client.dir/PyXRootDFile.cc.o: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDFile.cc
 bindings/python/src/CMakeFiles/client.dir/PyXRootDFile.cc.o: bindings/python/src/CMakeFiles/client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object bindings/python/src/CMakeFiles/client.dir/PyXRootDFile.cc.o"
-	cd /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT bindings/python/src/CMakeFiles/client.dir/PyXRootDFile.cc.o -MF CMakeFiles/client.dir/PyXRootDFile.cc.o.d -o CMakeFiles/client.dir/PyXRootDFile.cc.o -c /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDFile.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object bindings/python/src/CMakeFiles/client.dir/PyXRootDFile.cc.o"
+	cd /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT bindings/python/src/CMakeFiles/client.dir/PyXRootDFile.cc.o -MF CMakeFiles/client.dir/PyXRootDFile.cc.o.d -o CMakeFiles/client.dir/PyXRootDFile.cc.o -c /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDFile.cc
 
 bindings/python/src/CMakeFiles/client.dir/PyXRootDFile.cc.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/client.dir/PyXRootDFile.cc.i"
-	cd /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDFile.cc > CMakeFiles/client.dir/PyXRootDFile.cc.i
+	cd /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDFile.cc > CMakeFiles/client.dir/PyXRootDFile.cc.i
 
 bindings/python/src/CMakeFiles/client.dir/PyXRootDFile.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/client.dir/PyXRootDFile.cc.s"
-	cd /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDFile.cc -o CMakeFiles/client.dir/PyXRootDFile.cc.s
+	cd /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDFile.cc -o CMakeFiles/client.dir/PyXRootDFile.cc.s
 
 bindings/python/src/CMakeFiles/client.dir/PyXRootDFileSystem.cc.o: bindings/python/src/CMakeFiles/client.dir/flags.make
-bindings/python/src/CMakeFiles/client.dir/PyXRootDFileSystem.cc.o: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDFileSystem.cc
+bindings/python/src/CMakeFiles/client.dir/PyXRootDFileSystem.cc.o: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDFileSystem.cc
 bindings/python/src/CMakeFiles/client.dir/PyXRootDFileSystem.cc.o: bindings/python/src/CMakeFiles/client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object bindings/python/src/CMakeFiles/client.dir/PyXRootDFileSystem.cc.o"
-	cd /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT bindings/python/src/CMakeFiles/client.dir/PyXRootDFileSystem.cc.o -MF CMakeFiles/client.dir/PyXRootDFileSystem.cc.o.d -o CMakeFiles/client.dir/PyXRootDFileSystem.cc.o -c /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDFileSystem.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object bindings/python/src/CMakeFiles/client.dir/PyXRootDFileSystem.cc.o"
+	cd /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT bindings/python/src/CMakeFiles/client.dir/PyXRootDFileSystem.cc.o -MF CMakeFiles/client.dir/PyXRootDFileSystem.cc.o.d -o CMakeFiles/client.dir/PyXRootDFileSystem.cc.o -c /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDFileSystem.cc
 
 bindings/python/src/CMakeFiles/client.dir/PyXRootDFileSystem.cc.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/client.dir/PyXRootDFileSystem.cc.i"
-	cd /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDFileSystem.cc > CMakeFiles/client.dir/PyXRootDFileSystem.cc.i
+	cd /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDFileSystem.cc > CMakeFiles/client.dir/PyXRootDFileSystem.cc.i
 
 bindings/python/src/CMakeFiles/client.dir/PyXRootDFileSystem.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/client.dir/PyXRootDFileSystem.cc.s"
-	cd /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDFileSystem.cc -o CMakeFiles/client.dir/PyXRootDFileSystem.cc.s
+	cd /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDFileSystem.cc -o CMakeFiles/client.dir/PyXRootDFileSystem.cc.s
 
 bindings/python/src/CMakeFiles/client.dir/PyXRootDModule.cc.o: bindings/python/src/CMakeFiles/client.dir/flags.make
-bindings/python/src/CMakeFiles/client.dir/PyXRootDModule.cc.o: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDModule.cc
+bindings/python/src/CMakeFiles/client.dir/PyXRootDModule.cc.o: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDModule.cc
 bindings/python/src/CMakeFiles/client.dir/PyXRootDModule.cc.o: bindings/python/src/CMakeFiles/client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object bindings/python/src/CMakeFiles/client.dir/PyXRootDModule.cc.o"
-	cd /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT bindings/python/src/CMakeFiles/client.dir/PyXRootDModule.cc.o -MF CMakeFiles/client.dir/PyXRootDModule.cc.o.d -o CMakeFiles/client.dir/PyXRootDModule.cc.o -c /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDModule.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object bindings/python/src/CMakeFiles/client.dir/PyXRootDModule.cc.o"
+	cd /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT bindings/python/src/CMakeFiles/client.dir/PyXRootDModule.cc.o -MF CMakeFiles/client.dir/PyXRootDModule.cc.o.d -o CMakeFiles/client.dir/PyXRootDModule.cc.o -c /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDModule.cc
 
 bindings/python/src/CMakeFiles/client.dir/PyXRootDModule.cc.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/client.dir/PyXRootDModule.cc.i"
-	cd /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDModule.cc > CMakeFiles/client.dir/PyXRootDModule.cc.i
+	cd /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDModule.cc > CMakeFiles/client.dir/PyXRootDModule.cc.i
 
 bindings/python/src/CMakeFiles/client.dir/PyXRootDModule.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/client.dir/PyXRootDModule.cc.s"
-	cd /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDModule.cc -o CMakeFiles/client.dir/PyXRootDModule.cc.s
+	cd /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDModule.cc -o CMakeFiles/client.dir/PyXRootDModule.cc.s
 
 bindings/python/src/CMakeFiles/client.dir/PyXRootDURL.cc.o: bindings/python/src/CMakeFiles/client.dir/flags.make
-bindings/python/src/CMakeFiles/client.dir/PyXRootDURL.cc.o: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDURL.cc
+bindings/python/src/CMakeFiles/client.dir/PyXRootDURL.cc.o: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDURL.cc
 bindings/python/src/CMakeFiles/client.dir/PyXRootDURL.cc.o: bindings/python/src/CMakeFiles/client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object bindings/python/src/CMakeFiles/client.dir/PyXRootDURL.cc.o"
-	cd /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT bindings/python/src/CMakeFiles/client.dir/PyXRootDURL.cc.o -MF CMakeFiles/client.dir/PyXRootDURL.cc.o.d -o CMakeFiles/client.dir/PyXRootDURL.cc.o -c /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDURL.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object bindings/python/src/CMakeFiles/client.dir/PyXRootDURL.cc.o"
+	cd /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT bindings/python/src/CMakeFiles/client.dir/PyXRootDURL.cc.o -MF CMakeFiles/client.dir/PyXRootDURL.cc.o.d -o CMakeFiles/client.dir/PyXRootDURL.cc.o -c /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDURL.cc
 
 bindings/python/src/CMakeFiles/client.dir/PyXRootDURL.cc.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/client.dir/PyXRootDURL.cc.i"
-	cd /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDURL.cc > CMakeFiles/client.dir/PyXRootDURL.cc.i
+	cd /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDURL.cc > CMakeFiles/client.dir/PyXRootDURL.cc.i
 
 bindings/python/src/CMakeFiles/client.dir/PyXRootDURL.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/client.dir/PyXRootDURL.cc.s"
-	cd /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDURL.cc -o CMakeFiles/client.dir/PyXRootDURL.cc.s
+	cd /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDURL.cc -o CMakeFiles/client.dir/PyXRootDURL.cc.s
 
 bindings/python/src/CMakeFiles/client.dir/Utils.cc.o: bindings/python/src/CMakeFiles/client.dir/flags.make
-bindings/python/src/CMakeFiles/client.dir/Utils.cc.o: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/Utils.cc
+bindings/python/src/CMakeFiles/client.dir/Utils.cc.o: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/Utils.cc
 bindings/python/src/CMakeFiles/client.dir/Utils.cc.o: bindings/python/src/CMakeFiles/client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object bindings/python/src/CMakeFiles/client.dir/Utils.cc.o"
-	cd /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT bindings/python/src/CMakeFiles/client.dir/Utils.cc.o -MF CMakeFiles/client.dir/Utils.cc.o.d -o CMakeFiles/client.dir/Utils.cc.o -c /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/Utils.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object bindings/python/src/CMakeFiles/client.dir/Utils.cc.o"
+	cd /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT bindings/python/src/CMakeFiles/client.dir/Utils.cc.o -MF CMakeFiles/client.dir/Utils.cc.o.d -o CMakeFiles/client.dir/Utils.cc.o -c /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/Utils.cc
 
 bindings/python/src/CMakeFiles/client.dir/Utils.cc.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/client.dir/Utils.cc.i"
-	cd /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/Utils.cc > CMakeFiles/client.dir/Utils.cc.i
+	cd /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/Utils.cc > CMakeFiles/client.dir/Utils.cc.i
 
 bindings/python/src/CMakeFiles/client.dir/Utils.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/client.dir/Utils.cc.s"
-	cd /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/Utils.cc -o CMakeFiles/client.dir/Utils.cc.s
+	cd /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/Utils.cc -o CMakeFiles/client.dir/Utils.cc.s
 
 # Object files for target client
 client_OBJECTS = \
@@ -180,28 +180,28 @@ client_OBJECTS = \
 # External object files for target client
 client_EXTERNAL_OBJECTS =
 
-/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/client.cpython-310-x86_64-linux-gnu.so: bindings/python/src/CMakeFiles/client.dir/PyXRootDCopyProcess.cc.o
-/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/client.cpython-310-x86_64-linux-gnu.so: bindings/python/src/CMakeFiles/client.dir/PyXRootDCopyProgressHandler.cc.o
-/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/client.cpython-310-x86_64-linux-gnu.so: bindings/python/src/CMakeFiles/client.dir/PyXRootDFile.cc.o
-/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/client.cpython-310-x86_64-linux-gnu.so: bindings/python/src/CMakeFiles/client.dir/PyXRootDFileSystem.cc.o
-/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/client.cpython-310-x86_64-linux-gnu.so: bindings/python/src/CMakeFiles/client.dir/PyXRootDModule.cc.o
-/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/client.cpython-310-x86_64-linux-gnu.so: bindings/python/src/CMakeFiles/client.dir/PyXRootDURL.cc.o
-/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/client.cpython-310-x86_64-linux-gnu.so: bindings/python/src/CMakeFiles/client.dir/Utils.cc.o
-/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/client.cpython-310-x86_64-linux-gnu.so: bindings/python/src/CMakeFiles/client.dir/build.make
-/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/client.cpython-310-x86_64-linux-gnu.so: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdCl.so.3.0.0
-/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/client.cpython-310-x86_64-linux-gnu.so: bindings/python/src/CMakeFiles/client.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX shared module /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/client.cpython-310-x86_64-linux-gnu.so"
-	cd /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/client.dir/link.txt --verbose=$(VERBOSE)
+/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/client.cpython-310-x86_64-linux-gnu.so: bindings/python/src/CMakeFiles/client.dir/PyXRootDCopyProcess.cc.o
+/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/client.cpython-310-x86_64-linux-gnu.so: bindings/python/src/CMakeFiles/client.dir/PyXRootDCopyProgressHandler.cc.o
+/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/client.cpython-310-x86_64-linux-gnu.so: bindings/python/src/CMakeFiles/client.dir/PyXRootDFile.cc.o
+/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/client.cpython-310-x86_64-linux-gnu.so: bindings/python/src/CMakeFiles/client.dir/PyXRootDFileSystem.cc.o
+/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/client.cpython-310-x86_64-linux-gnu.so: bindings/python/src/CMakeFiles/client.dir/PyXRootDModule.cc.o
+/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/client.cpython-310-x86_64-linux-gnu.so: bindings/python/src/CMakeFiles/client.dir/PyXRootDURL.cc.o
+/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/client.cpython-310-x86_64-linux-gnu.so: bindings/python/src/CMakeFiles/client.dir/Utils.cc.o
+/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/client.cpython-310-x86_64-linux-gnu.so: bindings/python/src/CMakeFiles/client.dir/build.make
+/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/client.cpython-310-x86_64-linux-gnu.so: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdCl.so.3.0.0
+/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/client.cpython-310-x86_64-linux-gnu.so: bindings/python/src/CMakeFiles/client.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX shared module /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/client.cpython-310-x86_64-linux-gnu.so"
+	cd /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/client.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
-bindings/python/src/CMakeFiles/client.dir/build: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/client.cpython-310-x86_64-linux-gnu.so
+bindings/python/src/CMakeFiles/client.dir/build: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/client.cpython-310-x86_64-linux-gnu.so
 .PHONY : bindings/python/src/CMakeFiles/client.dir/build
 
 bindings/python/src/CMakeFiles/client.dir/clean:
-	cd /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && $(CMAKE_COMMAND) -P CMakeFiles/client.dir/cmake_clean.cmake
+	cd /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src && $(CMAKE_COMMAND) -P CMakeFiles/client.dir/cmake_clean.cmake
 .PHONY : bindings/python/src/CMakeFiles/client.dir/clean
 
 bindings/python/src/CMakeFiles/client.dir/depend:
-	cd /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310 && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9 /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310 /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src/CMakeFiles/client.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310 && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/lpelegri/cafpyana/envs/xrootd-5.6.9 /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310 /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src/CMakeFiles/client.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : bindings/python/src/CMakeFiles/client.dir/depend
 

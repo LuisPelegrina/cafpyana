@@ -1,4 +1,4 @@
-# Install script for directory: /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python
+# Install script for directory: /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -44,6 +44,6 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src/cmake_install.cmake")
+  include("/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/bindings/python/src/cmake_install.cmake")
 endif()
 

@@ -83,16 +83,14 @@ group_levels = ['entry', 'rec.slc..index']
 pfp_levels = ['entry','rec.slc..index','rec.slc.reco.pfp..index']
 
 def TruthInFV(data):
-    xmin = -200 + CTE.min_distance_to_wall_x_y
-    xmax = 200 - CTE.min_distance_to_wall_x_y
-    ymin = -200 + CTE.min_distance_to_wall_x_y
-    ymax = 200 - CTE.min_distance_to_wall_x_y
-    zmin = CTE.min_distance_to_first_z_wall
-    zmax = 500 - CTE.min_distance_to_last_z_wall
+    xmax = 190.
+    zmin = 10.
+    zmax = 450.
+    ymax_highz = 100.
+    pass_xz = (np.abs(data.x) < xmax) & (data.z > zmin) & (data.z < zmax)
+    pass_y = ((data.z < 250) & (np.abs(data.y) < 190.)) | ((data.z > 250) & (data.y > -190.) & (data.y < ymax_highz))
+    return pass_xz & pass_y
     
-    pass_fv = (data.x > xmin) & (data.x < xmax) & (data.y > ymin) & (data.y < ymax) & (data.z < zmax) & (data.z > zmin)
-    return pass_fv
-
 def IsNu(df):
     is_numu = abs(df.pdg) == 14
     is_nue = abs(df.pdg) == 12
@@ -1959,6 +1957,7 @@ def make_cc1pi_finaldf(f, updatecalo = None):
     
     
     min_df = pandora_df[cols].copy()
+    min_df = min_df[min_df.pfp.trk.len > 0]
     return min_df
 
 def make_cc1pi_final_df_recalo_ccal_p(f):

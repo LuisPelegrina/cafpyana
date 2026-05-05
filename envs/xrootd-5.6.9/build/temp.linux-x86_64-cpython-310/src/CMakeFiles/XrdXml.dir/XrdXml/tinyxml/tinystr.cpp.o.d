@@ -1,7 +1,7 @@
 src/CMakeFiles/XrdXml.dir/XrdXml/tinyxml/tinystr.cpp.o: \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/tinyxml/tinystr.cpp \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/tinyxml/tinystr.cpp \
  /usr/include/stdc-predef.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/tinyxml/tinystr.h \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/tinyxml/tinystr.h \
  /usr/include/assert.h /usr/include/features.h \
  /usr/include/features-time64.h /usr/include/bits/wordsize.h \
  /usr/include/bits/timesize.h /usr/include/sys/cdefs.h \

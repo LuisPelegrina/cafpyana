@@ -66,7 +66,7 @@ endif()
 
 
 
-set(CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES "/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/include;/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/include;/usr/lib/gcc/x86_64-redhat-linux/11/include;/usr/local/include;/usr/include")
+set(CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES "/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/include;/home/lpelegri/cafpyana/envs/local/include;/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/include;/usr/lib/gcc/x86_64-redhat-linux/11/include;/usr/local/include;/usr/include")
 set(CMAKE_C_IMPLICIT_LINK_LIBRARIES "gcc;gcc_s;c;gcc;gcc_s")
 set(CMAKE_C_IMPLICIT_LINK_DIRECTORIES "/usr/lib/gcc/x86_64-redhat-linux/11;/usr/lib64;/lib64;/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-tbb-2022.2.0-i65v76xs7ffrcvjtg6laz526bs6vc6kz/tbb/2022.2/lib/intel64/gcc4.8;/cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/intel-oneapi-mkl-2024.2.2-flejsw5x7cphicg5cbtsky6lv7h4u5k4/mkl/2024.2/lib;/usr/lib")
 set(CMAKE_C_IMPLICIT_LINK_FRAMEWORK_DIRECTORIES "")

@@ -1,7 +1,7 @@
 src/CMakeFiles/XrdUtils.dir/XrdTls/XrdTlsPeerCerts.cc.o: \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdTls/XrdTlsPeerCerts.cc \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdTls/XrdTlsPeerCerts.cc \
  /usr/include/stdc-predef.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdTls/XrdTlsPeerCerts.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdTls/XrdTlsPeerCerts.hh \
  /usr/include/openssl/ssl.h /usr/include/openssl/macros.h \
  /usr/include/openssl/opensslconf.h /usr/include/openssl/configuration.h \
  /usr/include/openssl/configuration-x86_64.h \

@@ -36,12 +36,12 @@ cut_name_nice_map = {
     "chi2": "2 MIP candidates",
     "angle": "Angle restriction",
     "proton_BDT": "HE proton removal",
-    "containment": "Containment (Z restr.)",
+    "containment": "No exiting particles",
     "michel": "Michel removal",
     "extra_pion": "Extra pion removal",
     "energy": "Energy",
     "MIP_refinement": "Michel & extra pion removal",
-    "TPC_containment": "TPC containment",
+    "TPC_containment": "Local TPC Containment",
 }
 
 category_colors = {

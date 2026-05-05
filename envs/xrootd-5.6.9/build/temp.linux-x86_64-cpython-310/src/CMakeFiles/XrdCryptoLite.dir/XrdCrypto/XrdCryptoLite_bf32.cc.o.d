@@ -1,7 +1,7 @@
 src/CMakeFiles/XrdCryptoLite.dir/XrdCrypto/XrdCryptoLite_bf32.cc.o: \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCrypto/XrdCryptoLite_bf32.cc \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCrypto/XrdCryptoLite_bf32.cc \
  /usr/include/stdc-predef.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCrypto/XrdCryptoLite.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCrypto/XrdCryptoLite.hh \
  /usr/include/c++/11/cerrno \
  /usr/include/c++/11/x86_64-redhat-linux/bits/c++config.h \
  /usr/include/bits/wordsize.h \
@@ -92,9 +92,9 @@ src/CMakeFiles/XrdCryptoLite.dir/XrdCrypto/XrdCryptoLite_bf32.cc.o: \
  /usr/include/openssl/objects.h /usr/include/openssl/obj_mac.h \
  /usr/include/openssl/asn1.h /usr/include/openssl/asn1err.h \
  /usr/include/openssl/objectserr.h /usr/include/openssl/provider.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucCRC.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysPageSize.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysHeaders.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucCRC.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysPageSize.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysHeaders.hh \
  /usr/include/c++/11/iostream /usr/include/c++/11/ostream \
  /usr/include/c++/11/ios /usr/include/c++/11/iosfwd \
  /usr/include/c++/11/bits/stringfwd.h \

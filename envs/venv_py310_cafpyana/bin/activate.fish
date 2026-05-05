@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV /exp/sbnd/data/users/lpelegri/cafpyana/envs/venv_py310_cafpyana
+set -gx VIRTUAL_ENV /home/lpelegri/cafpyana/envs/venv_py310_cafpyana
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/"bin $PATH

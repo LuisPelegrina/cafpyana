@@ -132,10 +132,7 @@ def WienerSVD(Response, Signal, Measure, Covariance, C_type, Norm_type):
     # Assume Poisson statistics: variance = Measure 
     # TODO: if Measure == 0, set to 1 to avoid zero/negative
     # stat_var = np.where(Measure > 0, Measure, 1.0)
-
-    data_eylow, data_eyhigh = return_data_stat_err(Measure)
-    StatCov = np.diag((data_eyhigh - data_eylow) / 2)
-    
+    StatCov = np.diag(Measure)
     StatUnfoldCov = CovRotation @ StatCov @ CovRotation.T
 
     # Total unfolded covariance is sum of statistical and systematic

@@ -1,5 +1,5 @@
 src/CMakeFiles/XrdAppUtils.dir/XrdApps/XrdCpConfig.cc.o: \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdApps/XrdCpConfig.cc \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdApps/XrdCpConfig.cc \
  /usr/include/stdc-predef.h /usr/include/fcntl.h /usr/include/features.h \
  /usr/include/features-time64.h /usr/include/bits/wordsize.h \
  /usr/include/bits/timesize.h /usr/include/sys/cdefs.h \
@@ -52,9 +52,9 @@ src/CMakeFiles/XrdAppUtils.dir/XrdApps/XrdCpConfig.cc.o: \
  /usr/include/asm-generic/posix_types.h /usr/include/bits/statx-generic.h \
  /usr/include/bits/types/struct_statx_timestamp.h \
  /usr/include/bits/types/struct_statx.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/src/XrdVersion.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdApps/XrdCpConfig.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCks/XrdCksData.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/temp.linux-x86_64-cpython-310/src/XrdVersion.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdApps/XrdCpConfig.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCks/XrdCksData.hh \
  /usr/include/c++/11/cctype /usr/include/ctype.h \
  /usr/include/c++/11/cstdint \
  /usr/lib/gcc/x86_64-redhat-linux/11/include/stdint.h \
@@ -123,11 +123,11 @@ src/CMakeFiles/XrdAppUtils.dir/XrdApps/XrdCpConfig.cc.o: \
  /usr/include/c++/11/bits/stl_vector.h \
  /usr/include/c++/11/bits/stl_bvector.h \
  /usr/include/c++/11/bits/vector.tcc \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdApps/XrdCpFile.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCks/XrdCksCalc.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCks/XrdCksManager.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCks/XrdCks.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucStream.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdApps/XrdCpFile.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCks/XrdCksCalc.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCks/XrdCksManager.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCks/XrdCks.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucStream.hh \
  /usr/include/signal.h /usr/include/bits/signum-generic.h \
  /usr/include/bits/signum-arch.h /usr/include/bits/types/sig_atomic_t.h \
  /usr/include/bits/types/siginfo_t.h /usr/include/bits/types/__sigval_t.h \
@@ -143,9 +143,9 @@ src/CMakeFiles/XrdAppUtils.dir/XrdApps/XrdCpConfig.cc.o: \
  /usr/include/bits/unistd_ext.h /usr/include/linux/close_range.h \
  /usr/include/bits/ss_flags.h /usr/include/bits/types/struct_sigstack.h \
  /usr/include/bits/sigthread.h /usr/include/bits/signal_ext.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysError.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysE2T.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysHeaders.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysError.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysE2T.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysHeaders.hh \
  /usr/include/c++/11/iostream /usr/include/c++/11/ostream \
  /usr/include/c++/11/ios /usr/include/c++/11/exception \
  /usr/include/c++/11/bits/exception_ptr.h \
@@ -168,7 +168,7 @@ src/CMakeFiles/XrdAppUtils.dir/XrdApps/XrdCpConfig.cc.o: \
  /usr/include/c++/11/bits/basic_ios.tcc \
  /usr/include/c++/11/bits/ostream.tcc /usr/include/c++/11/istream \
  /usr/include/c++/11/bits/istream.tcc \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysLogger.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysPthread.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysLogger.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysPthread.hh \
  /usr/include/semaphore.h /usr/include/bits/semaphore.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdApps/../../LICENSE
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdApps/../../LICENSE

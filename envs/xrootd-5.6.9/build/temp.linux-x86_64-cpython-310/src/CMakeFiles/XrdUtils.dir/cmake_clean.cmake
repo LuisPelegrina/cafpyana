@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
-  "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdUtils.pdb"
-  "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdUtils.so"
-  "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdUtils.so.3"
-  "/exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdUtils.so.3.0.0"
+  "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdUtils.pdb"
+  "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdUtils.so"
+  "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdUtils.so.3"
+  "/home/lpelegri/cafpyana/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd/libXrdUtils.so.3.0.0"
   "CMakeFiles/XrdUtils.dir/XProtocol/XProtocol.cc.o"
   "CMakeFiles/XrdUtils.dir/XProtocol/XProtocol.cc.o.d"
   "CMakeFiles/XrdUtils.dir/Xrd/XrdBuffXL.cc.o"

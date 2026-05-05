@@ -1,5 +1,5 @@
 src/CMakeFiles/XrdXml.dir/XrdXml/XrdXmlReader.cc.o: \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/XrdXmlReader.cc \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/XrdXmlReader.cc \
  /usr/include/stdc-predef.h /usr/include/c++/11/cerrno \
  /usr/include/c++/11/x86_64-redhat-linux/bits/c++config.h \
  /usr/include/bits/wordsize.h \
@@ -17,6 +17,6 @@ src/CMakeFiles/XrdXml.dir/XrdXml/XrdXmlReader.cc.o: \
  /usr/lib/gcc/x86_64-redhat-linux/11/include/stddef.h \
  /usr/include/bits/types/locale_t.h /usr/include/bits/types/__locale_t.h \
  /usr/include/strings.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/XrdXmlRdrTiny.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/XrdXmlReader.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/XrdXmlRdrXml2.hh
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/XrdXmlRdrTiny.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/XrdXmlReader.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/XrdXmlRdrXml2.hh

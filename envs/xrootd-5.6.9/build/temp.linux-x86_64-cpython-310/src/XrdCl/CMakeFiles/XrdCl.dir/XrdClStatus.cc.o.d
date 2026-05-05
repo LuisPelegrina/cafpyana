@@ -1,7 +1,7 @@
 src/XrdCl/CMakeFiles/XrdCl.dir/XrdClStatus.cc.o: \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClStatus.cc \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClStatus.cc \
  /usr/include/stdc-predef.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClStatus.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClStatus.hh \
  /usr/include/c++/11/cstdint \
  /usr/include/c++/11/x86_64-redhat-linux/bits/c++config.h \
  /usr/include/bits/wordsize.h \
@@ -133,7 +133,7 @@ src/XrdCl/CMakeFiles/XrdCl.dir/XrdClStatus.cc.o: \
  /usr/include/c++/11/bits/ostream.tcc \
  /usr/include/c++/11/bits/istream.tcc \
  /usr/include/c++/11/bits/sstream.tcc \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysE2T.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XProtocol/XProtocol.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XProtocol/XPtypes.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysE2T.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XProtocol/XProtocol.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XProtocol/XPtypes.hh \
  /usr/include/c++/11/cstring /usr/include/string.h /usr/include/strings.h

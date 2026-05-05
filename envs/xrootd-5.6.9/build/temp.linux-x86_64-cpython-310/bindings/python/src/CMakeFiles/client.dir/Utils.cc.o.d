@@ -1,8 +1,8 @@
 bindings/python/src/CMakeFiles/client.dir/Utils.cc.o: \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/Utils.cc \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/Utils.cc \
  /usr/include/stdc-predef.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/Utils.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootD.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/Utils.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootD.hh \
  /cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/python-3.10.16-artasofgepjz3l7wggy7im4zv2m4dfyf/include/python3.10/Python.h \
  /cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/python-3.10.16-artasofgepjz3l7wggy7im4zv2m4dfyf/include/python3.10/patchlevel.h \
  /cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/python-3.10.16-artasofgepjz3l7wggy7im4zv2m4dfyf/include/python3.10/pyconfig.h \
@@ -232,10 +232,10 @@ bindings/python/src/CMakeFiles/client.dir/Utils.cc.o: \
  /usr/include/c++/11/bits/hash_bytes.h \
  /usr/include/c++/11/bits/basic_string.tcc \
  /cvmfs/larsoft.opensciencegrid.org/spack-fnal-v1.0.0/opt/spack/linux-x86_64_v2/python-3.10.16-artasofgepjz3l7wggy7im4zv2m4dfyf/include/python3.10/structmember.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClXRootDResponses.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClBuffer.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClXRootDResponses.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClBuffer.hh \
  /usr/include/c++/11/cstring \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClStatus.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClStatus.hh \
  /usr/include/c++/11/sstream /usr/include/c++/11/istream \
  /usr/include/c++/11/ios /usr/include/c++/11/exception \
  /usr/include/c++/11/bits/exception_ptr.h \
@@ -259,7 +259,7 @@ bindings/python/src/CMakeFiles/client.dir/Utils.cc.o: \
  /usr/include/c++/11/bits/ostream.tcc \
  /usr/include/c++/11/bits/istream.tcc \
  /usr/include/c++/11/bits/sstream.tcc \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClURL.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClURL.hh \
  /usr/include/c++/11/map /usr/include/c++/11/bits/stl_tree.h \
  /usr/include/c++/11/ext/aligned_buffer.h \
  /usr/include/c++/11/bits/stl_map.h /usr/include/c++/11/tuple \
@@ -268,9 +268,9 @@ bindings/python/src/CMakeFiles/client.dir/Utils.cc.o: \
  /usr/include/c++/11/bits/invoke.h \
  /usr/include/c++/11/bits/stl_multimap.h \
  /usr/include/c++/11/bits/erase_if.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClAnyObject.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XProtocol/XProtocol.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XProtocol/XPtypes.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdCl/XrdClAnyObject.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XProtocol/XProtocol.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XProtocol/XPtypes.hh \
  /usr/include/c++/11/vector /usr/include/c++/11/bits/stl_uninitialized.h \
  /usr/include/c++/11/bits/stl_vector.h \
  /usr/include/c++/11/bits/stl_bvector.h \
@@ -291,4 +291,4 @@ bindings/python/src/CMakeFiles/client.dir/Utils.cc.o: \
  /usr/include/c++/11/backward/auto_ptr.h /usr/include/c++/11/functional \
  /usr/include/c++/11/bits/std_function.h /usr/include/sys/uio.h \
  /usr/include/bits/types/struct_iovec.h /usr/include/bits/uio-ext.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDURL.hh
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/bindings/python/src/PyXRootDURL.hh

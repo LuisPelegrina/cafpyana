@@ -1,5 +1,5 @@
 src/CMakeFiles/XrdUtils.dir/XrdOuc/XrdOucName2Name.cc.o: \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucName2Name.cc \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucName2Name.cc \
  /usr/include/stdc-predef.h /usr/include/c++/11/cerrno \
  /usr/include/c++/11/x86_64-redhat-linux/bits/c++config.h \
  /usr/include/bits/wordsize.h \
@@ -13,7 +13,7 @@ src/CMakeFiles/XrdUtils.dir/XrdOuc/XrdOucName2Name.cc.o: \
  /usr/include/linux/errno.h /usr/include/asm/errno.h \
  /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
  /usr/include/bits/types/error_t.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysError.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysError.hh \
  /usr/include/c++/11/cstdlib /usr/include/stdlib.h \
  /usr/include/bits/libc-header-start.h \
  /usr/lib/gcc/x86_64-redhat-linux/11/include/stddef.h \
@@ -42,7 +42,7 @@ src/CMakeFiles/XrdUtils.dir/XrdOuc/XrdOucName2Name.cc.o: \
  /usr/include/bits/getopt_core.h /usr/include/bits/unistd_ext.h \
  /usr/include/linux/close_range.h /usr/include/c++/11/cstring \
  /usr/include/string.h /usr/include/strings.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucName2Name.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucName2Name.hh \
  /usr/include/c++/11/string /usr/include/c++/11/bits/stringfwd.h \
  /usr/include/c++/11/bits/memoryfwd.h \
  /usr/include/c++/11/bits/char_traits.h \
@@ -121,7 +121,7 @@ src/CMakeFiles/XrdUtils.dir/XrdOuc/XrdOucName2Name.cc.o: \
  /usr/include/c++/11/bits/stl_vector.h \
  /usr/include/c++/11/bits/stl_bvector.h \
  /usr/include/c++/11/bits/vector.tcc \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysPlatform.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysPlatform.hh \
  /usr/include/memory.h /usr/include/sys/param.h \
  /usr/lib/gcc/x86_64-redhat-linux/11/include/limits.h \
  /usr/lib/gcc/x86_64-redhat-linux/11/include/syslimits.h \

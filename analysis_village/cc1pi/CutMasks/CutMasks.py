@@ -30,7 +30,17 @@ def is_inside_FV_cut_mask(df):
 
     pass_fv = (df.slc.vertex.x > xmin) & (df.slc.vertex.x < xmax) & (df.slc.vertex.y > ymin) & (df.slc.vertex.y < ymax) & (df.slc.vertex.z < zmax) & (df.slc.vertex.z > zmin)
     return pass_fv
+    
+def InFV_strict(df):
+    xmax = 190.
+    zmin = 10.
+    zmax = 450.
+    ymax_highz = 100.
+    pass_xz = (np.abs(df.slc.vertex.x) < xmax) & (df.slc.vertex.z > zmin) & (df.slc.vertex.z < zmax)
+    pass_y = ((df.slc.vertex.z < 250) & (np.abs(df.slc.vertex.y) < 190.)) | ((df.slc.vertex.z > 250) & (df.slc.vertex.y > -190.) & (df.slc.vertex.y < ymax_highz))
+    return pass_xz & pass_y
 
+    
 def nu_score_cut_mask(df):
     return df.slc.nu_score > CTE.min_nu_score
 
@@ -250,22 +260,17 @@ def proton_BDT_cut_mask_2pi(df, group_levels):
 
 
 def TPC_containment_mask(df, group_levels):
-    """
-    Keeps only slices where ALL pfp track endpoints (start and end)
-    have the same sign in x as the slice vertex x.
-    """
-    vertex_x = df[('slc','vertex','x','','','')] .groupby(level=group_levels).first()
+    valid_df = df[df[('pfp','trk','len','','','')] > 0]
     
-    # Map vertex x sign back to every row
+    vertex_x = valid_df[('slc','vertex','x','','','')].groupby(level=group_levels).first()
+    
     vertex_sign = np.sign(vertex_x)
-    row_vertex_sign = df.index.droplevel('rec.slc.reco.pfp..index').map(vertex_sign)
+    row_vertex_sign = valid_df.index.droplevel('rec.slc.reco.pfp..index').map(vertex_sign)
     
-    # Check if either endpoint violates the sign condition
-    start_bad = np.sign(df[('pfp','trk','start','x','','')]) != row_vertex_sign
-    end_bad   = np.sign(df[('pfp','trk','end','x','','')])   != row_vertex_sign
+    start_bad = np.sign(valid_df[('pfp','trk','start','x','','')]) != row_vertex_sign
+    end_bad   = np.sign(valid_df[('pfp','trk','end','x','','')])   != row_vertex_sign
 
-    # A slice is invalid if ANY of its pfps violates the condition
-    violating_df = df[start_bad | end_bad]
+    violating_df = valid_df[start_bad | end_bad]
     violating_slices = violating_df.groupby(level=group_levels).size()
     invalid_slices = violating_slices[violating_slices > 0].index
 

@@ -4,6 +4,11 @@ import pyanalib.split_df_helpers as splh
 import pyanalib.stat_helpers as sh
 from analysis_village.cc1pi.DataFrameUtils import DFCleaning
 from analysis_village.cc1pi.CutMasks import CutMasks
+from analysis_village.cc1pi.Constants import CTE
+
+import numpy as np
+
+
 
 
 def concat_shift_first_index(df1: pd.DataFrame, df2: pd.DataFrame) -> pd.DataFrame:
@@ -52,17 +57,24 @@ def load_df(file, keys2load, n_max_concat = 100, filter_df = True):
      ## for big files, each key could have more than one split
     df = splh.load_dfs(file, keys2load, n_max_concat)
     print('loaded!')
-    '''
+    
     if "cc1pi" in keys2load:
         df['cc1pi'][('slc', 'cut', 'proton_BDT_2pi', '', '', '')] = CutMasks.proton_BDT_cut_mask_2pi(df['cc1pi'], ['__ntuple', 'entry', 'rec.slc..index'])
-        df['cc1pi'][('slc', 'cut', 'TPC_containment', '', '', '')] = CutMasks.TPC_containment_mask(df['cc1pi'], ['__ntuple', 'entry', 'rec.slc..index'])
+        #df['cc1pi'][('slc', 'cut', 'TPC_containment', '', '', '')] = CutMasks.TPC_containment_mask(df['cc1pi'], ['__ntuple', 'entry', 'rec.slc..index'])
+
     '''
-        
+    if "nudf" in keys2load:
+        print("CHANGING nudf")
+        df['nudf'] = add_nu_categ_column(df['nudf'], True)
+        df['nudf'] = add_nu_categ_proton_reduced_column(df['nudf'], True)
+        df['nudf'] = add_genie_categ_column(df['nudf'], True)
+    '''
+    
     if filter_df:
         #Perform duplication validation
         print(f"duplication for {file}")
-        #DFCleaning.find_duplicate_run_evt_combinations(df['hdr'])
-        #DFCleaning.plot_duplicate_run_subrun_evt_distribution(df["hdr"], file)
+        DFCleaning.find_duplicate_run_evt_combinations(df['hdr'])
+        DFCleaning.plot_duplicate_run_subrun_evt_distribution(df["hdr"], file)
         
         ### Filter the hdr DataFrame first, then filter other DataFrames by matching with the hdr DataFrame
         df["hdr"] = DFCleaning.filter_unique_events(df["hdr"])

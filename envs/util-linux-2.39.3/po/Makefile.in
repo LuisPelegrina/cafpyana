@@ -23,7 +23,7 @@ srcdir = .
 top_srcdir = ..
 
 
-prefix = /exp/sbnd/data/users/lpelegri/cafpyana/envs/local
+prefix = /home/lpelegri/cafpyana/envs/local
 exec_prefix = ${prefix}
 datarootdir = ${prefix}/share
 datadir = ${datarootdir}
@@ -36,12 +36,12 @@ INSTALL_DATA = ${INSTALL} -m 644
 # We use $(mkdir_p).
 # In automake <= 1.9.x, $(mkdir_p) is defined either as "mkdir -p --" or as
 # "$(mkinstalldirs)" or as "$(install_sh) -d". For these automake versions,
-# ${SHELL} /exp/sbnd/data/users/lpelegri/cafpyana/envs/util-linux-2.39.3/config/install-sh does not start with $(SHELL), so we add it.
+# ${SHELL} /home/lpelegri/cafpyana/envs/util-linux-2.39.3/config/install-sh does not start with $(SHELL), so we add it.
 # In automake >= 1.10, $(MKDIR_P) is derived from ${MKDIR_P}, which is defined
 # either as "/path/to/mkdir -p" or ".../install-sh -c -d". For these automake
 # versions, $(mkinstalldirs) and $(install_sh) are unused.
-mkinstalldirs = $(SHELL) ${SHELL} /exp/sbnd/data/users/lpelegri/cafpyana/envs/util-linux-2.39.3/config/install-sh -d
-install_sh = $(SHELL) ${SHELL} /exp/sbnd/data/users/lpelegri/cafpyana/envs/util-linux-2.39.3/config/install-sh
+mkinstalldirs = $(SHELL) ${SHELL} /home/lpelegri/cafpyana/envs/util-linux-2.39.3/config/install-sh -d
+install_sh = $(SHELL) ${SHELL} /home/lpelegri/cafpyana/envs/util-linux-2.39.3/config/install-sh
 MKDIR_P = /usr/bin/mkdir -p
 mkdir_p = $(MKDIR_P)
 

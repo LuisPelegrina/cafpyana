@@ -1,10 +1,10 @@
 src/CMakeFiles/XrdUtils.dir/XrdSut/XrdSutBuckList.cc.o: \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSut/XrdSutBuckList.cc \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSut/XrdSutBuckList.cc \
  /usr/include/stdc-predef.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSut/XrdSutBuckList.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSut/XrdSutBucket.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSut/XrdSutAux.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysHeaders.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSut/XrdSutBuckList.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSut/XrdSutBucket.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSut/XrdSutAux.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysHeaders.hh \
  /usr/include/c++/11/iostream \
  /usr/include/c++/11/x86_64-redhat-linux/bits/c++config.h \
  /usr/include/bits/wordsize.h \
@@ -135,4 +135,4 @@ src/CMakeFiles/XrdUtils.dir/XrdSut/XrdSutBuckList.cc.o: \
  /usr/include/c++/11/bits/basic_ios.tcc \
  /usr/include/c++/11/bits/ostream.tcc /usr/include/c++/11/istream \
  /usr/include/c++/11/bits/istream.tcc \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XProtocol/XPtypes.hh
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XProtocol/XPtypes.hh

@@ -1,5 +1,5 @@
 src/CMakeFiles/XrdSecztn-5.dir/XrdSecztn/XrdSecztn.cc.o: \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSecztn/XrdSecztn.cc \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSecztn/XrdSecztn.cc \
  /usr/include/stdc-predef.h /usr/include/c++/11/cstdint \
  /usr/include/c++/11/x86_64-redhat-linux/bits/c++config.h \
  /usr/include/bits/wordsize.h \

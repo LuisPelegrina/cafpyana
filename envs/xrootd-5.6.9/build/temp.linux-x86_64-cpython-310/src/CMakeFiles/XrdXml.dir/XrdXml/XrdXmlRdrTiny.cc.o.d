@@ -1,5 +1,5 @@
 src/CMakeFiles/XrdXml.dir/XrdXml/XrdXmlRdrTiny.cc.o: \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/XrdXmlRdrTiny.cc \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/XrdXmlRdrTiny.cc \
  /usr/include/stdc-predef.h /usr/include/c++/11/cctype \
  /usr/include/c++/11/x86_64-redhat-linux/bits/c++config.h \
  /usr/include/bits/wordsize.h \
@@ -140,9 +140,9 @@ src/CMakeFiles/XrdXml.dir/XrdXml/XrdXmlRdrTiny.cc.o: \
  /usr/include/c++/11/bits/basic_ios.tcc \
  /usr/include/c++/11/bits/ostream.tcc /usr/include/c++/11/istream \
  /usr/include/c++/11/bits/istream.tcc \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysE2T.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/tinyxml/tinyxml.h \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysE2T.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/tinyxml/tinyxml.h \
  /usr/include/assert.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/tinyxml/tinystr.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/XrdXmlRdrTiny.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/XrdXmlReader.hh
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/tinyxml/tinystr.h \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/XrdXmlRdrTiny.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdXml/XrdXmlReader.hh

@@ -1,7 +1,7 @@
 src/CMakeFiles/XrdUtils.dir/XrdOuc/XrdOucCRC.cc.o: \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucCRC.cc \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucCRC.cc \
  /usr/include/stdc-predef.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucCRC.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucCRC.hh \
  /usr/lib/gcc/x86_64-redhat-linux/11/include/stddef.h \
  /usr/include/c++/11/cstdint \
  /usr/include/c++/11/x86_64-redhat-linux/bits/c++config.h \
@@ -17,6 +17,6 @@ src/CMakeFiles/XrdUtils.dir/XrdOuc/XrdOucCRC.cc.o: \
  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
  /usr/include/bits/time64.h /usr/include/bits/wchar.h \
  /usr/include/bits/stdint-intn.h /usr/include/bits/stdint-uintn.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysPageSize.hh \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucCRC32C.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdSys/XrdSysPageSize.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucCRC32C.hh \
  /usr/include/c++/11/cstddef

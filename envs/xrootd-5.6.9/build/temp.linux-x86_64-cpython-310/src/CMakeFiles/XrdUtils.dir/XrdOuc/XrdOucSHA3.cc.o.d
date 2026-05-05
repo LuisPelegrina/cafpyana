@@ -1,7 +1,7 @@
 src/CMakeFiles/XrdUtils.dir/XrdOuc/XrdOucSHA3.cc.o: \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucSHA3.cc \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucSHA3.cc \
  /usr/include/stdc-predef.h \
- /exp/sbnd/data/users/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucSHA3.hh \
+ /home/lpelegri/cafpyana/envs/xrootd-5.6.9/src/XrdOuc/XrdOucSHA3.hh \
  /usr/lib/gcc/x86_64-redhat-linux/11/include/stddef.h \
  /usr/include/c++/11/cstdint \
  /usr/include/c++/11/x86_64-redhat-linux/bits/c++config.h \

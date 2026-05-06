@@ -122,78 +122,69 @@ def run_pool(output, inputs, nproc):
 def run_grid(inputfiles):
     # 1) dir/file name style
     JobStartTime = datetime.datetime.now()
-    timestamp =  JobStartTime.strftime('%Y_%m_%d_%H%M%S')
-
+    timestamp = JobStartTime.strftime('%Y_%m_%d_%H%M%S')
     # 2) Define MasterJobDir -- produce grid job submission scripts in $CAFPYANA_GRID_OUT_DIR
     CAFPYANA_GRID_OUT_DIR = os.environ['CAFPYANA_GRID_OUT_DIR']
     MasterJobDir = CAFPYANA_GRID_OUT_DIR + "/logs/" + timestamp + '__' + args.output + "_log"
     OutputDir = CAFPYANA_GRID_OUT_DIR + "/dfs/" + timestamp + '__' + args.output
     os.system('mkdir -p ' + MasterJobDir)
-
     # 3) grid job is based on number of files
     ngrid = args.NGridJobs
     if(len(inputfiles) <= ngrid):
         ngrid = len(inputfiles)
-
     NInputfiles = len(inputfiles)
     print("Number of Grid Jobs: %d, number of input caf files: %d" % (ngrid, NInputfiles))
-
     # 4) prepare bash scripts for each job and make tarball
     flistForEachJob = []
-    for i in range(0,ngrid):
-        flistForEachJob.append( [] )
-
-    for i_line in range(0,len(inputfiles)):
-        flistForEachJob[i_line%ngrid].append(inputfiles[i_line])
-
-    for i_flist in range(0,len(flistForEachJob)):
+    for i in range(0, ngrid):
+        flistForEachJob.append([])
+    for i_line in range(0, len(inputfiles)):
+        flistForEachJob[i_line % ngrid].append(inputfiles[i_line])
+    for i_flist in range(0, len(flistForEachJob)):
         flist = flistForEachJob[i_flist]
-        out = open(MasterJobDir + '/run_%s.sh'%(i_flist),'w')
-        out.write('#!/bin/bash\n')
-        
-        # We will build the command string using the NEW unique names
-        local_files = [] 
-        for i_f in range(0, len(flist)):
-            # flist[i_f] looks like: .../SBNDSpringMC/27118490_152/out16.flat.caf.root
-            
-            path_parts = flist[i_f].split('/')
-            if len(path_parts) > 1:
-                parent_folder = path_parts[-2]  # Gets '27118490_152'
-                filename = path_parts[-1]       # Gets 'out16.flat.caf.root'
-                unique_name = "%s_%s" % (parent_folder, filename)
-            else:
-                unique_name = flist[i_f] # Fallback
-    
-            local_files.append(unique_name)
-    
-            out.write('echo "[run_%s.sh] copying: %s -> %s"\n' % (i_flist, flist[i_f], unique_name))
-            out.write('xrdcp %s %s\n' % (flist[i_f], unique_name))
-    
-        # Build the final command
-        file_arg = ','.join(local_files)
-        cmd = 'python run_df_maker.py -c %s -o %s_%d.df -ncpu 7 -i %s' % (args.config, args.output, i_flist, file_arg)
-        
-        out.write('ls -alh\n')
-        out.write(cmd + '\n')
+        # Use context manager to ensure file is flushed and closed before tar runs
+        with open(MasterJobDir + '/run_%s.sh' % (i_flist), 'w') as out:
+            out.write('#!/bin/bash\n')
 
-    os.system('cp ./bin/grid_executable.sh %s' %MasterJobDir)
+            # We will build the command string using the NEW unique names
+            local_files = []
+            for i_f in range(0, len(flist)):
+                # flist[i_f] looks like: .../SBNDSpringMC/27118490_152/out16.flat.caf.root
+                path_parts = flist[i_f].split('/')
+                if len(path_parts) > 1:
+                    parent_folder = path_parts[-2]  # Gets '27118490_152'
+                    filename = path_parts[-1]        # Gets 'out16.flat.caf.root'
+                    unique_name = "%s_%s" % (parent_folder, filename)
+                else:
+                    unique_name = flist[i_f]  # Fallback
 
+                local_files.append(unique_name)
+
+                out.write('echo "[run_%s.sh] copying: %s -> %s"\n' % (i_flist, flist[i_f], unique_name))
+                out.write('xrdcp %s %s\n' % (flist[i_f], unique_name))
+
+            # Build the final command
+            file_arg = ','.join(local_files)
+            cmd = 'python run_df_maker.py -c %s -o %s_%d.df -ncpu 7 -i %s' % (args.config, args.output, i_flist, file_arg)
+
+            out.write('ls -alh\n')
+            out.write(cmd + '\n')
+        # file is guaranteed flushed and closed here before continuing
+
+    os.system('cp ./bin/grid_executable.sh %s' % MasterJobDir)
     # 5) prepare a package for xrootd
     CAFPYANA_WD = os.environ['CAFPYANA_WD']
     cp_XRootD = "cp -r " + CAFPYANA_WD + "/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/XRootD " + MasterJobDir
     cp_pyxrootd = "cp -r " + CAFPYANA_WD + "/envs/xrootd-5.6.9/build/lib.linux-x86_64-cpython-310/pyxrootd " + MasterJobDir
     os.system(cp_XRootD)
     os.system(cp_pyxrootd)
-
     # 6) git archive of the current branch's last commit
     archive_repo = "git archive -o " + MasterJobDir + "/cafpyana.tar.gz HEAD"
     os.system(archive_repo)
-
     # 7) move to MasterJobDir to submit jobs
     os.chdir(MasterJobDir)
     tar_cmd = 'tar cf bin_dir.tar ./'
     os.system(tar_cmd)
-
     submitCMD = '''jobsub_submit \\
 -G sbnd \\
 --auth-methods="token" \\
@@ -211,11 +202,10 @@ def run_grid(inputfiles):
 --expected-lifetime 1h \\
 "file://$(pwd)/grid_executable.sh" \\
 "%s" \\
-"%s"'''%(ngrid,OutputDir,args.output)
-
+"%s"''' % (ngrid, OutputDir, args.output)
     print(submitCMD)
     os.system(submitCMD)
-    
+
     # go back to working dir
     os.chdir(CAFPYANA_WD)
     

@@ -74,8 +74,11 @@ def WienerSVD(Response, Signal, Measure, Covariance, C_type, Norm_type):
     """
     m, n = Response.shape  # m measure, n signal bins
 
-    # Decomposition of the Covariance matrix to obtain Q.
-    U_cov, s_cov, Vh_cov = np.linalg.svd(Covariance)
+    StatCov = np.diag(Measure)
+    TotalCov = Covariance + StatCov
+
+    # Decomposition of the total Covariance matrix to obtain Q.
+    U_cov, s_cov, Vh_cov = np.linalg.svd(TotalCov)
     # Q0 is the transpose of V from the SVD (numpy's Vh is already V^T).
     Q0 = Vh_cov
     # Build a diagonal matrix of 1/sqrt(s) (with protection against division by zero)
@@ -125,29 +128,29 @@ def WienerSVD(Response, Signal, Measure, Covariance, C_type, Norm_type):
     unfold = C_inv @ V @ W @ D_t @ U_t @ M_trans
     AddSmear = C_inv @ V @ W0 @ Vh @ C
 
-    # Covariance rotation matrix (for systematics)
+    # Unregularized (Standard Matrix Inversion)
+    unfold_unreg = C_inv @ V @ D_t @ U_t @ M_trans
+
     CovRotation = C_inv @ V @ W @ D_t @ U_t @ Q
+
     SystUnfoldCov = CovRotation @ Covariance @ CovRotation.T
-
-    # Assume Poisson statistics: variance = Measure 
-    # TODO: if Measure == 0, set to 1 to avoid zero/negative
-    # stat_var = np.where(Measure > 0, Measure, 1.0)
-    StatCov = np.diag(Measure)
     StatUnfoldCov = CovRotation @ StatCov @ CovRotation.T
-
-    # Total unfolded covariance is sum of statistical and systematic
     UnfoldCov = SystUnfoldCov + StatUnfoldCov
 
     return {
         'unfold': unfold,
+        'unfold_unreg': unfold_unreg,
         'AddSmear': AddSmear,
         'WF': WF,
+        "D": D,
+        "S_vec": S_vec,
+        'C0': C0,
         'CovRotation': CovRotation,
         'StatUnfoldCov': StatUnfoldCov,
         'SystUnfoldCov': SystUnfoldCov,
-        'UnfoldCov': UnfoldCov
+        'UnfoldCov': UnfoldCov,
+        # 'bias': bias
     }
-
 
 def Matrix_Decomp(matrix_pred, matrix_syst):
     """

@@ -1516,10 +1516,10 @@ def make_cc1pinudf_expanded_syst(f):
     return make_cc1pinudf(f, include_weights=True, multisim_nuniv=100, genie_multisim_nuniv=100, wgt_types=["bnb","genie","g4"], slim=False, genie_systematics=None)
 
 def make_cc1pinudf_Ar23p_expanded_syst(f):
-    return make_cc1pinudf(f, include_weights=True, multisim_nuniv=100, genie_multisim_nuniv=100, wgt_types=["bnb","genie","g4"], slim=False, genie_systematics=ar23p_genie_systematics)
+    return make_cc1pinudf(f, include_weights=True, multisim_nuniv=100, genie_multisim_nuniv=100, wgt_types=["bnb","genie","g4"], slim=False, genie_systematics=ar23p_genie_systematics + regen_systematics)
 
 def make_cc1pinudf_Ar23p(f):
-    return make_cc1pinudf(f, include_weights=True, multisim_nuniv=100, genie_multisim_nuniv=100, wgt_types=["bnb","genie","g4"], slim=True, genie_systematics=ar23p_genie_systematics)
+    return make_cc1pinudf(f, include_weights=True, multisim_nuniv=100, genie_multisim_nuniv=100, wgt_types=["bnb","genie","g4"], slim=True, genie_systematics=ar23p_genie_systematics + regen_systematics)
 
     
 def make_cc1pinudf_no_syst(f):

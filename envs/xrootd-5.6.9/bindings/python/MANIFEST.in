@@ -1,5 +1,0 @@
-include CMakeLists.txt
-recursive-include tests *
-recursive-include examples *.py
-recursive-include docs *
-recursive-include src *

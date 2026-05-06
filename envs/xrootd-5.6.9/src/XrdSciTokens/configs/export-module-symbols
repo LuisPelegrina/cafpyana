@@ -1,7 +1,0 @@
-{
-global:
-  init_scitokens_xrootd*;
-
-local:
-  *;
-};

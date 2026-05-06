@@ -1,3 +1,0 @@
-url = http://*;https://*
-lib = /usr/lib64/libXrdClHttp.so
-enable = true

@@ -138,7 +138,7 @@ ar23p_genie_systematics = [
     'MECq0q3InterpWeighting_SuSAv2ToMartini_q0binned_MECResponse_q0bin0',
     'MECq0q3InterpWeighting_SuSAv2ToMartini_q0binned_MECResponse_q0bin1',
     'MECq0q3InterpWeighting_SuSAv2ToMartini_q0binned_MECResponse_q0bin2',
-    'MECq0q3InterpWeighting_SuSAv2ToMartini_q0binned_MECResponse_q0bin3'
+    'MECq0q3InterpWeighting_SuSAv2ToMartini_q0binned_MECResponse_q0bin3',
     'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_FrG4_N',
     'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_FrINCL_N',
     'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_FrG4LoE_N',

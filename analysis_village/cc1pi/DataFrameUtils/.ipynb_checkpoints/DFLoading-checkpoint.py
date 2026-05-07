@@ -59,7 +59,11 @@ def load_df(file, keys2load, n_max_concat = 100, filter_df = True):
     print('loaded!')
     
     if "cc1pi" in keys2load:
+        print("Changing CC1pi")
         df['cc1pi'][('slc', 'cut', 'proton_BDT_2pi', '', '', '')] = CutMasks.proton_BDT_cut_mask_2pi(df['cc1pi'], ['__ntuple', 'entry', 'rec.slc..index'])
+        df['cc1pi'][('slc', 'cut', 'proton_BDT_sideband', '', '', '')] = CutMasks.proton_BDT_sideband_mask(df['cc1pi'], ['__ntuple', 'entry', 'rec.slc..index'])
+        df['cc1pi'][('slc', 'cut', 'TPC_containment', '', '', '')] = CutMasks.TPC_containment_mask(df['cc1pi'], ['__ntuple', 'entry', 'rec.slc..index'])
+        df['cc1pi'][('slc', 'cut', 'inside_FV', '', '', '')] = CutMasks.InFV_strict(df['cc1pi'])
         #df['cc1pi'][('slc', 'cut', 'TPC_containment', '', '', '')] = CutMasks.TPC_containment_mask(df['cc1pi'], ['__ntuple', 'entry', 'rec.slc..index'])
 
     '''

@@ -1519,7 +1519,7 @@ def make_cc1pinudf_Ar23p_expanded_syst(f):
     return make_cc1pinudf(f, include_weights=True, multisim_nuniv=100, genie_multisim_nuniv=100, wgt_types=["bnb","genie","g4"], slim=False, genie_systematics=ar23p_genie_systematics + regen_systematics)
 
 def make_cc1pinudf_Ar23p(f):
-    return make_cc1pinudf(f, include_weights=True, multisim_nuniv=100, genie_multisim_nuniv=100, wgt_types=["bnb","genie","g4"], slim=True, genie_systematics=ar23p_genie_systematics + regen_systematics)
+    return make_cc1pinudf(f, include_weights=True, multisim_nuniv=100, genie_multisim_nuniv=100, wgt_types=["bnb","genie","g4"], slim=True, genie_systematics=ar23p_genie_systematics + regen_systematics_no_duplicates)
 
     
 def make_cc1pinudf_no_syst(f):
@@ -1785,7 +1785,7 @@ def make_cc1pi_finaldf(f, updatecalo = None):
     #Passing cuts or not boolean
     pandora_df[('slc', 'cut', 'obvious_cosmic', '', '', '')] = CutMasks.is_obvious_cosmic_cut_mask(pandora_df)
     pandora_df[('slc', 'cut', 't0', '', '', '')] = CutMasks.t0_cut_mask(pandora_df)
-    pandora_df[('slc', 'cut', 'inside_FV', '', '', '')] = CutMasks.is_inside_FV_cut_mask(pandora_df)
+    pandora_df[('slc', 'cut', 'inside_FV', '', '', '')] = CutMasks.InFV_strict(pandora_df)
     pandora_df[('slc', 'cut', 'nu_score', '', '', '')] = CutMasks.nu_score_cut_mask(pandora_df)
     pandora_df[('slc', 'cut', 'track', '', '', '')] = CutMasks.track_cut_mask(pandora_df, group_levels)
     pandora_df[('slc', 'cut', 'shower', '', '', '')] = CutMasks.shower_cut_mask(pandora_df, group_levels)
@@ -1796,9 +1796,9 @@ def make_cc1pi_finaldf(f, updatecalo = None):
     pandora_df[('slc', 'cut', 'extra_pion', '', '', '')] = CutMasks.extra_pion_cut_mask(pandora_df, group_levels)
     pandora_df[('slc', 'cut', 'proton_BDT', '', '', '')] = CutMasks.proton_BDT_cut_mask(pandora_df, group_levels)
     pandora_df[('slc', 'cut', 'proton_BDT_sideband', '', '', '')] = CutMasks.proton_BDT_sideband_mask(pandora_df, group_levels)
+    pandora_df[('slc', 'cut', 'proton_BDT_2pi', '', '', '')] = CutMasks.proton_BDT_cut_mask_2pi(pandora_df, group_levels)
+    pandora_df[('slc', 'cut', 'TPC_containment', '', '', '')] = CutMasks.TPC_containment_mask(pandora_df, group_levels)
 
-    
-    #candidate_df = pandora_df[pandora_df.slc.cut.MIP_candidates & CutMasks.is_MIP_candidate_mask(pandora_df) & pandora_df.slc.cut.containment]
     candidate_df = pandora_df[pandora_df.slc.cut.inside_FV & pandora_df.slc.cut.t0 & pandora_df.slc.cut.track & CutMasks.is_MIP_candidate_mask(pandora_df) & pandora_df.slc.cut.containment]
  
     pandora_df = add_n_primary_tracks_column(pandora_df)
@@ -1870,14 +1870,6 @@ def make_cc1pi_finaldf(f, updatecalo = None):
 
     
     #process only with plane 2
-    # 2. Apply function → Series → DataFrame
-    '''
-    muon_pion_vars = (
-        candidate_df
-            .groupby(level=group_levels, group_keys=False)
-            .apply(get_mu_pi_vars, best_hit_df=hit2_df)
-    )
-    '''
     muon_pion_vars = (
         candidate_df
             .groupby(level=group_levels, group_keys=False)
@@ -1959,6 +1951,52 @@ def make_cc1pi_finaldf(f, updatecalo = None):
     min_df = pandora_df[cols].copy()
     min_df = min_df[min_df.pfp.trk.len > 0]
     return min_df
+
+
+def make_cc1pi_final_df_slim(f):
+    pandora_df = make_cc1pi_finaldf(f)
+
+    cols_to_keep_reco = [
+        ('slc', 'self', '', '', '', ''),
+        ('slc', 'tmatch', 'idx', '', '', ''),
+        ('slc', 'nu_score', '', '', '', ''),
+        ('slc', 'cut', 'obvious_cosmic', '', '', ''),
+        ('slc', 'cut', 't0', '', '', ''),
+        ('slc', 'cut', 'inside_FV', '', '', ''),
+        ('slc', 'cut', 'nu_score', '', '', ''),
+        ('slc', 'cut', 'track', '', '', ''),
+        ('slc', 'cut', 'shower', '', '', ''),
+        ('slc', 'cut', 'MIP_candidates', '', '', ''),
+        ('slc', 'cut', 'angle', '', '', ''),
+        ('slc', 'cut', 'proton_BDT', '', '', ''),
+        ('slc', 'cut', 'proton_BDT_sideband', '', '', ''),
+        ('slc', 'cut', 'containment', '', '', ''),
+        ('slc', 'cut', 'michel', '', '', ''),
+        ('slc', 'cut', 'extra_pion', '', '', ''),
+        ('slc','cut','energy','','',''),
+        ('slc', 'measure_var', 'angle_between_candidates', '', '', ''),
+        ('slc', 'measure_var', 'num_protons', '', '', ''),
+        ('slc','measure_var','reco_p_mu','','',''),
+        ('slc','measure_var','reco_cos_theta_mu','','',''),
+        ('slc','measure_var','TLE_p_pi','','',''),
+        ('slc','measure_var','reco_cos_theta_pi','','',''), 
+        ('slc','cut_var','n_MIP_candidates','','',''),
+        ('slc','measure_var','delta_pT','','',''),
+        ('slc','measure_var','delta_alpha_T','','',''),
+        ('slc','measure_var','delta_phi_T','','','')
+    ]
+    pandora_df = pandora_df[cols_to_keep_reco]
+    
+    slc_df = (
+            pandora_df
+            .groupby(['__ntuple', 'entry', 'rec.slc..index'])
+            .first()
+        )
+    slc_df = slc_df.sort_index()
+    
+    return slc_df
+
+
 
 def make_cc1pi_final_df_recalo_ccal_p(f):
     return make_cc1pi_finaldf(f, updatecalo = "ccal_p")

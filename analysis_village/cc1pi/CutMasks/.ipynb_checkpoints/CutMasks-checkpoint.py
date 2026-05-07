@@ -259,6 +259,26 @@ def proton_BDT_cut_mask_2pi(df, group_levels):
     return final_mask
 
 
+
+def InFV_strict(df):
+    xmax = 190.
+    zmin = 10.
+    zmax = 450.
+    ymax_highz = 100.
+    pass_xz = (np.abs(df.slc.vertex.x) < xmax) & (df.slc.vertex.z > zmin) & (df.slc.vertex.z < zmax)
+    pass_y = ((df.slc.vertex.z < 250) & (np.abs(df.slc.vertex.y) < 190.)) | ((df.slc.vertex.z > 250) & (df.slc.vertex.y > -190.) & (df.slc.vertex.y < ymax_highz))
+    return pass_xz & pass_y
+
+
+
+def cathode_crossing_pfp_mask(df):
+    xmin = -CTE.min_distance_to_consider_contained
+    xmax = CTE.min_distance_to_consider_contained
+    
+    crossing_cathode = (df.pfp.trk.start.x > xmin) & (df.pfp.trk.start.x < xmax) 
+    return crossing_cathode
+
+    
 def TPC_containment_mask(df, group_levels):
     valid_df = df[df[('pfp','trk','len','','','')] > 0]
     
@@ -273,9 +293,15 @@ def TPC_containment_mask(df, group_levels):
     violating_df = valid_df[start_bad | end_bad]
     violating_slices = violating_df.groupby(level=group_levels).size()
     invalid_slices = violating_slices[violating_slices > 0].index
-
+     
     mask = pd.Series(
         ~df.index.droplevel('rec.slc.reco.pfp..index').isin(invalid_slices),
         index=df.index
     )
-    return mask
+    
+    cathode_crossing_df = valid_df[cathode_crossing_pfp_mask(valid_df)]
+    cathode_crossing_counts = cathode_crossing_df.groupby(level=group_levels).size()
+    cathode_crossing_invalid_slices = cathode_crossing_counts[cathode_crossing_counts > 0].index 
+    cathode_crossing_mask = pd.Series(~df.index.droplevel('rec.slc.reco.pfp..index').isin(cathode_crossing_invalid_slices), index=df.index)
+
+    return mask & cathode_crossing_mask

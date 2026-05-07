@@ -52,7 +52,7 @@ def getsyst(f, systematics, nuind, multisim_nuniv=100, slim=False, slimname="sli
                     seed_input = s + str(i) + str(id(f))
                     np.random.seed(hash(seed_input) % (2**32))
                     wgt = ( 1 + (s_morph - 1) * 2 * np.abs(np.random.normal(0, 1)))
-                    wgt = wgt.clip(lower=0, upper=30)
+                    wgt = wgt.clip(lower=0, upper=10)
                     systs_slim[(slimname, f"univ_{i}")] = systs_slim[(slimname, f"univ_{i}")].values * wgt
 
             else:

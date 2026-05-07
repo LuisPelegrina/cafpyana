@@ -36,6 +36,7 @@ source ./bin/init_grid.sh
 echo "@@ ls -alh"
 ls -alh
 
+cd cafpyana 
 echo "@@ mkdir output"
 mkdir output
 echo "@@ Done!"

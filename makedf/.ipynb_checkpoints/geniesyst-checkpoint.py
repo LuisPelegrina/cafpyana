@@ -28,8 +28,8 @@ regen_systematics = [
     "GENIEReWeight_SBN_v1_multisigma_DecayAngMEC",
 
     # RES
-    # "GENIEReWeight_SBN_v1_multisim_CCRESVariationResponse",
-    # "GENIEReWeight_SBN_v1_multisim_NCRESVariationResponse",
+    "GENIEReWeight_SBN_v1_multisim_CCRESVariationResponse",
+    "GENIEReWeight_SBN_v1_multisim_NCRESVariationResponse",
     'GENIEReWeight_SBN_v1_multisim_RDecBR1gamma',
     'GENIEReWeight_SBN_v1_multisim_RDecBR1eta',
     "GENIEReWeight_SBN_v1_multisigma_Theta_Delta2Npi",
@@ -90,6 +90,56 @@ regen_systematics = [
 ]
 
 
+regen_systematics_no_duplicates = [
+    # RES
+    "GENIEReWeight_SBN_v1_multisim_CCRESVariationResponse",
+    "GENIEReWeight_SBN_v1_multisim_NCRESVariationResponse",
+    'GENIEReWeight_SBN_v1_multisim_RDecBR1gamma',
+    'GENIEReWeight_SBN_v1_multisim_RDecBR1eta',
+    "GENIEReWeight_SBN_v1_multisigma_Theta_Delta2Npi",
+    "GENIEReWeight_SBN_v1_multisigma_ThetaDelta2NRad",
+
+    "GENIEReWeight_SBN_v1_multisigma_MaCCRES",
+    "GENIEReWeight_SBN_v1_multisigma_MaNCRES",
+    "GENIEReWeight_SBN_v1_multisigma_MvCCRES",
+    "GENIEReWeight_SBN_v1_multisigma_MvNCRES",
+
+    # Non-Res
+    'GENIEReWeight_SBN_v1_multisim_NonRESBGvpCC1pi',
+    'GENIEReWeight_SBN_v1_multisim_NonRESBGvpCC2pi',
+    'GENIEReWeight_SBN_v1_multisim_NonRESBGvpNC1pi',
+    'GENIEReWeight_SBN_v1_multisim_NonRESBGvpNC2pi',
+    'GENIEReWeight_SBN_v1_multisim_NonRESBGvnCC1pi',
+    'GENIEReWeight_SBN_v1_multisim_NonRESBGvnCC2pi',
+    'GENIEReWeight_SBN_v1_multisim_NonRESBGvnNC1pi',
+    'GENIEReWeight_SBN_v1_multisim_NonRESBGvnNC2pi',
+    'GENIEReWeight_SBN_v1_multisim_NonRESBGvbarpCC1pi',
+    'GENIEReWeight_SBN_v1_multisim_NonRESBGvbarpCC2pi',
+    'GENIEReWeight_SBN_v1_multisim_NonRESBGvbarpNC1pi',
+    'GENIEReWeight_SBN_v1_multisim_NonRESBGvbarpNC2pi',
+    'GENIEReWeight_SBN_v1_multisim_NonRESBGvbarnCC1pi',
+    'GENIEReWeight_SBN_v1_multisim_NonRESBGvbarnCC2pi',
+    'GENIEReWeight_SBN_v1_multisim_NonRESBGvbarnNC1pi',
+    'GENIEReWeight_SBN_v1_multisim_NonRESBGvbarnNC2pi',
+
+    # DIS
+    # "GENIEReWeight_SBN_v1_multisim_DISBYVariationResponse",
+    'GENIEReWeight_SBN_v1_multisigma_AhtBY',
+    'GENIEReWeight_SBN_v1_multisigma_BhtBY',
+    'GENIEReWeight_SBN_v1_multisigma_CV1uBY',
+    'GENIEReWeight_SBN_v1_multisigma_CV2uBY',
+
+    # COH
+    "GENIEReWeight_SBN_v1_multisigma_NormCCCOH", # Handled by re-tuning
+    "GENIEReWeight_SBN_v1_multisigma_NormNCCOH"
+    
+    # NCEL
+    # "GENIEReWeight_SBN_v1_multisim_NCELVariationResponse",
+    'GENIEReWeight_SBN_v1_multisigma_MaNCEL',
+    'GENIEReWeight_SBN_v1_multisigma_EtaNCEL',
+]
+
+
 #These are the AR23p syst
 ar23p_genie_systematics = [
     'ZExpPCAWeighter_SBNNuSyst_multisigma_D_ZExp_b1',
@@ -138,7 +188,7 @@ ar23p_genie_systematics = [
     'MECq0q3InterpWeighting_SuSAv2ToMartini_q0binned_MECResponse_q0bin0',
     'MECq0q3InterpWeighting_SuSAv2ToMartini_q0binned_MECResponse_q0bin1',
     'MECq0q3InterpWeighting_SuSAv2ToMartini_q0binned_MECResponse_q0bin2',
-    'MECq0q3InterpWeighting_SuSAv2ToMartini_q0binned_MECResponse_q0bin3'
+    'MECq0q3InterpWeighting_SuSAv2ToMartini_q0binned_MECResponse_q0bin3',
     'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_FrG4_N',
     'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_FrINCL_N',
     'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_FrG4LoE_N',

@@ -28,8 +28,8 @@ regen_systematics = [
     "GENIEReWeight_SBN_v1_multisigma_DecayAngMEC",
 
     # RES
-    "GENIEReWeight_SBN_v1_multisim_CCRESVariationResponse",
-    "GENIEReWeight_SBN_v1_multisim_NCRESVariationResponse",
+    #"GENIEReWeight_SBN_v1_multisim_CCRESVariationResponse",
+    #"GENIEReWeight_SBN_v1_multisim_NCRESVariationResponse",
     'GENIEReWeight_SBN_v1_multisim_RDecBR1gamma',
     'GENIEReWeight_SBN_v1_multisim_RDecBR1eta',
     "GENIEReWeight_SBN_v1_multisigma_Theta_Delta2Npi",
@@ -92,8 +92,8 @@ regen_systematics = [
 
 regen_systematics_no_duplicates = [
     # RES
-    "GENIEReWeight_SBN_v1_multisim_CCRESVariationResponse",
-    "GENIEReWeight_SBN_v1_multisim_NCRESVariationResponse",
+    #"GENIEReWeight_SBN_v1_multisim_CCRESVariationResponse",
+    #"GENIEReWeight_SBN_v1_multisim_NCRESVariationResponse",
     'GENIEReWeight_SBN_v1_multisim_RDecBR1gamma',
     'GENIEReWeight_SBN_v1_multisim_RDecBR1eta',
     "GENIEReWeight_SBN_v1_multisigma_Theta_Delta2Npi",

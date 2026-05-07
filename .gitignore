@@ -5,6 +5,7 @@ __pycache__/
 *.png
 *.root
 envs/
+!envs/pip_requirements.txt
 #*
 .#
 *~

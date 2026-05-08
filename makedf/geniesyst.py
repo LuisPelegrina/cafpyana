@@ -131,7 +131,7 @@ regen_systematics_no_duplicates = [
 
     # COH
     "GENIEReWeight_SBN_v1_multisigma_NormCCCOH", # Handled by re-tuning
-    "GENIEReWeight_SBN_v1_multisigma_NormNCCOH"
+    "GENIEReWeight_SBN_v1_multisigma_NormNCCOH",
     
     # NCEL
     # "GENIEReWeight_SBN_v1_multisim_NCELVariationResponse",

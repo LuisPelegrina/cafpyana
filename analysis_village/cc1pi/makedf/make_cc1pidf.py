@@ -1989,7 +1989,7 @@ def make_cc1pi_final_df_slim(f):
     
     slc_df = (
             pandora_df
-            .groupby(['__ntuple', 'entry', 'rec.slc..index'])
+            .groupby(['entry', 'rec.slc..index'])
             .first()
         )
     slc_df = slc_df.sort_index()

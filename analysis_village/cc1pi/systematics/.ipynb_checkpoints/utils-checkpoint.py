@@ -206,16 +206,7 @@ def get_multisigma_rates(cov_type="rate",
     """
     for the GENIE uncertainty on the xsec measurement
     """
-    if cov_type == "xsec":
-        print("getting  {} uncertainty on the xsec".format(syst_name))
-        print(f"x-sec UNIT:{XSEC_UNIT}")
-        scale_factor = 1.0
-    elif cov_type == "rate":
-        print("getting {} uncertainty on the event rate".format(syst_name))
-        scale_factor = 1.0
-    else:
-        raise ValueError("Invalid covariance type: {}, choose in [xsec, rate]".format(cov_type))
-        
+
     bins = var_config.bins
     if ret is None:
         print("ERROR")
@@ -321,15 +312,6 @@ def get_univ_rates(cov_type="rate",
     """
     for the GENIE uncertainty on the xsec measurement
     """
-    if cov_type == "xsec":
-        print("getting {} universes for {} uncertainty on the xsec".format(n_univ, syst_name))
-        print(f"x-sec UNIT:{XSEC_UNIT}")
-        scale_factor = 1.0
-    elif cov_type == "rate":
-        print("getting {} universes for {} uncertainty on the event rate".format(n_univ, syst_name))
-        scale_factor = 1.0
-    else:
-        raise ValueError("Invalid covariance type: {}, choose in [xsec, rate]".format(cov_type))
 
     bins = var_config.bins
     
@@ -405,17 +387,13 @@ def get_univ_rates(cov_type="rate",
             else:
                 signal_univ += background_univ
 
-        signal_univ *= scale_factor
         univ_events.append(signal_univ)
-        
     univ_events = np.array(univ_events)
 
     if bkgd_subtract:
         cv_events = ret["nevts_sel_reco"]
-        cv_events *= scale_factor
     else:
         cv_events = ret["nevts_allsel_reco"]
-        cv_events *= scale_factor 
 
     return univ_events, cv_events
 

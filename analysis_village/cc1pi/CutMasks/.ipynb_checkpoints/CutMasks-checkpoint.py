@@ -31,14 +31,6 @@ def is_inside_FV_cut_mask(df):
     pass_fv = (df.slc.vertex.x > xmin) & (df.slc.vertex.x < xmax) & (df.slc.vertex.y > ymin) & (df.slc.vertex.y < ymax) & (df.slc.vertex.z < zmax) & (df.slc.vertex.z > zmin)
     return pass_fv
     
-def InFV_strict(df):
-    xmax = 190.
-    zmin = 10.
-    zmax = 450.
-    ymax_highz = 100.
-    pass_xz = (np.abs(df.slc.vertex.x) < xmax) & (df.slc.vertex.z > zmin) & (df.slc.vertex.z < zmax)
-    pass_y = ((df.slc.vertex.z < 250) & (np.abs(df.slc.vertex.y) < 190.)) | ((df.slc.vertex.z > 250) & (df.slc.vertex.y > -190.) & (df.slc.vertex.y < ymax_highz))
-    return pass_xz & pass_y
 
     
 def nu_score_cut_mask(df):
@@ -258,26 +250,52 @@ def proton_BDT_cut_mask_2pi(df, group_levels):
 
     return final_mask
 
-
-
 def InFV_strict(df):
-    xmax = 190.
-    zmin = 10.
-    zmax = 450.
-    ymax_highz = 100.
-    pass_xz = (np.abs(df.slc.vertex.x) < xmax) & (df.slc.vertex.z > zmin) & (df.slc.vertex.z < zmax)
-    pass_y = ((df.slc.vertex.z < 250) & (np.abs(df.slc.vertex.y) < 190.)) | ((df.slc.vertex.z > 250) & (df.slc.vertex.y > -190.) & (df.slc.vertex.y < ymax_highz))
-    return pass_xz & pass_y
+    # Access the series directly to avoid creating extra variable references
+    x = df.slc.vertex.x
+    y = df.slc.vertex.y
+    z = df.slc.vertex.z
 
+    # Combine everything into a single evaluation path. 
+    # Python will evaluate this much faster and clear out temporary arrays.
+    contained = (np.abs(x) > 5) & (np.abs(x) < 190) & (
+        ((z > 10)  & (z < 250) & (np.abs(y) < 190)) |
+        ((z > 250) & (z < 450) & (y > -190) & (y < 100) & (x < 0)) |
+        ((z > 250) & (z < 450) & (y > -190) & (y < 190) & (x > 0))
+    )
+    
+    return contained
 
 
 def cathode_crossing_pfp_mask(df):
     xmin = -CTE.min_distance_to_consider_contained
     xmax = CTE.min_distance_to_consider_contained
     
-    crossing_cathode = (df.pfp.trk.start.x > xmin) & (df.pfp.trk.start.x < xmax) 
+    crossing_cathode = ((df.pfp.trk.start.x > xmin) & (df.pfp.trk.start.x < xmax))|((df.pfp.trk.end.x > xmin) & (df.pfp.trk.end.x < xmax) )
     return crossing_cathode
 
+def ends_in_high_y_high_z(df):
+    x = df.pfp.trk.end.x
+    y = df.pfp.trk.end.y
+    z = df.pfp.trk.end.z
+    in_high_y_high_z = (z > 250) & (y > 100) & (x < 0)
+    
+    return in_high_y_high_z
+
+
+def not_in_high_y_high_z_containment_mask(df, group_levels):
+    high_yz_df = df[ends_in_high_y_high_z(df)]
+    
+    # Count how many pfps per slice
+    candidate_counts = high_yz_df.groupby(level=group_levels).size()
+ 
+    # Get only slices with at least 2 pfps
+    invalid_slices = candidate_counts[candidate_counts > 0].index
+
+    # Apply the mask to original DataFrame
+    final_mask = pd.Series(~df.index.droplevel('rec.slc.reco.pfp..index').isin(invalid_slices), index=df.index)
+
+    return final_mask
     
 def TPC_containment_mask(df, group_levels):
     valid_df = df[df[('pfp','trk','len','','','')] > 0]

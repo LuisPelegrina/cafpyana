@@ -10,13 +10,14 @@ import numpy as np
 
 
 def TruthInFV(data):
-    xmax = 190.
-    zmin = 10.
-    zmax = 450.
-    ymax_highz = 100.
-    pass_xz = (np.abs(data.x) < xmax) & (data.z > zmin) & (data.z < zmax)
-    pass_y = ((data.z < 250) & (np.abs(data.y) < 190.)) | ((data.z > 250) & (data.y > -190.) & (data.y < ymax_highz))
-    return pass_xz & pass_y
+    x_region = (np.abs(data.x) > 5) & (np.abs(data.x) < 190)
+    z_region1 = (data.z > 10)  & (data.z < 250) & (np.abs(data.y) < 190)
+    z_region2 = (data.z > 250) & (data.z < 450) & (data.y > -190) & (data.y < 100) & (data.x < 0)
+    z_region3 = (data.z > 250) & (data.z < 450) & (data.y > -190) & (data.y < 190) & (data.x > 0)
+    
+    contained = x_region & (z_region1 | z_region2 | z_region3)
+    return contained
+
     
 def IsNu(df):
     is_numu = abs(df.pdg) == 14
@@ -196,16 +197,23 @@ def load_df(file, keys2load, n_max_concat = 100, filter_df = True, reprocess_df 
         if "cc1pi" in keys2load:
             print("Changing CC1pi")
             df['cc1pi'][('slc', 'cut', 'proton_BDT_2pi', '', '', '')] = CutMasks.proton_BDT_cut_mask_2pi(df['cc1pi'], ['__ntuple', 'entry', 'rec.slc..index'])
+            print("Adding proton BDT sidebans")
             df['cc1pi'][('slc', 'cut', 'proton_BDT_sideband', '', '', '')] = CutMasks.proton_BDT_sideband_mask(df['cc1pi'], ['__ntuple', 'entry', 'rec.slc..index'])
+            print("Adding TPC containment")
             df['cc1pi'][('slc', 'cut', 'TPC_containment', '', '', '')] = CutMasks.TPC_containment_mask(df['cc1pi'], ['__ntuple', 'entry', 'rec.slc..index'])
+            print("Adding FV")
             df['cc1pi'][('slc', 'cut', 'inside_FV', '', '', '')] = CutMasks.InFV_strict(df['cc1pi'])
+            print("Adding high y z ")
+            df['cc1pi'][('slc', 'cut', 'no_high_yz', '', '', '')] = CutMasks.not_in_high_y_high_z_containment_mask(df['cc1pi'], ['__ntuple', 'entry', 'rec.slc..index'])
+            print("Finish")
     
     df['cc1pi'][('slc', 'cut', 'energy', '', '', '')] = (df['cc1pi'].slc.measure_var.reco_p_mu > 0.1) & (df['cc1pi'].slc.measure_var.reco_p_mu < 1) & (df['cc1pi'].slc.measure_var.TLE_p_pi > 0.13) & (df['cc1pi'].slc.measure_var.TLE_p_pi < 2)   
+    print("Change energy")
     
     if reprocess_truth:   
         if "nudf" in keys2load:
-            df['nudf'] = df['nudf'][~df['nudf'].index.duplicated(keep='first')]
-    
+            print("Reprocessing truth")
+            df['nudf'] = df['nudf'].loc[~df['nudf'].index.duplicated(keep='first')]
             print("CHANGING nudf")
             df['nudf'] = add_nu_categ_column(df['nudf'], True)
             df['nudf'] = add_nu_categ_proton_reduced_column(df['nudf'], True)

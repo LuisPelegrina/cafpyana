@@ -156,6 +156,7 @@ reco_cols_to_keep = [
         ('slc', 'cut', 'michel', '', '', ''),
         ('slc', 'cut', 'extra_pion', '', '', ''),
         ('slc','cut','energy','','',''),
+        ('slc','cut','no_high_yz','','',''),
 
         #Measure variables
         ('slc', 'measure_var', 'num_protons', '', '', ''),
@@ -232,6 +233,7 @@ min_reco_cols_to_keep = [
         ('slc', 'cut', 'michel', '', '', ''),
         ('slc', 'cut', 'extra_pion', '', '', ''),
         ('slc','cut','energy','','',''),
+        ('slc','cut','no_high_yz','','',''),
         ('slc','cut_var','n_MIP_candidates','','',''),
         ('slc','cut_var','n_exiting_pfps','','',''),
         ('slc', 'measure_var', 'angle_between_candidates', '', '', ''),

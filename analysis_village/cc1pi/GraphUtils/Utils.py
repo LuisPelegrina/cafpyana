@@ -36,7 +36,7 @@ cut_name_nice_map = {
     "chi2": "2 MIP candidates",
     "angle": "Angle restriction",
     "proton_BDT": "HE proton removal",
-    "containment": "No exiting particles",
+    "containment": "No particles exiting or in high-yz",
     "michel": "Michel removal",
     "extra_pion": "Extra pion removal",
     "energy": "Energy",

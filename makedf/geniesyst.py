@@ -171,11 +171,13 @@ ar23p_genie_systematics = [
     'QEInterference_SBNNuSyst_multisigma_INT_QEIntf_dial_3',
     'QEInterference_SBNNuSyst_multisigma_INT_QEIntf_dial_4',
     'QEInterference_SBNNuSyst_multisigma_INT_QEIntf_dial_5',
+    
     'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_VecFFCCQEshape',
     'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_CoulombCCQE',
     'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_NormCCMEC',
     'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_NormNCMEC',
     'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_DecayAngMEC',
+    
     'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_MFP_pi',
     'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_FrCEx_pi',
     'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_FrInel_pi',

@@ -1945,7 +1945,7 @@ def make_cc1pi_finaldf(f, updatecalo = None):
 
     pandora_df = add_transverse_vars_column(pandora_df)
     
-    pandora_df[('slc', 'cut', 'energy', '', '', '')] = (pandora_df.slc.measure_var.reco_p_mu > 0.1) & (pandora_df.slc.measure_var.reco_p_mu < 3) & (pandora_df.slc.measure_var.TLE_p_pi > 0.13) & (pandora_df.slc.measure_var.TLE_p_pi < 2)   
+    pandora_df[('slc', 'cut', 'energy', '', '', '')] = (pandora_df.slc.measure_var.reco_p_mu > 0.1) & (pandora_df.slc.measure_var.reco_p_mu < 1) & (pandora_df.slc.measure_var.TLE_p_pi > 0.13) & (pandora_df.slc.measure_var.TLE_p_pi < 2)   
     
     
     min_df = pandora_df[cols].copy()

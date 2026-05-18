@@ -9,6 +9,138 @@ from analysis_village.cc1pi.Constants import CTE
 import numpy as np
 
 
+def TruthInFV(data):
+    xmax = 190.
+    zmin = 10.
+    zmax = 450.
+    ymax_highz = 100.
+    pass_xz = (np.abs(data.x) < xmax) & (data.z > zmin) & (data.z < zmax)
+    pass_y = ((data.z < 250) & (np.abs(data.y) < 190.)) | ((data.z > 250) & (data.y > -190.) & (data.y < ymax_highz))
+    return pass_xz & pass_y
+    
+def IsNu(df):
+    is_numu = abs(df.pdg) == 14
+    is_nue = abs(df.pdg) == 12
+    return is_numu | is_nue   
+
+def isCC1Pi(df): # definition
+    is_1pi1mu = (df.nmu_P_100MeV_3000MeV == 1) & (df.npi_P_130MeV_2000MeV == 1) & (df.npi_P_85MeV_10000MeV == 1)
+    is_NpiNmuNnNp = df.nprim - df.nmu - df.npi - df.np - df.nn == 0
+
+    # Initialize full theta mask (False by default)
+    is_theta = pd.Series(False, index=df.index)
+
+    # Only compute angles where needed
+    df_sel = df.loc[is_1pi1mu]
+    
+    if len(df_sel) > 0:
+        cpi_vec = df_sel.loc[:, ('cpi','genp',['x','y','z'])].to_numpy()
+        mu_vec  = df_sel.loc[:, ('mu','genp',['x','y','z'])].to_numpy()
+     
+
+        mu_mag  = np.linalg.norm(mu_vec, axis=1)
+        cpi_mag = np.linalg.norm(cpi_vec, axis=1)
+        dot     = np.sum(mu_vec * cpi_vec, axis=1)
+
+        cos_theta = dot / np.clip(mu_mag * cpi_mag, 1e-12, None)
+        theta     = np.arccos(np.clip(cos_theta, -1.0, 1.0))
+            
+        # Assign back using the SAME index subset
+        is_theta.loc[df_sel.index] = theta < CTE.max_angle_between_candidates
+
+    is_mu_p =  df.mu.totp < 1
+    #return is_1pi1mu & is_NpiNmuNnNp & is_theta & is_mu_contained
+    return is_1pi1mu & is_NpiNmuNnNp & is_theta & is_mu_p
+
+def add_nu_categ_column(df, is_truth_df = False):
+    if(is_truth_df):
+        truth_df = df
+    else:
+        truth_df = df.slc.truth # Make a copy to safely assign
+
+    is_inside_fv = TruthInFV(truth_df.position)
+    is_nu = IsNu(truth_df)
+    is_signal = isCC1Pi(truth_df)
+    is_cc = truth_df.iscc
+    is_nu_mu_cc = is_cc & (abs(truth_df.pdg) == 14)
+
+    nu_categ = pd.Series("none", index=truth_df.index, dtype="object")
+    # Apply categories
+    nu_categ[~is_nu] = "cosmic"
+    nu_categ[is_nu & ~is_inside_fv] = "out_AV_nu"
+    nu_categ[is_nu & is_inside_fv & ~is_cc] = "NC"
+    nu_categ[is_nu & is_inside_fv & is_cc & (abs(truth_df.pdg) == 12)] = "CC_e"
+    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & (truth_df.npi_P_85MeV_10000MeV == 0) & (truth_df.np_P_325MeV_10000MeV == 1)] = "CC_mu_0pi_1p"
+    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & (truth_df.npi_P_85MeV_10000MeV == 0) & (truth_df.np_P_325MeV_10000MeV > 1)] = "CC_mu_0pi_2p"
+    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & (truth_df.npi_P_85MeV_10000MeV == 0) & (truth_df.np_P_325MeV_10000MeV == 0)] = "CC_mu_0pi_0p"
+    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & (truth_df.npi_P_85MeV_10000MeV > 1)] = "CC_mu_2pi"
+    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & is_signal] = "CC1pi"
+    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & ~is_signal & (truth_df.npi_P_85MeV_10000MeV == 1)] = "other_CC1pi"
+    
+    
+    if(is_truth_df):
+        df['nu_categ'] = nu_categ
+    else:
+        df[('slc','truth', 'nu_categ', '', '','')] = nu_categ 
+    return df
+
+   
+def add_nu_categ_proton_reduced_column(df, is_truth_df = False):
+    if(is_truth_df):
+        truth_df = df
+    else:
+        truth_df = df.truth # Make a copy to safely assign
+
+    is_inside_fv = TruthInFV(truth_df.position)
+    is_nu = IsNu(truth_df)
+    is_signal = isCC1Pi(truth_df)
+    is_cc = truth_df.iscc.astype(bool)
+    is_nu_mu_cc = is_cc & (abs(truth_df.pdg) == 14)
+
+    nu_categ = pd.Series("none", index=truth_df.index, dtype="object")
+    # Apply categories
+    nu_categ[~is_nu] = "cosmic"
+    nu_categ[is_nu & ~is_inside_fv] = "out_AV_nu"
+    nu_categ[is_nu & is_inside_fv & ~is_signal] = "other_nu"
+    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & (truth_df.npi_P_85MeV_10000MeV == 0)] = "CC_mu_0pi"
+    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & (truth_df.npi_P_85MeV_10000MeV > 1)] = "CC_mu_2pi"
+    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & is_signal & (truth_df.np_P_325MeV_10000MeV == 0)] = "0p_CC1Pi"
+    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & is_signal & (truth_df.np_P_325MeV_10000MeV == 1)] = "1p_CC1Pi"
+    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & is_signal & (truth_df.np_P_325MeV_10000MeV > 1)] = "plus2p_CC1Pi"
+    
+    if(is_truth_df):
+        df['nu_categ_proton_reduced'] = nu_categ
+    else:
+        df[('truth', 'nu_categ_proton_reduced', '', '','','')] = nu_categ 
+    return df
+
+def add_genie_categ_column(df, is_truth_df = False):
+    if(is_truth_df):
+        truth_df = df
+    else:
+        truth_df = df.truth # Make a copy to safely assign
+
+    is_inside_fv = TruthInFV(truth_df.position)
+    is_nu = IsNu(truth_df)
+    is_cc = truth_df.iscc.astype(bool)
+    is_nu_mu_cc = is_cc & (abs(truth_df.pdg) == 14)
+
+    genie_categ = pd.Series("other", index=truth_df.index, dtype="object")
+    # Apply categories
+    genie_categ[~is_nu] = "cosmic"
+    genie_categ[is_nu & ~is_inside_fv] = "out_AV_nu"
+    genie_categ[is_nu & is_inside_fv & ~is_cc & (abs(truth_df.pdg) == 14)] = "nu_mu_NC" 
+    genie_categ[is_nu & is_inside_fv & is_nu_mu_cc & (df.genie_mode == 0)] = "nu_mu_CC_QE" 
+    genie_categ[is_nu & is_inside_fv & is_nu_mu_cc & (df.genie_mode == 10)] = "nu_mu_CC_MEC" 
+    genie_categ[is_nu & is_inside_fv & is_nu_mu_cc & (df.genie_mode == 1)] = "nu_mu_CC_Res" 
+    genie_categ[is_nu & is_inside_fv & is_nu_mu_cc & (df.genie_mode == 2)] = "nu_mu_CC_Dis" 
+    
+    if(is_truth_df):
+        df['genie_categ'] = genie_categ
+    else:
+        df[('truth', 'genie_categ', '', '','','')] = nu_categ 
+    return df
+ 
 
 
 def concat_shift_first_index(df1: pd.DataFrame, df2: pd.DataFrame) -> pd.DataFrame:
@@ -44,7 +176,7 @@ def concat_shift_first_index(df1: pd.DataFrame, df2: pd.DataFrame) -> pd.DataFra
     return combined
 
 
-def load_df(file, keys2load, n_max_concat = 100, filter_df = True):
+def load_df(file, keys2load, n_max_concat = 100, filter_df = True, reprocess_df = True, reprocess_truth = True):
     
     print(f"keys in {file}")
     splh.print_keys(file)
@@ -57,22 +189,28 @@ def load_df(file, keys2load, n_max_concat = 100, filter_df = True):
      ## for big files, each key could have more than one split
     df = splh.load_dfs(file, keys2load, n_max_concat)
     print('loaded!')
-    
-    if "cc1pi" in keys2load:
-        print("Changing CC1pi")
-        df['cc1pi'][('slc', 'cut', 'proton_BDT_2pi', '', '', '')] = CutMasks.proton_BDT_cut_mask_2pi(df['cc1pi'], ['__ntuple', 'entry', 'rec.slc..index'])
-        df['cc1pi'][('slc', 'cut', 'proton_BDT_sideband', '', '', '')] = CutMasks.proton_BDT_sideband_mask(df['cc1pi'], ['__ntuple', 'entry', 'rec.slc..index'])
-        df['cc1pi'][('slc', 'cut', 'TPC_containment', '', '', '')] = CutMasks.TPC_containment_mask(df['cc1pi'], ['__ntuple', 'entry', 'rec.slc..index'])
-        df['cc1pi'][('slc', 'cut', 'inside_FV', '', '', '')] = CutMasks.InFV_strict(df['cc1pi'])
-        #df['cc1pi'][('slc', 'cut', 'TPC_containment', '', '', '')] = CutMasks.TPC_containment_mask(df['cc1pi'], ['__ntuple', 'entry', 'rec.slc..index'])
 
-    '''
-    if "nudf" in keys2load:
-        print("CHANGING nudf")
-        df['nudf'] = add_nu_categ_column(df['nudf'], True)
-        df['nudf'] = add_nu_categ_proton_reduced_column(df['nudf'], True)
-        df['nudf'] = add_genie_categ_column(df['nudf'], True)
-    '''
+    print(df['hdr']['pot'].sum())
+
+    if reprocess_df:
+        if "cc1pi" in keys2load:
+            print("Changing CC1pi")
+            df['cc1pi'][('slc', 'cut', 'proton_BDT_2pi', '', '', '')] = CutMasks.proton_BDT_cut_mask_2pi(df['cc1pi'], ['__ntuple', 'entry', 'rec.slc..index'])
+            df['cc1pi'][('slc', 'cut', 'proton_BDT_sideband', '', '', '')] = CutMasks.proton_BDT_sideband_mask(df['cc1pi'], ['__ntuple', 'entry', 'rec.slc..index'])
+            df['cc1pi'][('slc', 'cut', 'TPC_containment', '', '', '')] = CutMasks.TPC_containment_mask(df['cc1pi'], ['__ntuple', 'entry', 'rec.slc..index'])
+            df['cc1pi'][('slc', 'cut', 'inside_FV', '', '', '')] = CutMasks.InFV_strict(df['cc1pi'])
+    
+    df['cc1pi'][('slc', 'cut', 'energy', '', '', '')] = (df['cc1pi'].slc.measure_var.reco_p_mu > 0.1) & (df['cc1pi'].slc.measure_var.reco_p_mu < 1) & (df['cc1pi'].slc.measure_var.TLE_p_pi > 0.13) & (df['cc1pi'].slc.measure_var.TLE_p_pi < 2)   
+    
+    if reprocess_truth:   
+        if "nudf" in keys2load:
+            df['nudf'] = df['nudf'][~df['nudf'].index.duplicated(keep='first')]
+    
+            print("CHANGING nudf")
+            df['nudf'] = add_nu_categ_column(df['nudf'], True)
+            df['nudf'] = add_nu_categ_proton_reduced_column(df['nudf'], True)
+            df['nudf'] = add_genie_categ_column(df['nudf'], True)
+     
     
     if filter_df:
         #Perform duplication validation

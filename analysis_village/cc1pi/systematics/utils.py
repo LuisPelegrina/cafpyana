@@ -192,41 +192,51 @@ def get_univ_rates(cov_type="rate",
     return univ_events, cv_events
 '''
 
-def get_multisigma_rates(cov_type="rate", 
-                    ret=None,
-                    evtdf_signal=None, 
-                    evtdf_div_topo=None,
-                    bkgd_var_wgt=None,
-                    bkgd_cv=None,
-                    nudf_signal=None, 
-                    var_config=None, 
-                    syst_name="", 
-                    bkgd_subtract=True,
-                    plot=False):
-    """
-    for the GENIE uncertainty on the xsec measurement
-    """
 
+
+def get_univ_rates(cov_type="rate", 
+                         ret=None,
+                         evtdf_signal=None, 
+                         evtdf_div_topo=None,
+                         bkgd_var_wgt=None,
+                         bkgd_cv=None,
+                         nudf_signal=None, 
+                         var_config=None, 
+                         syst_name="", 
+                         bkgd_subtract=True,
+                         n_univ=100):
+    """
+    Unified function for both multisigma (shifts) and multiverse (universes) 
+    GENIE/systematic uncertainties.
+    """
+    print(f"Processing systematic: {syst_name} ({cov_type})")
     bins = var_config.bins
-    if ret is None:
-        print("ERROR")
-
     univ_events = []
-    univ_effs   = []
-    univ_smears = []
 
+    # 1. AUTOMATIC KEY DETECTION
+    # Define potential multisigma keys
     morph_key = ('truth', syst_name, 'morph', '', '', '')
     ps_key    = ('truth', syst_name, 'ps1', '', '', '')
     ms_key    = ('truth', syst_name, 'ms1', '', '', '')
+    # Define the first multiverse key
+    univ_0_key = ('truth', syst_name, 'univ_0', '', '', '')
 
     syst_keys = []
-    if morph_key in evtdf_signal.columns:
+    if univ_0_key in evtdf_signal.columns:
+        # Multiverse: Generate keys from univ_0 to univ_n
+        syst_keys = [('truth', syst_name, f"univ_{i}", "", "", "") for i in range(n_univ)]
+    elif morph_key in evtdf_signal.columns:
+        # Multisigma Morph
         syst_keys = [morph_key]
     elif ps_key in evtdf_signal.columns:
+        # Multisigma Plus/Minus shifts
         syst_keys = [ps_key, ms_key]
+    else:
+        raise KeyError(f"Systematic {syst_name} not found in DataFrames.")
 
+    # 2. UNIFIED LOOP
     for key in syst_keys:
-        # Extract the systematic weights for this universe
+       # Extract the systematic weights for this universe
         current_evt_univ_weights = evtdf_signal[key].to_numpy().copy()
         current_evt_univ_weights[np.isnan(current_evt_univ_weights)] = 1.0
         current_evt_univ_weights[current_evt_univ_weights >= 10] = 1.0
@@ -242,8 +252,6 @@ def get_multisigma_rates(cov_type="rate",
                     weights=ret["wgt_sel_truth"] * current_evt_univ_weights,
                     bins=bins
                 )
-            univ_smears.append(reco_vs_true)
-
             current_nu_univ_weights = nudf_signal[key].to_numpy().copy()
             current_nu_univ_weights[np.isnan(current_nu_univ_weights)] = 1.0
             current_nu_univ_weights[current_nu_univ_weights >= 10] = 1.0
@@ -256,7 +264,6 @@ def get_multisigma_rates(cov_type="rate",
                                                weights=ret["wgt_sel_truth"] * current_evt_univ_weights,
                                                bins=bins)
             eff = signal_sel_univ / signal_allmc_univ
-            univ_effs.append(eff)
 
             response_univ = get_response_matrix(reco_vs_true, eff)
             signal_univ = response_univ @ ret["nevts_allmc"]
@@ -268,132 +275,27 @@ def get_multisigma_rates(cov_type="rate",
         else:
             raise ValueError("Invalid covariance type: {}, choose xsec or rate".format(cov_type))
 
-        # ---- uncertainty on the background rate ----
+        # ---- Background Calculation ----
+        # Iterate through background topologies (skipping signal at index 0)
         for i, this_evtdf in enumerate(evtdf_div_topo[1:]):
-            var, wgt = bkgd_var_wgt[i]          # precomputed
-            background_cv = bkgd_cv[i]          # precomputed
+            var, wgt = bkgd_var_wgt[i]
+            bg_cv = bkgd_cv[i]
 
-            univ_wgt = this_evtdf[key].to_numpy().copy()
-            univ_wgt[np.isnan(univ_wgt)] = 1.0
-            univ_wgt[univ_wgt >= 10] = 1.0
-
-            background_univ, _ = np.histogram(var, bins=bins, weights=wgt * univ_wgt)
-
-            if bkgd_subtract:
-                signal_univ += (background_univ - background_cv)
-            else:
-                signal_univ += background_univ
-
-        univ_events.append(signal_univ)
-        
-    univ_events = np.array(univ_events)
-
-    if bkgd_subtract:
-        cv_events = ret["nevts_sel_reco"]
-    else:
-        cv_events = ret["nevts_allsel_reco"]
-
-    return univ_events, cv_events
-
-
-
-def get_univ_rates(cov_type="rate", 
-                    ret=None,
-                    evtdf_signal=None, 
-                    evtdf_div_topo=None,
-                    bkgd_var_wgt=None,
-                    bkgd_cv=None,              # ← new
-                    nudf_signal=None, 
-                    var_config=None, 
-                    syst_name="", 
-                    bkgd_subtract=True,
-                    plot=False,
-                    n_univ=100):
-    """
-    for the GENIE uncertainty on the xsec measurement
-    """
-
-    bins = var_config.bins
-    
-    univ_events = []
-    univ_effs   = []
-    univ_smears = []
-
-    for uidx in range(n_univ):
-        syst_column = ("truth", syst_name, "univ_{}".format(uidx), "", "", "")
-        
-        # Extract the systematic weights for this universe
-        # Using .copy() is safer if you don't want to modify the underlying dataframe
-        current_evt_univ_weights = evtdf_signal[syst_column].copy()
-        current_evt_univ_weights[np.isnan(current_evt_univ_weights)] = 1.0
-        current_evt_univ_weights[current_evt_univ_weights >= 10] = 1.0
-    
-        # ---- uncertainty on the signal rate ----
-        if cov_type == "xsec":
-            if len(bins) == 2:
-                reco_vs_true = np.array([[1.0]])
-            else:
-                reco_vs_true, _, _ = np.histogram2d(
-                    ret["var_sel_truth"], 
-                    ret["var_sel_reco"], 
-                    weights=ret["wgt_sel_truth"] * current_evt_univ_weights, # Use clipped weights here
-                    bins=bins
-                )
-            univ_smears.append(reco_vs_true)
-
-            current_nu_univ_weights = nudf_signal[syst_column].copy()
-            current_nu_univ_weights[np.isnan(current_nu_univ_weights)] = 1.0
-            current_nu_univ_weights[current_nu_univ_weights >= 10] = 1.0
+            bg_univ_wgt = this_evtdf[key].to_numpy().copy()
+            bg_univ_wgt[np.isnan(bg_univ_wgt)] = 1.0
             
-            # efficiency
-            signal_allmc_univ, _ = np.histogram(ret["var_allmc"],
-                                               weights=ret["wgt_allmc"]*current_nu_univ_weights,
-                                               bins=bins)
-            signal_sel_univ, _ = np.histogram(ret["var_sel_truth"],
-                                               weights=ret["wgt_sel_truth"]*current_evt_univ_weights,
-                                               bins=bins)
-            eff = signal_sel_univ / signal_allmc_univ
-            univ_effs.append(eff)
-
-            response_univ = get_response_matrix(reco_vs_true, eff)
-            signal_univ = response_univ @ ret["nevts_allmc"] # note that we multiply the CV signal rate!
-            # signal_univ = signal_cv
-
-        elif cov_type == "rate":            
-            signal_univ, _ = np.histogram(ret["var_sel_reco"], 
-                                          weights=ret["wgt_sel_reco"]*current_evt_univ_weights,
-                                          bins=bins)
-        else:
-            raise ValueError("Invalid covariance type: {}, choose xsec or rate".format(cov_type))
-
-        # TODO: this isn't computationally efficient, but it's useful for debugging
-        # ---- uncertainty on the background rate ----
-        # loop over background categories
-        # + univ background - cv background
-        # note: cv background subtraction cancels out with the cv background subtraction for the cv event rate. 
-        #       doing it anyways for the plot of universes on background subtracted event rate.
-        for i, this_evtdf in enumerate(evtdf_div_topo[1:]):
-            var, wgt = bkgd_var_wgt[i]         # precomputed
-            background_cv = bkgd_cv[i]         # precomputed
-
-            univ_wgt = this_evtdf[syst_column].to_numpy().copy()
-            univ_wgt[np.isnan(univ_wgt)] = 1.0
-            univ_wgt[univ_wgt >= 10] = 1.0
-
-            background_univ, _ = np.histogram(var, bins=bins, weights=wgt * univ_wgt)
+            bg_hist_univ, _ = np.histogram(var, bins=bins, weights=wgt * bg_univ_wgt)
 
             if bkgd_subtract:
-                signal_univ += (background_univ - background_cv)
+                signal_univ += (bg_hist_univ - bg_cv)
             else:
-                signal_univ += background_univ
+                signal_univ += bg_hist_univ
 
         univ_events.append(signal_univ)
-    univ_events = np.array(univ_events)
 
-    if bkgd_subtract:
-        cv_events = ret["nevts_sel_reco"]
-    else:
-        cv_events = ret["nevts_allsel_reco"]
+    # 3. RETURN RESULTS
+    univ_events = np.array(univ_events)
+    cv_events = ret["nevts_sel_reco"] if bkgd_subtract else ret["nevts_allsel_reco"]
 
     return univ_events, cv_events
 

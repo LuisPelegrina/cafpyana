@@ -256,3 +256,87 @@ min_reco_cols_to_keep = [
         ('slc','measure_var','mu_true_costheta','','',''),
         ('slc','measure_var','muon_contained','','',''),
 ]
+
+
+
+
+reco_cols_to_keep_for_data_mc_comparison = [
+        ('slc', 'tmatch', 'idx', '', '', ''),
+        ('slc', 'self', '', '', '', ''),
+        
+        ('slc', 'nu_score', '', '', '', ''),
+    
+        #Pfp truth info
+        ('pfp', 'trk', 'truth', 'p', 'p_type', ''),
+        ('pfp', 'trk', 'truth', 'p', 'pdg', ''),
+        ('pfp', 'trk', 'truth', 'p', 'end_process', ''),
+        
+        #track optimization
+        ('pfp', 'trk', 'len', '', '', ''),
+        ('pfp', 'trackScore', '', '', '', ''),
+        ('pfp', 'dist_to_vertex', '', '', '', ''),
+        ('pfp', 'parent_is_primary', '', '', '', ''),
+        
+        #chi2 optimization
+        ('pfp', 'trk', 'chi2pid', 'best', 'chi2_muon', ''),
+        ('pfp', 'trk', 'chi2pid', 'best', 'chi2_proton', ''),
+        
+        #angle cut
+        ('slc', 'measure_var', 'angle_between_candidates', '', '', ''),
+    
+        #BDT vars
+        ('pfp', 'trk', 'chi2_exp_pol', '', '', ''),
+        ('pfp', 'trk', 'frac50', '', '', ''),
+        ('pfp', 'scatter_angle_ratio', '', '', '', ''),
+
+        #pfp containment masks
+        ('pfp', 'is_exiting', '', '', '', ''),
+        
+        #BDT columns
+        ('pfp','trk','bdt_muon_pion_score','','',''),
+        ('pfp','trk','bdt_proton_score','','',''),
+        
+        #cuts boolean
+        ('slc', 'cut', 'obvious_cosmic', '', '', ''),
+        ('slc', 'cut', 't0', '', '', ''),
+        ('slc', 'cut', 'inside_FV', '', '', ''),
+        ('slc', 'cut', 'nu_score', '', '', ''),
+        ('slc', 'cut', 'track', '', '', ''),
+        ('slc', 'cut', 'shower', '', '', ''),
+        ('slc', 'cut', 'MIP_candidates', '', '', ''),
+        ('slc', 'cut', 'angle', '', '', ''),
+        ('slc', 'cut', 'proton_BDT', '', '', ''),
+        ('slc', 'cut', 'proton_BDT_sideband', '', '', ''),
+        ('slc', 'cut', 'proton_BDT_2pi', '', '', ''),
+        ('slc', 'cut', 'TPC_containment', '', '', ''),
+        ('slc', 'cut', 'containment', '', '', ''),
+        ('slc', 'cut', 'michel', '', '', ''),
+        ('slc', 'cut', 'extra_pion', '', '', ''),
+        ('slc','cut','energy','','',''),
+        ('slc','cut','no_high_yz','','',''),
+
+        #Measure variables
+        ('slc', 'measure_var', 'num_protons', '', '', ''),
+        ('slc','measure_var','reco_p_mu','','',''),
+        ('slc','measure_var','reco_cos_theta_mu','','',''),
+        ('slc','measure_var','range_p_pi','','',''),
+        ('slc','measure_var','TLE_p_pi','','',''),
+        ('slc','measure_var','reco_cos_theta_pi','','',''),
+    
+        ('slc','measure_var','mu_true_p_type','','',''),
+        ('slc','measure_var','pi_true_p_type','','',''),
+    
+        #Cut vars
+        ('slc','cut_var','n_prim_tracks','','',''), 
+        ('slc','cut_var','n_prim_showers','','',''),
+        ('slc','cut_var','n_MIP_candidates','','',''),
+        ('slc','cut_var','n_MIP_candidates_proton','','',''),
+        ('slc','cut_var','n_exiting_pfps','','',''),
+        ('slc','cut_var','n_exiting_z_pfps','','',''),
+        ('slc','cut_var','n_MIP_candidate_michel','','',''),
+        ('slc','cut_var','n_extra_pions','','',''),
+ 
+        ('slc','measure_var','delta_pT','','',''),
+        ('slc','measure_var','delta_alpha_T','','',''),
+        ('slc','measure_var','delta_phi_T','','',''),
+    ]

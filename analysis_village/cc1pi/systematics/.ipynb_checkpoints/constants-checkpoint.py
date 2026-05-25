@@ -14,8 +14,6 @@ from analysis_village.cc1pi.GraphUtils.Utils import *
 plot = False
 
 
-
-
 DETECTOR = "SBND_nohighyz"
 EPSILON = 1e-6 # for clipping distributions at bin ranges
 PROTON_MASS = 0.938272
@@ -75,7 +73,8 @@ def get_xsec_unit():
 '''
 
 plot = True
-data_tot_pot = 5.947e+18
+data_tot_pot = 4.516288e+18
+data_gates = 948132
 def get_xsec_unit():
     # ==== xsec unit calculation ====
     # TODO: z-dependence?

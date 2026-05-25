@@ -3,7 +3,6 @@ import numpy as np
 import pandas as pd
    
 
-group_levels = ['__ntuple', 'entry', 'rec.slc..index']
     
 from analysis_village.cc1pi.Constants import CTE as CTE
 group_levels = ['__ntuple', 'entry', 'rec.slc..index']
@@ -79,20 +78,41 @@ def build_event_cumulative_masks(evt_df, sideband = "shower"):
 
     return cumulative_masks
 
+GROUP_LEVELS = ['__ntuple', 'entry', 'rec.slc..index']
+WGT_COL = ('slc', 'wgt', '', '', '', '')
 
-def get_n_evt(df, use_weight=True):
-    # event identifier = first two index levels
-    evt_index = df.index.droplevel(list(df.index.names[3:]))
+def get_n_evt(df, mask=None, use_weight=True):
+    if WGT_COL not in df.columns:
+        raise ValueError("Weight column not found")
+
+    wgt = df[WGT_COL] if mask is None else df.loc[mask, WGT_COL]
+    grouped = wgt.groupby(level=GROUP_LEVELS)
 
     if not use_weight:
-        return evt_index.nunique()
+        return grouped.ngroups
 
-    wgt_col = ('slc','wgt','','','','')
+    return grouped.first().sum()
 
+
+'''
+def get_n_evt(df, use_weight=True):
+    # Use .codes on each level directly — no index copy
+    level_arrays = [df.index.get_level_values(i) for i in range(3)]
+    
+    if not use_weight:
+        # Combine levels into a single structured array for unique counting
+        # Much cheaper than creating a new MultiIndex
+        combined = list(zip(*level_arrays))  # avoids full MultiIndex rebuild
+        return len(set(combined))
+
+    wgt_col = ('slc', 'wgt', '', '', '', '')
     if wgt_col not in df.columns:
         raise ValueError("Weight column not found")
 
-    # select the weight column first, then group
-    weights = df[wgt_col].groupby(evt_index).first()
-
-    return weights.sum()
+    # Work on a minimal 2-column frame: avoid copying the whole df
+    slim = df[[wgt_col]].copy(deep=False)  # shallow copy, no data duplication
+    slim.index = pd.MultiIndex.from_arrays(level_arrays)  # drop unused levels in-place
+    
+    # ~first per event: use groupby on the slimmed index
+    return slim[wgt_col].groupby(level=[0, 1, 2]).first().sum()
+'''

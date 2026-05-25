@@ -142,40 +142,29 @@ def add_genie_categ_column(df, is_truth_df = False):
         df[('truth', 'genie_categ', '', '','','')] = nu_categ 
     return df
  
-
-
 def concat_shift_first_index(df1: pd.DataFrame, df2: pd.DataFrame) -> pd.DataFrame:
-    # Safety checks
     if not isinstance(df1.index, pd.MultiIndex) or not isinstance(df2.index, pd.MultiIndex):
         raise ValueError("Both DataFrames must have MultiIndex")
-
     if df1.index.nlevels != df2.index.nlevels:
         raise ValueError("MultiIndex levels must match")
 
-    # Get max of first level in df1
-    max_first_level = df1.index.get_level_values(0).max()
+    shift = df1.index.get_level_values(0).max() + 1
 
-    # Compute shift
-    shift = max_first_level + 1
+    # Shift only the first level in-place on the arrays, no full copy
+    levels    = df2.index.levels
+    codes     = df2.index.codes
+    new_level = levels[0] + shift  # shifts only the unique values, not every row
 
-    # Extract df2 index as DataFrame
-    index_df2 = df2.index.to_frame(index=False)
+    new_index = pd.MultiIndex(
+        levels = [new_level] + list(levels[1:]),
+        codes  = codes,
+        names  = df2.index.names
+    )
 
-    # Shift first level
-    index_df2.iloc[:, 0] = index_df2.iloc[:, 0] + shift
+    # Assign new index without copying data — use a no-copy view
+    df2_reindexed = df2.set_axis(new_index, axis=0)
 
-    # Rebuild MultiIndex
-    new_index_df2 = pd.MultiIndex.from_frame(index_df2, names=df2.index.names)
-
-    # Assign new index
-    df2_shifted = df2.copy()
-    df2_shifted.index = new_index_df2
-
-    # Concatenate
-    combined = pd.concat([df1, df2_shifted])
-
-    return combined
-
+    return pd.concat([df1, df2_reindexed])
 
 def load_df(file, keys2load, n_max_concat = 100, filter_df = True, reprocess_df = True, reprocess_truth = True):
     
@@ -207,7 +196,9 @@ def load_df(file, keys2load, n_max_concat = 100, filter_df = True, reprocess_df 
             df['cc1pi'][('slc', 'cut', 'no_high_yz', '', '', '')] = CutMasks.not_in_high_y_high_z_containment_mask(df['cc1pi'], ['__ntuple', 'entry', 'rec.slc..index'])
             print("Finish")
     
-    df['cc1pi'][('slc', 'cut', 'energy', '', '', '')] = (df['cc1pi'].slc.measure_var.reco_p_mu > 0.1) & (df['cc1pi'].slc.measure_var.reco_p_mu < 1) & (df['cc1pi'].slc.measure_var.TLE_p_pi > 0.13) & (df['cc1pi'].slc.measure_var.TLE_p_pi < 2)   
+    if "cc1pi" in keys2load:
+        df['cc1pi'][('slc', 'cut', 'energy', '', '', '')] = (df['cc1pi'].slc.measure_var.reco_p_mu > 0.1) & (df['cc1pi'].slc.measure_var.reco_p_mu < 1) & (df['cc1pi'].slc.measure_var.TLE_p_pi > 0.13) & (df['cc1pi'].slc.measure_var.TLE_p_pi < 2)   
+  
     print("Change energy")
     
     if reprocess_truth:   

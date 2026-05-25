@@ -45,7 +45,7 @@ def getsyst(f, systematics, nuind, multisim_nuniv=100, slim=False, slimname="sli
         # +/- 1,2,3 sigma
         if wgt_types[isyst] == 3 and wgt_nuniv[isyst] == 1: # morph unisim
             s_morph = wgts[wgts.isyst == isyst].wgt.groupby(level=[0,1]).first().clip(lower=0, upper=30)
-            s_morph[s_morph > 10] = 1
+            #s_morph[s_morph > 10] = 1
             s_morph.name = (s, "morph")
 
             if slim:
@@ -67,7 +67,7 @@ def getsyst(f, systematics, nuind, multisim_nuniv=100, slim=False, slimname="sli
                 s_ps.name = (s, "ps%i" % (isigma+1))
                 s_ms = wgts[wgts.isyst == isyst].wgt.groupby(level=[0,1]).nth(2*isigma+1).clip(lower=0, upper=30)
                 s_ms.name = (s, "ms%i" % (isigma+1))
-                s_ps[s_ps > 10] = 1
+                #s_ps[s_ps > 10] = 1
 
                 if slim and isigma == 0: # use ps1
                     for i in range(multisim_nuniv):

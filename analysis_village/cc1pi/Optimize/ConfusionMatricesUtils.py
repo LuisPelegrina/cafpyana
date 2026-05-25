@@ -68,14 +68,14 @@ def plot_confusion_matrix(
     # Plot
     # -------------------------
     fig, axes = plt.subplots(
-        1, 3, figsize=(19, 6), sharey=True, constrained_layout=True
+        1, 2, figsize=(13, 6), sharey=True, constrained_layout=True
     )
 
 
     matrices = [
         (cm_purity, "Purity", True),
         (cm_eff, "Efficiency", True),
-        (cm_effpur, "Eff × Pur", False),
+        #(cm_effpur, "Eff × Pur", False),
     ]
 
     for ax, (cm_plot, title, show_counts) in zip(axes, matrices):
@@ -95,7 +95,7 @@ def plot_confusion_matrix(
                 value = cm_plot[i, j]
                 txt = f"{int(cm[i,j])}\n{value:.1f}%" if show_counts else f"{value:.1f}%"
                 text_color = "white" if value > 60 else "black"
-                ax.text(j, i, txt, ha="center", va="center", color=text_color, fontsize=10)
+                ax.text(j, i, txt, ha="center", va="center", color=text_color, fontsize=14)
 
     axes[0].set_ylabel("Reco")
     cbar = fig.colorbar(im, ax=axes.ravel().tolist())

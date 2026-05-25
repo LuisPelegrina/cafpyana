@@ -48,7 +48,6 @@ def is_primary_track_mask(df):
     is_primary_mask = (df.pfp.parent_is_primary == True) & (df.pfp.dist_to_vertex < CTE.max_primary_distance_to_vertex)
     is_track_mask = (df.pfp.trk.len > CTE.min_track_lenght) & (df.pfp.trackScore > CTE.min_track_score)
     return is_primary_mask & is_track_mask
-
     
 def is_primary_shower_mask(df):
     is_pandora_primary_mask = (df.pfp.parent_is_primary == True)
@@ -323,3 +322,48 @@ def TPC_containment_mask(df, group_levels):
     cathode_crossing_mask = pd.Series(~df.index.droplevel('rec.slc.reco.pfp..index').isin(cathode_crossing_invalid_slices), index=df.index)
 
     return mask & cathode_crossing_mask
+
+
+def primary_proton_cut_mask(df, group_levels):
+    primary_proton_df = df[is_primary_proton_mask(df)]
+
+    # Count how many pfps per slice
+    primary_proton_counts = primary_proton_df.groupby(level=group_levels).size()
+
+    # Get only slices with at least 2 pfps
+
+    valid_slices = primary_proton_counts[primary_proton_counts > 0].index
+
+    # Apply the mask to original DataFrame
+    final_mask = pd.Series(df.index.droplevel('rec.slc.reco.pfp..index').isin(valid_slices), index=df.index)
+
+    return final_mask
+
+
+def is_primary_proton_mask(df):
+    is_primary_mask = (df.pfp.parent_is_primary == True) & (df.pfp.dist_to_vertex < CTE.max_primary_distance_to_vertex)
+    is_track_mask = (df.pfp.trk.len > CTE.MIP_candidate_min_TL) & (df.pfp.trackScore > CTE.min_track_score)
+    chi2_mask = (df.pfp.trk.chi2pid.best.chi2_proton < CTE.MIP_candidate_min_proton_score)
+    
+    return is_primary_mask & is_track_mask & chi2_mask
+
+def is_long_primary_track_mask(df):
+    is_primary_mask = (df.pfp.parent_is_primary == True) & (df.pfp.dist_to_vertex < CTE.max_primary_distance_to_vertex)
+    is_track_mask = (df.pfp.trk.len > CTE.MIP_candidate_min_TL) & (df.pfp.trackScore > CTE.min_track_score)
+    
+    return is_primary_mask & is_track_mask
+
+
+def long_primary_track_cut_mask(df, group_levels):
+    track_df = df[is_long_primary_track_mask(df)]
+
+    # Count how many pfps per slice
+    track_counts = track_df.groupby(level=group_levels).size()
+ 
+    # Get only slices with at least 2 pfps
+    valid_slices = track_counts[track_counts > 1].index
+
+    # Apply the mask to original DataFrame
+    final_mask = pd.Series(df.index.droplevel('rec.slc.reco.pfp..index').isin(valid_slices), index=df.index)
+
+    return final_mask

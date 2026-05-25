@@ -82,14 +82,14 @@ if load_custom_class("PhysdEdx"):
 group_levels = ['entry', 'rec.slc..index']
 pfp_levels = ['entry','rec.slc..index','rec.slc.reco.pfp..index']
 
+
 def TruthInFV(data):
-    xmax = 190.
-    zmin = 10.
-    zmax = 450.
-    ymax_highz = 100.
-    pass_xz = (np.abs(data.x) < xmax) & (data.z > zmin) & (data.z < zmax)
-    pass_y = ((data.z < 250) & (np.abs(data.y) < 190.)) | ((data.z > 250) & (data.y > -190.) & (data.y < ymax_highz))
-    return pass_xz & pass_y
+    x_region = (np.abs(data.x) > 5) & (np.abs(data.x) < 190)
+    z_region1 = (data.z > 10)  & (data.z < 250) & (np.abs(data.y) < 190)
+    z_region2 = (data.z > 250) & (data.z < 450) & (data.y > -190) & (data.y < 100) & (data.x < 0)
+    z_region3 = (data.z > 250) & (data.z < 450) & (data.y > -190) & (data.y < 190) & (data.x > 0)
+    contained = x_region & (z_region1 | z_region2 | z_region3)
+    return contained
     
 def IsNu(df):
     is_numu = abs(df.pdg) == 14
@@ -117,98 +117,97 @@ def isCC1Pi(df): # definition
 
         cos_theta = dot / np.clip(mu_mag * cpi_mag, 1e-12, None)
         theta     = np.arccos(np.clip(cos_theta, -1.0, 1.0))
-        
+            
         # Assign back using the SAME index subset
         is_theta.loc[df_sel.index] = theta < CTE.max_angle_between_candidates
-    
-    #return is_1pi1mu & is_NpiNmuNnNp & is_theta & is_mu_contained
-    return is_1pi1mu & is_NpiNmuNnNp & is_theta
 
-def add_max_angle_between_candidates_column(df):
+    is_mu_p =  df.mu.totp < 1
+    return is_1pi1mu & is_NpiNmuNnNp & is_theta & is_mu_p
+
+from itertools import combinations
+import numpy as np
+import pandas as pd
+
+def add_max_angle_between_candidates_column(df, group_levels=['entry', 'rec.slc..index']):
     # 1. Initialize result series at the slice level
-    # We use nan so that slices with < 2 particles naturally fail the cut
     angle_series = pd.Series(np.nan, index=df.index)
     
-    # 2. Filter for MIP candidates only
+    # 2. Filter for MIP and Proton candidates
     mip_df = df[CutMasks.is_MIP_candidate_mask(df)]
+    proton_df = df[CutMasks.is_primary_proton_mask(df)]
     
-    for idx, group in mip_df.groupby(level=group_levels):
-        # We need at least 2 particles to have an angle
-        if len(group) < 2:
+    # 3. Group both dataframes by the slice levels
+    mip_groups = mip_df.groupby(level=group_levels)
+    proton_groups = proton_df.groupby(level=group_levels)
+    
+    # Get the union of all unique slice indices present in either dataframe
+    all_slice_indices = set(mip_groups.groups.keys()).union(proton_groups.groups.keys())
+    
+    # Define the column coordinates for the direction vectors and track length
+    dir_cols = [
+        ('pfp', 'trk', 'dir', 'x', '', ''),
+        ('pfp', 'trk', 'dir', 'y', '', ''),
+        ('pfp', 'trk', 'dir', 'z', '', '')
+    ]
+    len_col = ('pfp', 'trk', 'len', '', '', '')  # Standard column label for track length
+    
+    # 4. Iterate through every unique slice index
+    for idx in all_slice_indices:
+        # Retrieve the mip and proton subgroups if they exist for this slice index
+        mip_group = mip_groups.get_group(idx) if idx in mip_groups.groups else pd.DataFrame()
+        proton_group = proton_groups.get_group(idx) if idx in proton_groups.groups else pd.DataFrame()
+        
+        # Condition 1: Must have at least 1 MIP candidate
+        if len(mip_group) < 1:
             continue
-
-        # Extract direction vectors for ALL candidates in the slice
-        # Shape: (N_particles, 3)
-        dirs = group.loc[:, [
-            ('pfp', 'trk', 'dir', 'x', '', ''),
-            ('pfp', 'trk', 'dir', 'y', '', ''),
-            ('pfp', 'trk', 'dir', 'z', '', '')
-        ]].astype(float).values
-
+            
+        # Condition 2: Total candidate particles must be at least 2
+        total_len = len(mip_group) + len(proton_group)
+        if total_len < 2:
+            continue
         max_angle = 0.0
         
-        # 4. Check every unique pair of particles
-        for dir_1, dir_2 in combinations(dirs, 2):
-            mag1 = np.linalg.norm(dir_1)
-            mag2 = np.linalg.norm(dir_2)
+        # Case A: 2 or more MIPs -> Only use MIPs
+        if len(mip_group) >= 2:
+            dirs = mip_group.loc[:, dir_cols].astype(float).values
             
+            # Check every unique pair among MIPs
+            for dir_1, dir_2 in combinations(dirs, 2):
+                mag1 = np.linalg.norm(dir_1)
+                mag2 = np.linalg.norm(dir_2)
+                if mag1 > 0 and mag2 > 0:
+                    dot = np.dot(dir_1, dir_2)
+                    angle = np.arccos(np.clip(dot / (mag1 * mag2), -1.0, 1.0))
+                    if angle > max_angle:
+                        max_angle = angle
+
+        # Case B: Exactly 1 MIP -> Combine with the longest particle in the proton group
+        elif len(mip_group) == 1 and len(proton_group) >= 1:
+            # Extract single MIP direction vector
+            mip_dir = mip_group.loc[:, dir_cols].astype(float).values[0]
+            
+            # Find the row index of the longest proton track in this slice group
+            longest_proton_idx = proton_group[len_col].astype(float).idxmax()
+            
+            # Extract that specific proton's direction vector
+            proton_dir = proton_group.loc[longest_proton_idx, dir_cols].astype(float).values
+            
+            # Compute the single angle between the 1 MIP and the longest Proton
+            mag1 = np.linalg.norm(mip_dir)
+            mag2 = np.linalg.norm(proton_dir)
             if mag1 > 0 and mag2 > 0:
-                dot = np.dot(dir_1, dir_2)
-                # Compute angle and update max if this pair is wider
-                angle = np.arccos(np.clip(dot / (mag1 * mag2), -1.0, 1.0))
-                if angle > max_angle:
-                    max_angle = angle
-
-        # 5. Broadcast back to the full dataframe for all PFP entries in this slice
-        # This ensures every particle in the slice 'knows' the max angle of the group
-        angle_series.loc[idx] = max_angle
-            
-    # Add column to the original dataframe
-    df[('slc', 'measure_var', 'max_angle_between_candidates', '', '', '')] = angle_series
-
-    return df
-
-def add_min_angle_between_candidates_column(df):
-    # 1. Initialize result series at the slice level
-    # We use nan so that slices with < 2 particles naturally fail the cut
-    angle_series = pd.Series(np.nan, index=df.index)
-    
-    # 2. Filter for MIP candidates only
-    mip_df = df[CutMasks.is_MIP_candidate_mask(df)]
-    
-    for idx, group in mip_df.groupby(level=group_levels):
-        # We need at least 2 particles to have an angle
-        if len(group) < 2:
+                dot = np.dot(mip_dir, proton_dir)
+                max_angle = np.arccos(np.clip(dot / (mag1 * mag2), -1.0, 1.0))
+                
+        else:
+            # Safety catch-all (e.g., 1 MIP and 0 Protons, which total_len < 2 already filtered)
             continue
-
-        # Extract direction vectors for ALL candidates in the slice
-        # Shape: (N_particles, 3)
-        dirs = group.loc[:, [
-            ('pfp', 'trk', 'dir', 'x', '', ''),
-            ('pfp', 'trk', 'dir', 'y', '', ''),
-            ('pfp', 'trk', 'dir', 'z', '', '')
-        ]].astype(float).values
-
-        max_angle = 3000.0
         
-        # 4. Check every unique pair of particles
-        for dir_1, dir_2 in combinations(dirs, 2):
-            mag1 = np.linalg.norm(dir_1)
-            mag2 = np.linalg.norm(dir_2)
-            
-            if mag1 > 0 and mag2 > 0:
-                dot = np.dot(dir_1, dir_2)
-                # Compute angle and update max if this pair is wider
-                angle = np.arccos(np.clip(dot / (mag1 * mag2), -1.0, 1.0))
-                if angle < max_angle:
-                    max_angle = angle
-
-        # 5. Broadcast back to the full dataframe for all PFP entries in this slice
-        # This ensures every particle in the slice 'knows' the max angle of the group
+        # 7. Broadcast the calculated max angle back to this entire slice index
         angle_series.loc[idx] = max_angle
-            
-    # Add column to the original dataframe
-    df[('slc', 'measure_var', 'min_angle_between_candidates', '', '', '')] = angle_series
+        
+    # Add the column to the original dataframe using your multi-index structure
+    df[('slc', 'measure_var', 'max_angle_between_candidates', '', '', '')] = angle_series
 
     return df
     
@@ -983,41 +982,6 @@ def calculate_hypfit_p(track_id, best_plane, hit_df, target_pdg=211, cleaning="n
         # accumulation of TF1 objects created in C++
         ROOT.gROOT.GetListOfFunctions().Clear()
 
-'''
-def get_mu_pi_vars(group):
-    # group has 2 rows (2 PFPs)
-
-    exiting = CutMasks.exiting_pfp_mask(group)
-
-    # Case 1️⃣: exactly one exiting PFP
-    if exiting.sum() == 1:
-        p_mu = group.loc[exiting].pfp.trk.mcsP.fwdP_muon.iloc[0]
-        p_pi = group.loc[~exiting].pfp.trk.rangeP.p_pion.iloc[0]
-        cos_theta_mu =  group.loc[exiting].pfp.trk.dir.z.iloc[0]
-        cos_theta_pi =  group.loc[~exiting].pfp.trk.dir.z.iloc[0]
-        muon_contained = False
-
-    # Case 2️⃣: no exiting PFP
-    else:
-        group_sorted = group.sort_values(
-            ('pfp','trk','bdt_muon_pion_score','','','')
-        )
-
-        p_mu = group_sorted.pfp.trk.rangeP.p_muon.iloc[1]
-        p_pi = group_sorted.pfp.trk.rangeP.p_pion.iloc[0]
-        cos_theta_mu =  group_sorted.pfp.trk.dir.z.iloc[1]
-        cos_theta_pi =  group_sorted.pfp.trk.dir.z.iloc[0]
-        muon_contained = True
-
-    return pd.Series({
-        'reco_p_mu': p_mu,
-        'reco_p_pi': p_pi,
-        'cos_theta_mu': cos_theta_mu,
-        'cos_theta_pi': cos_theta_pi,
-        'muon_contained': muon_contained,
-    })
-'''
-
 
 def build_p3d(df, p_col):
     return np.vstack([
@@ -1091,214 +1055,21 @@ def add_transverse_vars_column(df):
 
     return df
 
-
-'''
-def get_mu_pi_vars(group, best_hit_df):
-
-    # group has 2 rows (2 PFPs)
-    exiting = CutMasks.exiting_pfp_mask(group)
-
-    # Case 1: exactly one exiting PFP
-    if exiting.sum() == 1:
-        muon_row = group.loc[exiting]
-        pion_row = group.loc[~exiting]
-        
-        
-        # NEW: Calculate p_pi using Hypfit
-        
-        p_mu = muon_row.pfp.trk.mcsP.fwdP_muon.iloc[0]
-        cos_theta_mu = muon_row.pfp.trk.dir.z.iloc[0]
-        mu_chi2_proton = muon_row.pfp.trk.chi2pid.best.chi2_proton.iloc[0]
-        mu_chi2_mu = muon_row.pfp.trk.chi2pid.best.chi2_muon.iloc[0]
-        mu_chi2_exp_pol = muon_row.pfp.trk.chi2_exp_pol.iloc[0]
-        mu_scatter_angle_ratio = muon_row.pfp.scatter_angle_ratio.iloc[0]
-        mu_max_daughter_hits = muon_row.pfp.max_daughter_hits.iloc[0]
-        mu_frac50 = muon_row.pfp.trk.frac50.iloc[0]
-        mu_bdt_score_proton = muon_row.pfp.trk.bdt_proton_score.iloc[0]
-        mu_bdt_score_muon_pion = muon_row.pfp.trk.bdt_muon_pion_score.iloc[0]
-        
-        # split components
-        p_mu_x = p_mu * muon_row.pfp.trk.dir.x.iloc[0]
-        p_mu_y = p_mu * muon_row.pfp.trk.dir.y.iloc[0]
-        p_mu_z = p_mu * muon_row.pfp.trk.dir.z.iloc[0]
-
-        
-        
-        p_pi_range = pion_row.pfp.trk.rangeP.p_pion.iloc[0]
-        cos_theta_pi = pion_row.pfp.trk.dir.z.iloc[0]
-        pion_id = pion_row.index[0] # This is the (ntuple, entry, slc, pfp) tuple
-        best_plane = pion_row.pfp.trk.bestplane.iloc[0]
-        #best_plane = 2
-        p_pi_TLE = calculate_hypfit_p(track_id=pion_id, best_plane=best_plane, hit_df=best_hit_df, target_pdg=211, cleaning="all")
-        #p_pi_TLE = 0.5
-        pi_chi2_proton = pion_row.pfp.trk.chi2pid.best.chi2_proton.iloc[0]
-        pi_chi2_mu = pion_row.pfp.trk.chi2pid.best.chi2_muon.iloc[0]
-        pi_chi2_exp_pol = pion_row.pfp.trk.chi2_exp_pol.iloc[0]
-        pi_scatter_angle_ratio = pion_row.pfp.scatter_angle_ratio.iloc[0]
-        pi_max_daughter_hits = pion_row.pfp.max_daughter_hits.iloc[0]
-        pi_frac50 = pion_row.pfp.trk.frac50.iloc[0]
-        pi_bdt_score_proton = pion_row.pfp.trk.bdt_proton_score.iloc[0]
-        pi_bdt_score_muon_pion = pion_row.pfp.trk.bdt_muon_pion_score.iloc[0]
-       
-        # split components
-        p_pi_x = p_pi_TLE * pion_row.pfp.trk.dir.x.iloc[0]
-        p_pi_y = p_pi_TLE * pion_row.pfp.trk.dir.y.iloc[0]
-        p_pi_z = p_pi_TLE * pion_row.pfp.trk.dir.z.iloc[0]
-
-
-        
-        muon_contained = False
-        
-        if(muon_row.pfp.trk.truth.p.pdg.iloc[0] > -2147483648):
-            mu_true_pdg = muon_row.pfp.trk.truth.p.pdg.iloc[0]   
-            mu_true_p_type = muon_row.pfp.trk.truth.p.p_type.iloc[0]
-            mu_true_end_process = muon_row.pfp.trk.truth.p.end_process.iloc[0]
-            pi_true_pdg = pion_row.pfp.trk.truth.p.pdg.iloc[0]
-            pi_true_p_type = pion_row.pfp.trk.truth.p.p_type.iloc[0]
-            pi_true_end_process = pion_row.pfp.trk.truth.p.end_process.iloc[0]
-            mu_true_p = magdf(muon_row.pfp.trk.truth.p.genp).iloc[0]
-            pi_true_p = magdf(pion_row.pfp.trk.truth.p.genp).iloc[0]          
-            mu_true_costheta = muon_row.pfp.trk.truth.p.genp.z.iloc[0]/mu_true_p
-            pi_true_costheta = pion_row.pfp.trk.truth.p.genp.z.iloc[0]/pi_true_p
-        else:
-            mu_true_pdg = -1   
-            mu_true_p_type = "none"
-            mu_true_end_process = -1
-            pi_true_pdg = -1
-            pi_true_p_type = "none"
-            pi_true_end_process = -1
-            mu_true_p = -1
-            pi_true_p = -1         
-            mu_true_costheta = -1
-            pi_true_costheta = -1
-        
-        
-    # Case 2: no exiting PFP
-    else:
-        group_sorted = group.sort_values(('pfp','trk','bdt_muon_pion_score','','',''))
-        
-        p_mu = group_sorted.pfp.trk.rangeP.p_muon.iloc[1]
-        cos_theta_mu = group_sorted.pfp.trk.dir.z.iloc[1]
-        mu_chi2_proton = group_sorted.pfp.trk.chi2pid.best.chi2_proton.iloc[1]
-        mu_chi2_mu = group_sorted.pfp.trk.chi2pid.best.chi2_muon.iloc[1]
-        mu_chi2_exp_pol = group_sorted.pfp.trk.chi2_exp_pol.iloc[1]
-        mu_scatter_angle_ratio = group_sorted.pfp.scatter_angle_ratio.iloc[1]
-        mu_max_daughter_hits = group_sorted.pfp.max_daughter_hits.iloc[1]
-        mu_frac50 = group_sorted.pfp.trk.frac50.iloc[1]
-        mu_bdt_score_proton = group_sorted.pfp.trk.bdt_proton_score.iloc[1]
-        mu_bdt_score_muon_pion = group_sorted.pfp.trk.bdt_muon_pion_score.iloc[1]
-        
-        # split components
-        p_mu_x = p_mu * group_sorted.pfp.trk.dir.x.iloc[1]
-        p_mu_y = p_mu * group_sorted.pfp.trk.dir.y.iloc[1]
-        p_mu_z = p_mu * group_sorted.pfp.trk.dir.z.iloc[1]
-
-            
-        p_pi_range = group_sorted.pfp.trk.rangeP.p_pion.iloc[0]
-        cos_theta_pi = group_sorted.pfp.trk.dir.z.iloc[0]
-        pion_id = group_sorted.index[0] # This is the (ntuple, entry, slc, pfp) tuple
-        best_plane = group_sorted.pfp.trk.bestplane.iloc[0]
-        #best_plane = 2
-        p_pi_TLE = calculate_hypfit_p(track_id=pion_id, best_plane=best_plane, hit_df=best_hit_df, target_pdg=211, cleaning="all")
-        #p_pi_TLE = 0.5
-        pi_chi2_proton = group_sorted.pfp.trk.chi2pid.best.chi2_proton.iloc[0]
-        pi_chi2_mu = group_sorted.pfp.trk.chi2pid.best.chi2_muon.iloc[0]
-        pi_chi2_exp_pol = group_sorted.pfp.trk.chi2_exp_pol.iloc[0]
-        pi_scatter_angle_ratio = group_sorted.pfp.scatter_angle_ratio.iloc[0]
-        pi_max_daughter_hits = group_sorted.pfp.max_daughter_hits.iloc[0]
-        pi_frac50 = group_sorted.pfp.trk.frac50.iloc[0]
-        pi_bdt_score_proton = group_sorted.pfp.trk.bdt_proton_score.iloc[0]
-        pi_bdt_score_muon_pion = group_sorted.pfp.trk.bdt_muon_pion_score.iloc[0]
-       
-        # split components
-        p_pi_x = p_pi_TLE * group_sorted.pfp.trk.dir.x.iloc[0]
-        p_pi_y = p_pi_TLE * group_sorted.pfp.trk.dir.y.iloc[0]
-        p_pi_z = p_pi_TLE * group_sorted.pfp.trk.dir.z.iloc[0]
-        
-        muon_contained = True
-
-        if(group_sorted.pfp.trk.truth.p.pdg.iloc[1] > -2147483648):
-            mu_true_pdg = group_sorted.pfp.trk.truth.p.pdg.iloc[1]
-            mu_true_p_type = group_sorted.pfp.trk.truth.p.p_type.iloc[1]
-            mu_true_end_process = group_sorted.pfp.trk.truth.p.end_process.iloc[1]
-            pi_true_pdg = group_sorted.pfp.trk.truth.p.pdg.iloc[0]
-            pi_true_p_type = group_sorted.pfp.trk.truth.p.p_type.iloc[0]
-            pi_true_end_process = group_sorted.pfp.trk.truth.p.end_process.iloc[0]
-            mu_true_p = magdf(group_sorted.pfp.trk.truth.p.genp).iloc[1]
-            pi_true_p = magdf(group_sorted.pfp.trk.truth.p.genp).iloc[0]
-            mu_true_costheta = group_sorted.pfp.trk.truth.p.genp.z.iloc[1]/mu_true_p
-            pi_true_costheta = group_sorted.pfp.trk.truth.p.genp.z.iloc[0]/pi_true_p
-
-        else:
-            mu_true_pdg = -1   
-            mu_true_p_type = "none"
-            mu_true_end_process = -1
-            pi_true_pdg = -1
-            pi_true_p_type = "none"
-            pi_true_end_process = -1
-            mu_true_p = -1
-            pi_true_p = -1         
-            mu_true_costheta = -1
-            pi_true_costheta = -1
-        
-    return pd.Series({
-        'p_mu_x': p_mu_x,
-        'p_mu_y': p_mu_y,
-        'p_mu_z': p_mu_z,
-        'p_pi_x': p_pi_x,
-        'p_pi_y': p_pi_y,
-        'p_pi_z': p_pi_z,
-        
-        'reco_p_mu': p_mu,
-        'cos_theta_mu': cos_theta_mu,
-        'mu_chi2_proton': mu_chi2_proton,
-        'mu_chi2_mu': mu_chi2_mu,
-        'mu_chi2_exp_pol': mu_chi2_exp_pol,
-        'mu_scatter_angle_ratio': mu_scatter_angle_ratio,
-        'mu_max_daughter_hits': mu_max_daughter_hits,
-        'mu_frac50': mu_frac50,
-        'mu_bdt_score_proton': mu_bdt_score_proton,
-        'mu_bdt_score_muon_pion': mu_bdt_score_muon_pion,
-
-        'range_p_pi': p_pi_range,
-        'TLE_p_pi': p_pi_TLE,
-        'cos_theta_pi': cos_theta_pi,        
-        'pi_chi2_proton': pi_chi2_proton,
-        'pi_chi2_mu': pi_chi2_mu,
-        'pi_chi2_exp_pol': pi_chi2_exp_pol,
-        'pi_scatter_angle_ratio': pi_scatter_angle_ratio,
-        'pi_max_daughter_hits': pi_max_daughter_hits,
-        'pi_frac50': pi_frac50,
-        'pi_bdt_score_proton': pi_bdt_score_proton,
-        'pi_bdt_score_muon_pion': pi_bdt_score_muon_pion,
-
-        'muon_contained': muon_contained,
-
-        'mu_true_pdg': mu_true_pdg,
-        'mu_true_p_type': mu_true_p_type,
-        'mu_true_end_process': mu_true_end_process,
-        'pi_true_pdg': pi_true_pdg,
-        'pi_true_p_type': pi_true_p_type,
-        'pi_true_end_process': pi_true_end_process,
-        
-        'pi_true_p':pi_true_p,
-        'mu_true_p':mu_true_p,
-        'pi_true_costheta':pi_true_costheta,
-        'mu_true_costheta':mu_true_costheta             
-    })
     
-'''
 def get_mu_pi_vars(group, best_hit_df):
     """
     Selects a Muon and a Pion from a group of PFPs based on:
-    1. Muon: Exiting track preferred; otherwise highest BDT muon/pion score.
-    2. Pion: Longest remaining track (by range) after muon is removed.
+    - If >= 2 MIPs: Muon and Pion are both selected from the MIP group.
+    - If == 1 MIP: That MIP is the Muon; the Pion is the longest track in the Proton group.
     """
     
-    # --- 1. SAFETY CHECK ---
-    # If less than 2 PFPs, we cannot have a Muon + Pion pair.
-    if len(group) < 2:
-        return pd.Series({  # <--- MUST BE pd.Series
+    # --- 1. SELECTION SPLIT AND SAFETY CHECKS ---
+    mip_df = group[CutMasks.is_MIP_candidate_mask(group)]
+    proton_df = group[CutMasks.is_primary_proton_mask(group)]
+    
+    # Safety condition: Total group must be >= 2 AND there must be at least 1 MIP
+    if len(group) < 2 or len(mip_df) < 1:
+        return pd.Series({
             'p_mu_x': -999.0, 'p_mu_y': -999.0, 'p_mu_z': -999.0,
             'p_pi_x': -999.0, 'p_pi_y': -999.0, 'p_pi_z': -999.0,
             'reco_p_mu': -999.0, 'cos_theta_mu': -999.0,
@@ -1315,32 +1086,68 @@ def get_mu_pi_vars(group, best_hit_df):
             'pi_true_p': -999.0, 'mu_true_p': -999.0,
             'pi_true_costheta': -999.0, 'mu_true_costheta': -999.0             
         })
-    # --- 2. MUON SELECTION ---
-    exiting_mask = CutMasks.exiting_pfp_mask(group)
+
+    # Column name shortcuts for readability
+    bdt_score_col = ('pfp', 'trk', 'bdt_muon_pion_score', '', '', '')
+    len_col       = ('pfp', 'trk', 'len', '', '', '')
+
+    # --- 2. BRANCH SELECTION LOGIC ---
     
-    if exiting_mask.sum() >= 1:
-        # Case A: At least one exiting track. Pick the first exiting one as the muon.
-        muon_row = group.loc[exiting_mask].iloc[[0]]
-        muon_contained = False
-        # For exiting muons, we usually use MCS momentum
-        p_mu = muon_row.pfp.trk.mcsP.fwdP_muon.iloc[0]
+    # CASE A: 2 or more MIP candidates -> Perform selection ONLY using the MIP candidates
+    if len(mip_df) >= 2:
+        exiting_mask = CutMasks.exiting_pfp_mask(mip_df)
+        
+        # Select Muon from within MIP candidates
+        if exiting_mask.sum() >= 1:
+            muon_row = mip_df.loc[exiting_mask].iloc[[0]]
+            muon_contained = False
+            p_mu = muon_row.pfp.trk.mcsP.fwdP_muon.iloc[0]
+        else:
+            mip_sorted = mip_df.sort_values(bdt_score_col)
+            muon_row = mip_sorted.iloc[[-1]]
+            muon_contained = True
+            p_mu = muon_row.pfp.trk.rangeP.p_muon.iloc[0]
+            
+        # Select Pion from remaining MIP candidates
+        remaining_mips = mip_df.drop(muon_row.index)
+        pion_row = remaining_mips.sort_values(len_col).iloc[[-1]]
+
+    # CASE B: Exactly 1 MIP candidate -> That MIP is the Muon; Pion is the longest Proton
     else:
-        # Case B: All tracks contained. Pick the one with the highest BDT muon/pion score.
-        # We sort by score and take the last one (highest).
-        group_sorted = group.sort_values(('pfp','trk','bdt_muon_pion_score','','',''))
-        muon_row = group_sorted.iloc[[-1]]
-        muon_contained = True
-        # For contained muons, we use Range momentum
-        p_mu = muon_row.pfp.trk.rangeP.p_muon.iloc[0]
-    
-    # --- 3. PION SELECTION ---
-    # The pion is the longest remaining track. 
-    # We drop the muon's index to ensure we don't pick the same track twice.
-    remaining_pfps = group.drop(muon_row.index)
-    
-    # Sort remaining by rangeP.p_pion (proxy for length) and take the highest
-    pion_row = remaining_pfps.sort_values(('pfp','trk','len','','','')).iloc[[-1]]
-    
+        # If there are no proton tracks to pick a pion from, return empty series
+        if len(proton_df) < 1:
+            return pd.Series({
+                'p_mu_x': -999.0, 'p_mu_y': -999.0, 'p_mu_z': -999.0,
+                'p_pi_x': -999.0, 'p_pi_y': -999.0, 'p_pi_z': -999.0,
+                'reco_p_mu': -999.0, 'cos_theta_mu': -999.0,
+                'mu_chi2_proton': -999.0, 'mu_chi2_mu': -999.0, 'mu_chi2_exp_pol': -999.0,
+                'mu_scatter_angle_ratio': -999.0, 'mu_max_daughter_hits': -999.0,
+                'mu_frac50': -999.0, 'mu_bdt_score_proton': -999.0, 'mu_bdt_score_muon_pion': -999.0,
+                'range_p_pi': -999.0, 'TLE_p_pi': -999.0, 'cos_theta_pi': -999.0,
+                'pi_chi2_proton': -999.0, 'pi_chi2_mu': -999.0, 'pi_chi2_exp_pol': -999.0,
+                'pi_scatter_angle_ratio': -999.0, 'pi_max_daughter_hits': -999.0,
+                'pi_frac50': -999.0, 'pi_bdt_score_proton': -999.0, 'pi_bdt_score_muon_pion': -999.0,
+                'muon_contained': False,
+                'mu_true_pdg': -1, 'mu_true_p_type': "none", 'mu_true_end_process': -1,
+                'pi_true_pdg': -1, 'pi_true_p_type': "none", 'pi_true_end_process': -1,
+                'pi_true_p': -999.0, 'mu_true_p': -999.0,
+                'pi_true_costheta': -999.0, 'mu_true_costheta': -999.0             
+            })
+          
+        # The single MIP candidate is the Muon
+        muon_row = mip_df.iloc[[0]]
+        exiting_mask = CutMasks.exiting_pfp_mask(muon_row)
+        
+        if exiting_mask.sum() >= 1:
+            muon_contained = False
+            p_mu = muon_row.pfp.trk.mcsP.fwdP_muon.iloc[0]
+        else:
+            muon_contained = True
+            p_mu = muon_row.pfp.trk.rangeP.p_muon.iloc[0]
+            
+        # The Pion is the longest track inside the proton dataframe
+        pion_row = proton_df.sort_values(len_col).iloc[[-1]]
+        
     # --- 4. VARIABLE EXTRACTION ---
     # Create helper aliases to keep lines short
     
@@ -1572,7 +1379,6 @@ cols = [
         ('pfp', 'max_daughter_hits', '', '', '', ''),
 
         #angle cut
-        ('slc', 'measure_var', 'min_angle_between_candidates', '', '', ''),
         ('slc', 'measure_var', 'max_angle_between_candidates', '', '', ''),
         ('slc', 'measure_var', 'angle_between_candidates', '', '', ''),
     
@@ -1605,6 +1411,8 @@ cols = [
         ('slc', 'cut', 'michel', '', '', ''),
         ('slc', 'cut', 'extra_pion', '', '', ''),
         ('slc','cut','energy','','',''),
+        ('slc', 'cut', 'TPC_containment', '', '', ''),
+        ('slc','cut','no_high_yz','','',''),
 
         #Measure variables
         ('slc', 'measure_var', 'num_protons', '', '', ''),
@@ -1744,7 +1552,6 @@ def make_cc1pi_finaldf(f, updatecalo = None):
     pandora_df = add_frac50_column(pandora_df, fixed_hit_df)
     pandora_df = add_scatter_angle_ratio_column(pandora_df,mcs_df)
     pandora_df = add_max_angle_between_candidates_column(pandora_df)
-    pandora_df = add_min_angle_between_candidates_column(pandora_df)
     pandora_df[('slc', 'measure_var', 'angle_between_candidates', '', '', '')] = pandora_df[('slc', 'measure_var', 'max_angle_between_candidates', '', '', '')]
     
     
@@ -1798,9 +1605,9 @@ def make_cc1pi_finaldf(f, updatecalo = None):
     pandora_df[('slc', 'cut', 'proton_BDT_sideband', '', '', '')] = CutMasks.proton_BDT_sideband_mask(pandora_df, group_levels)
     pandora_df[('slc', 'cut', 'proton_BDT_2pi', '', '', '')] = CutMasks.proton_BDT_cut_mask_2pi(pandora_df, group_levels)
     pandora_df[('slc', 'cut', 'TPC_containment', '', '', '')] = CutMasks.TPC_containment_mask(pandora_df, group_levels)
+    pandora_df[('slc', 'cut', 'no_high_yz', '', '', '')] = CutMasks.not_in_high_y_high_z_containment_mask(pandora_df, group_levels)
 
-    candidate_df = pandora_df[pandora_df.slc.cut.inside_FV & pandora_df.slc.cut.t0 & pandora_df.slc.cut.track & CutMasks.is_MIP_candidate_mask(pandora_df) & pandora_df.slc.cut.containment]
- 
+
     pandora_df = add_n_primary_tracks_column(pandora_df)
     pandora_df = add_n_primary_showers_column(pandora_df)
     pandora_df = add_n_primary_MIP_column(pandora_df)
@@ -1868,6 +1675,15 @@ def make_cc1pi_finaldf(f, updatecalo = None):
         'pi_true_p_type': 'object'
     })
 
+
+    candidate_mask = (pandora_df.slc.cut.inside_FV & pandora_df.slc.cut.t0
+                       & CutMasks.long_primary_track_cut_mask(pandora_df, group_levels)
+                       & (pandora_df.slc.cut_var.n_MIP_candidates >= 1) 
+                       & pandora_df.slc.cut.containment
+                      )
+    
+    candidate_df = pandora_df[candidate_mask]
+    
     
     #process only with plane 2
     muon_pion_vars = (
@@ -1875,6 +1691,7 @@ def make_cc1pi_finaldf(f, updatecalo = None):
             .groupby(level=group_levels, group_keys=False)
             .apply(get_mu_pi_vars, best_hit_df=best_hit_df)
     )
+
     
     # 3. Build slcdf aligned to all slices in pandora_df
     #    Ensures every slice has a row, even if missing in muon_pion_vars
@@ -1946,7 +1763,8 @@ def make_cc1pi_finaldf(f, updatecalo = None):
     pandora_df = add_transverse_vars_column(pandora_df)
     
     pandora_df[('slc', 'cut', 'energy', '', '', '')] = (pandora_df.slc.measure_var.reco_p_mu > 0.1) & (pandora_df.slc.measure_var.reco_p_mu < 1) & (pandora_df.slc.measure_var.TLE_p_pi > 0.13) & (pandora_df.slc.measure_var.TLE_p_pi < 2)   
-    
+
+
     
     min_df = pandora_df[cols].copy()
     min_df = min_df[min_df.pfp.trk.len > 0]
@@ -1971,6 +1789,8 @@ def make_cc1pi_final_df_slim(f):
         ('slc', 'cut', 'proton_BDT', '', '', ''),
         ('slc', 'cut', 'proton_BDT_sideband', '', '', ''),
         ('slc', 'cut', 'containment', '', '', ''),
+        ('slc', 'cut', 'TPC_containment', '', '', ''),
+        ('slc','cut','no_high_yz','','',''),
         ('slc', 'cut', 'michel', '', '', ''),
         ('slc', 'cut', 'extra_pion', '', '', ''),
         ('slc','cut','energy','','',''),

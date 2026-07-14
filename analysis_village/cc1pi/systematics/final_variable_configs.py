@@ -117,6 +117,19 @@ class VariableConfig:
             xsec_label=r"$\frac{d\sigma}{dn}$ ($\mathrm{cm}^2$)"
         )
 
+            
+    @classmethod
+    def num_protons_two(cls):
+        return cls(
+            var_save_name="num_protons_two",
+            var_plot_name=r"# protons",
+            var_unit="",
+            bins=np.linspace(0, 2, 3),
+            var_evt_reco_col=('slc', 'measure_var', 'num_protons', ''),
+            var_evt_truth_col=('truth', 'true_var', 'num_protons', ''),
+            var_nu_col=('truth', 'true_var', 'num_protons', ''),
+            xsec_label=r"$\frac{d\sigma}{dn}$ ($\mathrm{cm}^2$)"
+        )
         
     @classmethod
     def delta_pt(cls):
@@ -124,7 +137,7 @@ class VariableConfig:
             var_save_name="delta_pt",
             var_plot_name=r"$\delta p_T$",
             var_unit="[GeV]",
-            bins= np.array([0., 0.158, 0.372, 0.8]),
+            bins= np.array([0., 0.158, 0.372, 1]),
             var_evt_reco_col=('slc', 'measure_var', 'delta_pT', ''),
             var_evt_truth_col=('truth', 'true_var', 'delta_pT', ''),
             var_nu_col=('truth', 'true_var', 'delta_pT', ''),

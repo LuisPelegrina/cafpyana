@@ -328,37 +328,50 @@ def get_textloc_x(values, bins, textloc=[0.05, 0.55]):
     return textloc_x, textloc_ha
 
 
-def add_approval_text(approval, textloc_x, textloc_y, textloc_ha):
+# --- YOUR TEXT HELPER FUNCTIONS ---
+def add_approval_text(approval, textloc_x, textloc_y, textloc_ha, fontsize = 16, ax=None):
     if approval == "internal":
         approval_text = r"$\mathbf{SBND}$ Internal"
         textcolor = 'rosybrown'
-
     elif approval == "preliminary":
         approval_text = r"$\mathbf{SBND}$ Preliminary"
         textcolor = 'gray'
-
+    elif approval == "AnalysisInProgress":
+        approval_text = r"$\mathbf{SBND}$ Analysis in Progress"
+        textcolor = 'gray'
     else:
         return # don't add anything
 
-    ax = plt.gca()  # get the first axes of the current figure
+    if ax is None:
+        ax = plt.gca()  
     ax.text(
         textloc_x, textloc_y, 
         approval_text, 
         transform=ax.transAxes, 
-        ha=textloc_ha, va='top',
-        fontsize=14, color="black"
+        ha=textloc_ha, va='bottom',  # Changed to 'bottom' so we stack upwards cleanly
+        fontsize=fontsize, color=textcolor # Fixed: now using the color assigned by the status
     )
 
-
-def add_genie_version_text(textloc_x, textloc_y, textloc_ha):
-    ax = plt.gcf().axes[0]  # get the first axes of the current figure
+def add_genie_version_text(textloc_x, textloc_y, textloc_ha, fontsize = 13.5, ax=None):
+    if ax is None:
+        ax = plt.gcf().axes[0]  
     ax.text(textloc_x, textloc_y, 
             r"GENIE v3.4.0 AR23_00i_00_000", 
             transform=ax.transAxes, 
-            ha=textloc_ha, va='top',
-            fontsize=11.5, color='gray')
+            ha=textloc_ha, va='bottom', # Changed to 'bottom'
+            fontsize=fontsize, color='gray')
 
 
+def add_exposure_text(textloc_x, textloc_y, textloc_ha, fontsize = 13.5, ax=None, data_pot =1e20):
+    if ax is None:
+        ax = plt.gcf().axes[0]  
+    ax.text(textloc_x, textloc_y, 
+            f"BNB Exposure: {data_pot:.2e} POT", 
+            transform=ax.transAxes, 
+            ha=textloc_ha, va='bottom', # Changed to 'bottom'
+            fontsize=fontsize, color='gray')
+
+    
 # ==== bar plot ====
 def bar_plot(breakdown_type="topology", 
              mc_df=None, intime_df=None, dirt_df=None,
@@ -900,101 +913,239 @@ def plot_univ_hists(
     else:
         plt.close(fig)
 
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 
 def plot_unfolded_result(unfold, 
                          measured, 
                          models,
                          var_config, 
+                         chi2_list=[],
                          textloc=[0.05, 0.55],
                          approval="internal",
+                         plot_labels=["", "", ""],
                          plot=True,
                          save_fig=False, 
                          save_name=None,
-                         closure_test=False):
+                         data=False,
+                         closure_test=False,
+                         plot_xsec = True):
 
-    bins = var_config.bins
-    bin_centers = var_config.bin_centers
-    bin_widths = np.diff(bins)
-
+    # --- TRUE PHYSICS BIN TRACKING ---
+    true_bins = np.array(var_config.bins).astype(float)
+    bin_centers = np.array(var_config.bin_centers).astype(float)
+    bin_widths = np.diff(true_bins)
+    total_true_width = true_bins[-1] - true_bins[0]
+    
+    if plot_xsec: 
+        measured = measured*XSEC_UNIT
+        for mkey in models.keys():
+            models[mkey] = XSEC_UNIT*models[mkey]
+        
     # unfolded result
     Unfolded = unfold['unfold']
     UnfoldedCov = unfold["UnfoldCov"]
+    if plot_xsec:
+        Unfolded = Unfolded*XSEC_UNIT
+        UnfoldedCov = UnfoldedCov*XSEC_UNIT*XSEC_UNIT
+    
     Unfolded_perwidth = Unfolded / bin_widths
 
     # --- stat uncertainties
     UnfoldCov_stat = unfold['StatUnfoldCov']
-    Unfold_uncert_stat = np.diag(UnfoldCov_stat)
+    if plot_xsec:
+        UnfoldCov_stat = UnfoldCov_stat*XSEC_UNIT*XSEC_UNIT
+
     # --- syst uncertainties
     UnfoldCov_syst = unfold['SystUnfoldCov']
+    if plot_xsec:
+        UnfoldCov_syst = UnfoldCov_syst*XSEC_UNIT*XSEC_UNIT
     Unfold_uncert_syst = np.diag(UnfoldCov_syst)
-
+    
     # --- decompose into norm and shape components
-    # the first item in models dict is the nominal input model
     norm_model = list(models.keys())[0]
     SystUnfoldCov_norm, SystUnfoldCov_shape = Matrix_Decomp(models[norm_model], UnfoldCov_syst)
     Unfold_uncert_norm = np.sqrt(np.abs(np.diag(SystUnfoldCov_norm)))
     Unfold_uncert_shape = np.sqrt(np.abs(np.diag(SystUnfoldCov_shape)))
 
-    # --- plot
-    fig, ax = plt.subplots(figsize=(8.5, 7))
-    # set err to 0 for closure test
+    if data: 
+        UnfoldCov_syst = UnfoldCov_syst + UnfoldCov_stat
+        Unfold_uncert_stat = np.sqrt(np.abs(np.diag(UnfoldCov_stat)))
+        Unfold_uncert_stat_per_width = Unfold_uncert_stat/bin_widths
+
+    # =========================================================================
+    # --- AUTO-SCALING VISUAL BINS (MAX 50% CONSTRAINT) ---
+    # =========================================================================
+    var_identifier = var_config.var_save_name
+    skip_compression = (var_identifier == "all_evts") or (len(true_bins) <= 3)
+
+    visual_bins = [true_bins[0]]
+    compressed_indices = [] 
+    
+    if skip_compression:
+        visual_bins = true_bins.copy()
+    else:
+        is_bloated = bin_widths >= (0.50 * total_true_width)
+        num_bloated = np.sum(is_bloated)
+        
+        bloated_budget_fraction = 0.50 * num_bloated
+        normal_budget_fraction = 1.0 - bloated_budget_fraction
+        
+        sum_normal_true_widths = np.sum(bin_widths[~is_bloated])
+        if sum_normal_true_widths == 0: 
+            sum_normal_true_widths = 1.0
+
+        current_visual_coord = true_bins[0]
+        for i in range(len(bin_widths)):
+            if is_bloated[i]:
+                visual_width = 0.50 * total_true_width
+                compressed_indices.append(i)
+            else:
+                fraction_of_normal = bin_widths[i] / sum_normal_true_widths
+                visual_width = fraction_of_normal * (normal_budget_fraction * total_true_width)
+                
+            current_visual_coord += visual_width
+            visual_bins.append(current_visual_coord)
+        
+    visual_bins = np.array(visual_bins)
+    visual_bin_centers = (visual_bins[:-1] + visual_bins[1:]) / 2
+    visual_bin_widths  = np.diff(visual_bins)
+
+    def to_visual_coords(true_x):
+        """Maps an array of true coordinate positions into visual layout coordinates"""
+        true_x = np.atleast_1d(true_x)
+        if skip_compression:
+            return true_x
+        indices = np.digitize(true_x, true_bins) - 1
+        indices = np.clip(indices, 0, len(true_bins) - 2)
+        fractional_pos = (true_x - true_bins[indices]) / bin_widths[indices]
+        return visual_bins[indices] + fractional_pos * visual_bin_widths[indices]
+
+    visual_bin_centers_mapped = to_visual_coords(bin_centers)
+    # =========================================================================
+
+    # --- plot setup (Get existing axis to prevent overwriting side-by-side plots)
+    ax = plt.gca()
+    fig = ax.get_figure()
+    
     if closure_test:
         dummy_err = np.zeros_like(Unfolded_perwidth)
-        bar_handle = plt.errorbar(bin_centers, Unfolded_perwidth, yerr=dummy_err, fmt='o', color='black')
-
+        bar_handle = plt.errorbar(visual_bin_centers_mapped, Unfolded_perwidth, yerr=dummy_err, fmt='o', color='black')
     else:
-        # plot shape uncertainty as error bars
-        Unfold_uncert_stat_perwidth = Unfold_uncert_stat / bin_widths
         Unfold_uncert_shape_perwidth = Unfold_uncert_shape / bin_widths
-        # Unfold_uncert_stat_shape_perwidth = Unfold_uncert_stat_perwidth + Unfold_uncert_shape_perwidth
         Unfold_uncert_stat_shape_perwidth = Unfold_uncert_shape_perwidth
-        bar_handle = plt.errorbar(bin_centers, Unfolded_perwidth, yerr=Unfold_uncert_stat_shape_perwidth, fmt='o', color='black')
+        
+        if data:
+            tot_err = np.sqrt(Unfold_uncert_stat_per_width**2 + Unfold_uncert_stat_shape_perwidth**2)
+            bar_handle = plt.errorbar(visual_bin_centers_mapped, Unfolded_perwidth, yerr=Unfold_uncert_stat_shape_perwidth, fmt='o', color='black', capsize=3, zorder=4)
+            Data_handle = plt.errorbar(visual_bin_centers_mapped, Unfolded_perwidth, yerr=tot_err, fmt='o', color='black', capsize=3, zorder=5)
+            handles = [bar_handle, Data_handle]
+            labels = ['SBND Development Data', 'Measured Signal']
+        else:
+            bar_handle = plt.errorbar(visual_bin_centers_mapped, Unfolded_perwidth, yerr=Unfold_uncert_stat_shape_perwidth, fmt='o', color='black', capsize=3)
 
-        # plot syst norm component as histogram at the bottom
         Unfold_uncert_norm_perwidth = Unfold_uncert_norm / bin_widths
-        norm_handle = plt.bar(bin_centers, Unfold_uncert_norm_perwidth, width=bin_widths, label='Syst. error (norm)', alpha=0.5, color='gray')
+        norm_handle = plt.bar(visual_bin_centers_mapped, Unfold_uncert_norm_perwidth, width=visual_bin_widths, label='Syst. error (norm)', alpha=0.5, color='gray')
 
-    # divide measured & model by bin width
     measured_perwidth = measured / bin_widths
-    reco_handle, = plt.step(bins, np.append(measured_perwidth, measured_perwidth[-1]), where='post', label='Meausred Signal (Input)')
-    '''
+
     # --- get chi2 values for each model to compare
-    chi2_vals = []
-    p_values = []
+    if len(chi2_list) == 0:
+        chi2_vals = []
+        p_values = []
+    else:
+        chi2_vals = chi2_list
+        
     model_handles = []
     model_labels = []
     for midx, mkey in enumerate(models.keys()):
         model_smeared = unfold['AddSmear'] @ models[mkey]
-
-        chi2_val, p_val = get_chi2(Unfolded, model_smeared, UnfoldCov_syst)
-        chi2_vals.append(chi2_val)
-        p_values.append(p_val)
-
         model_smeared_perwidth = model_smeared / bin_widths
-        model_handle, = plt.step(bins, np.append(model_smeared_perwidth, model_smeared_perwidth[-1]), where='post')
+
+        if len(chi2_list) == 0:
+            chi2_val, ndof, p_val = get_chi2(Unfolded, model_smeared, UnfoldCov_syst)
+            chi2_vals.append(chi2_val)
+            p_values.append(p_val)
+
+        print("Unfolded perwidth: ", Unfolded_perwidth)
+        print("Model smeared perwidth: ", model_smeared_perwidth)
+
+        model_handle, = plt.step(visual_bins, np.append(model_smeared_perwidth, model_smeared_perwidth[-1]), where='post')
         model_handles.append(model_handle)
-        model_labels.append(f'$A_c \\otimes$ {mkey} ($\chi^2$ = {chi2_vals[midx]:.2f}/{len(bins)-1}), p-value = {p_values[midx]:.3f}')
-    '''
-    
+        model_labels.append(f'$A_c \\otimes$ {mkey} ($\chi^2$ = {chi2_vals[midx]:.2f}/{len(true_bins)-1}), p-value = {p_values[midx]:.3f}')
+
     # legend
     if closure_test:
-        handles = [bar_handle, reco_handle] + model_handles
-        labels = ['Unfolded Asimov Data', 'Measured Signal'] + model_labels
+        handles = [bar_handle] + model_handles
+        labels = ['Unfolded Asimov Data'] + model_labels
+    elif data:
+        handles = [bar_handle, norm_handle] + model_handles
+        labels = ['Data (Shape Syst. Unc. + Stat. Unc.)', 'Norm. Syst. Unc.'] + model_labels
     else:
-        handles = [bar_handle, norm_handle, reco_handle] + model_handles
-        labels = ['Unfolded', 'Norm. Syst. Unc.', 'Measured Signal'] + model_labels
+        handles = [bar_handle, norm_handle] + model_handles
+        labels = ['Unfolded result', 'Norm. Syst. Unc.'] + model_labels
+        
     plt.legend(handles, labels, 
                loc='upper left', fontsize=12, frameon=False, ncol=1, bbox_to_anchor=(0.02, 0.98))
 
-    plt.xlabel(var_config.var_labels[0])
-    plt.ylabel(var_config.xsec_label)
-    plt.xlim(bins[0], bins[-1])
+    plt.xlabel(var_config.var_labels[0], fontsize=20)
+    plt.ylabel(var_config.xsec_label, fontsize=20)
+    plt.title(plot_labels[2])
+    
+    plt.xlim(visual_bins[0], visual_bins[-1])
     plt.ylim(0., np.max(Unfolded_perwidth)*1.7)
 
+    # --- VISUAL TICK SYNCING OVERRIDES ---
+    if var_identifier == "num_protons":
+        print("FIXING PROTONS")
+        tick_positions = visual_bin_centers
+        tick_labels = [f"{int(val)}" for val in true_bins[:-1]]
+    else:
+        tick_positions = visual_bins
+        tick_labels = [f"{val:.2f}".rstrip('0').rstrip('.') for val in true_bins]
+        
+    ax.set_xticks(tick_positions)
+    ax.set_xticklabels(tick_labels, fontsize=14)
+
     # ==== plot additions
-    textloc_x, textloc_ha = get_textloc_x(Unfolded_perwidth, var_config.bins, textloc)
+    textloc_x, textloc_ha = get_textloc_x(Unfolded_perwidth, true_bins, textloc)
     textloc_y = textloc[1]
     add_approval_text(approval, textloc_x, textloc_y, textloc_ha)
+    add_genie_version_text(textloc_x, textloc_y-0.1, textloc_ha)
+
+    if var_config.var_save_name == "integrated":
+        format_singlebin_plot()
+
+    # --- AXIS BREAK DRAW LAYER // DOUBLE-SLASH GENERATION ---
+    if not skip_compression and len(compressed_indices) > 0:
+        plt.draw()  # Freeze structural dimensions
+        
+        for bin_idx in compressed_indices:
+            break_x_data = visual_bin_centers[bin_idx]
+            
+            display_x, _ = ax.transData.transform((break_x_data, ax.get_ylim()[0]))
+            x_fig = fig.transFigure.inverted().transform((display_x, 0))[0]
+            
+            display_y = ax.transAxes.transform((0, 0))[1]
+            y_fig = fig.transFigure.inverted().transform((0, display_y))[1]
+            
+            slash_dx = 0.008
+            slash_dy = 0.012
+            
+            for offset in [-0.003, 0.003]:  
+                l = Line2D(
+                    [x_fig + offset - slash_dx, x_fig + offset + slash_dx],
+                    [y_fig - slash_dy,           y_fig + slash_dy],
+                    color='black', linewidth=1.5,
+                    transform=fig.transFigure,
+                    clip_on=False,
+                    zorder=30
+                )
+                fig.add_artist(l)
 
     if save_fig:
         plt.savefig(save_name+fig_ext, bbox_inches='tight', dpi=dpi)

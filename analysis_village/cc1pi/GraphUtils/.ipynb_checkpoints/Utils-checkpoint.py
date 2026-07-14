@@ -27,7 +27,7 @@ bkg_name_nice_map = {
 
 cut_name_nice_map = {
     "cosmic_rejection": "Cosmic rejection",
-    "cosmic": "Clear cosmic",
+    "cosmic": "Initial sample",
     "t0": "Timing",
     "FV": "FV",
     "nu_score": "Nu Score Cut",
@@ -39,12 +39,42 @@ cut_name_nice_map = {
     "containment": "No particles exiting or in high-yz",
     "michel": "Michel removal",
     "extra_pion": "Extra pion removal",
-    "energy": "Energy",
+    "energy": "Kinematic constraints",
     "MIP_refinement": "Michel & extra pion removal",
     "TPC_containment": "Local TPC Containment",
 }
 
-category_colors = {
+
+topology_list = ["CC1pi",       
+    "CC_mu_0pi_0p",       
+    "CC_mu_0pi_1p",      
+    "CC_mu_0pi_2p",   
+    "CC_mu_2pi",       
+    "other_CC1pi",      
+    "NC",               
+    "out_AV_nu",        
+    "cosmic",
+    "CC_e"]    
+topology_labels = [bkg_name_nice_map[topo] for topo in topology_list]
+
+
+
+
+# Paul Tol's Muted 10-Color Palette (Left to Right from Image)
+TOL_MUTED = [
+    "#88CCEE",  # 1. Pale Cyan (Light sky blue)
+    "#44AA99",  # 2. Teal (Mid-tone cool teal)
+    "#117733",  # 3. Dark Green (Deep forest accent)
+    "#332288",  # 4. Indigo (Deep purple-blue baseline)
+    "#DDCC77",  # 5. Sand / Pale Yellow (Warm neutral)
+    "#999933",  # 6. Olive Green (Muted yellow-green)
+    "#CC6677",  # 7. Rose / Dusty Pink (Soft warm accent)
+    "#882255",  # 8. Wine / Maroon (Deep reddish-purple)
+    "#AA4499",  # 9. Purple / Amethyst (Vibrant muted purple)
+    "#DDDDDD"   # 10. Light Gray (Subtle control group/baseline)
+]
+
+category_colors_old = {
     "CC1pi":        "#1f77b4", # Blue
     "CC_mu_0pi_1p": "#d62728", # Red
     "NC":           "#17becf", # Cyan-ish
@@ -57,16 +87,36 @@ category_colors = {
     "CC_e":         "#756bb1", # Light Green
 }
 
+category_colors = {
+    "CC1pi":        "#0072B2", # 5. Blue
+    "CC_mu_0pi_1p": "#D55E00", # 6. Vermilion
+    "NC":           "#009E73", # 3. Bluish Green
+    "CC_mu_0pi_0p":  "#CC79A7",  # 7. Reddish Purple
+    "CC_mu_0pi_2p":   "#F5C5A3",  # 8.Peach
+    "out_AV_nu":    "#6C6C6C",  # 10. Mid Gray ← new    
+    "cosmic":       "#E69F00",  # 1. Orange
+    "other_CC1pi": "#56B4E9",  # 2. Sky Blue
+    "CC_mu_2pi":   "#994F00",  # 9. Brown ← new
+    "CC_e":         "#F0E442",  # 4. Yellow 
+}
+
+
+
+topology_color_dict = category_colors
+topology_colors = [topology_color_dict[topo] for topo in topology_list]
+
+
+
 
 genie_category_colors = { 
-    "other": "#e377c2",
-    "nu_mu_CC_Res": "#1f77b4",
-    "nu_mu_CC_QE": "#d62728",
-    "nu_mu_CC_Dis": "#2ca02c",
-    "nu_mu_CC_MEC": "#7f7f7f",
-    "nu_mu_NC": "#ffbb78",
-    "out_AV_nu":    "#bcbd22", # Olive/Yellow-green
-    "cosmic":       "#ff7f0e", # Orange
+    "other":   "#F0E442",  # 4. Yellow 
+    "nu_mu_CC_Res":  "#0072B2", # 5. Blue
+    "nu_mu_CC_QE": "#D55E00", # 6. Vermilion
+    "nu_mu_CC_Dis": "#56B4E9",  # 2. Sky Blue
+    "nu_mu_CC_MEC":"#CC79A7",  # 7. Reddish Purple
+    "nu_mu_NC": "#009E73", # 3. Bluish Green
+    "out_AV_nu":   "#6C6C6C",  # 10. Mid Gray ← new  
+    "cosmic":   "#E69F00",  # 1. Orange
 }
 
 
@@ -81,7 +131,33 @@ proton_distinction_category_colors = {
     "other_nu":  "#7f7f7f", # Grey
 }
 
+
+# Paul Tol's Muted 10-Color Palette (Left to Right from Image)
+OKABE_ITO = [
+    "#E69F00",  # 1. Orange
+    "#56B4E9",  # 2. Sky Blue
+    "#009E73",  # 3. Bluish Green
+    "#F0E442",  # 4. Yellow
+    "#0072B2",  # 5. Blue
+    "#D55E00",  # 6. Vermilion
+    "#CC79A7",  # 7. Reddish Purple
+    "#F5C5A3",  # 8.Peach
+    "#994F00",  # 9. Brown ← new
+    "#6C6C6C",  # 10. Mid Gray ← new
+]
+
+
+
 category_colors_pfp = {
+    "muon":        "#0072B2", # 5. Blue
+    "stopping pion": "#D55E00",  # 6. Vermilion
+    "inelastic pion": "#009E73", # 3. Bluish Green
+    "proton":    "#E69F00",  # 1. Orange
+    "other": "#6C6C6C",  # 10. Mid Gray ← new    
+    "shower":    "#CC79A7",  # 7. Reddish Purple
+}
+
+category_colors_pfp_old = {
     "muon":        "#1f77b4", # Blue
     "stopping pion": "#d62728", # Red
     "inelastic pion": "#2ca02c", # Green
@@ -91,32 +167,4 @@ category_colors_pfp = {
 }
 
 
-topology_list = ["CC1pi",       
-    "CC_mu_0pi_0p",       
-    "CC_mu_0pi_1p",      
-    "CC_mu_0pi_2p",   
-    "CC_mu_2pi",       
-    "other_CC1pi",      
-    "NC",               
-    "out_AV_nu",        
-    "cosmic",
-    "CC_e"]    
-
-
-topology_labels = [bkg_name_nice_map[topo] for topo in topology_list]
-
-topology_color_dict = {
-    "CC1pi":        "#1f77b4", # Blue
-    "CC_mu_0pi_1p": "#d62728", # Red
-    "NC":           "#17becf", # Cyan-ish
-    "CC_mu_0pi_0p": "#ffbb78", # Orange-Yellow
-    "CC_mu_0pi_2p": "#2ca02c", # Green
-    "out_AV_nu":    "#bcbd22", # Olive/Yellow-green
-    "cosmic":       "#ff7f0e", # Orange
-    "other_CC1pi":  "#7f7f7f", # Grey
-    "CC_mu_2pi":    "#e377c2", # Pink
-    "CC_e":         "#756bb1", # Light Green
-}
-
-topology_colors = [topology_color_dict[topo] for topo in topology_list]
 

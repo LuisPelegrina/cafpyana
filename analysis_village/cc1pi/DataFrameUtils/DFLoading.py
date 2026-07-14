@@ -194,7 +194,6 @@ def load_df(file, keys2load, n_max_concat = 100, filter_df = True, reprocess_df 
             df['cc1pi'][('slc', 'cut', 'inside_FV', '', '', '')] = CutMasks.InFV_strict(df['cc1pi'])
             print("Adding high y z ")
             df['cc1pi'][('slc', 'cut', 'no_high_yz', '', '', '')] = CutMasks.not_in_high_y_high_z_containment_mask(df['cc1pi'], ['__ntuple', 'entry', 'rec.slc..index'])
-            print("Finish")
     
     if "cc1pi" in keys2load:
         df['cc1pi'][('slc', 'cut', 'energy', '', '', '')] = (df['cc1pi'].slc.measure_var.reco_p_mu > 0.1) & (df['cc1pi'].slc.measure_var.reco_p_mu < 1) & (df['cc1pi'].slc.measure_var.TLE_p_pi > 0.13) & (df['cc1pi'].slc.measure_var.TLE_p_pi < 2)   

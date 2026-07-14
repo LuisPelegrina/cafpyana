@@ -415,18 +415,17 @@ def plot_2d_cut_metric_heatmap(
     xlim=None,
     ylim=None,
     bins=50,
-    cmap="plasma"   # ROOT-like (similar to kSunset)
+    cmap="plasma",
+    save_dir=None
 ):
-
-     # -------------------------
+    # -------------------------
     # Best cuts
     # -------------------------
     cut1_best = best["cuts"][cutnum1]
     cut2_best = best["cuts"][cutnum2]
-
     
     # -------------------------
-    # 5️⃣ Metric heatmaps
+    # Metric heatmaps
     # -------------------------
     label_1 = "cut_" + str(cutnum1)
     label_2 = "cut_" + str(cutnum2)
@@ -441,14 +440,13 @@ def plot_2d_cut_metric_heatmap(
             grid[j, i] = r[metric]
         return grid
 
-    for metric, title in [
-        ("eff", "Efficiency"),
-        ("pur", "Purity"),
-        ("eff_x_pur", "Eff × Pur"),
+    for metric, title, filename in [
+        ("eff",       "Efficiency", f"heatmap_efficiency_cut{cutnum1}_vs_cut{cutnum2}.pdf"),
+        ("pur",       "Purity",     f"heatmap_purity_cut{cutnum1}_vs_cut{cutnum2}.pdf"),
+        ("eff_x_pur", "Eff × Pur", f"heatmap_eff_x_pur_cut{cutnum1}_vs_cut{cutnum2}.pdf"),
     ]:
         grid = make_grid(metric)
-
-        plt.figure(figsize=(7, 6))
+        fig = plt.figure(figsize=(7, 6))
         plt.imshow(
             grid,
             origin="lower",
@@ -464,7 +462,13 @@ def plot_2d_cut_metric_heatmap(
         plt.ylabel(ylabel)
         plt.title(f"{title} for all cut combinations")
         plt.tight_layout()
+
+        if save_dir is not None:
+            save_path = os.path.join(save_dir, filename)
+            fig.savefig(save_path, format='pdf', bbox_inches='tight')
+
         plt.show()
+        
 
 def optimize_cut_accuracy(
     signal_df,
@@ -479,7 +483,8 @@ def optimize_cut_accuracy(
     nbins=50,
     legend_loc="upper right",
     cut_unit="",
-    normalize_hist=False
+    normalize_hist=False,
+    save_folder = None
 ):
     """
     Optimize a 1D cut by maximizing Accuracy.
@@ -569,7 +574,7 @@ def optimize_cut_accuracy(
                            weights=sig_weights, color=COLORS[0], alpha_fill=0.3, label=signal_name)
     
     plot_hist_with_outline(ax1, scores=bkg_scores, bins=nbins, range=hist_range,
-                           weights=bkg_weights, color=COLORS[3], alpha_fill=0.3, label=bkg_name)
+                           weights=bkg_weights, color=COLORS[1], alpha_fill=0.3, label=bkg_name)
 
     # Best cut vertical line
     cut_line = ax1.axvline(best["cut"], color="black", linestyle="--", linewidth=2,
@@ -598,5 +603,8 @@ def optimize_cut_accuracy(
     plt.grid(alpha=0.3)
     plt.tight_layout()
     plt.show()
+
+    if save_folder is not None:
+        fig.savefig(save_folder, format='pdf', bbox_inches='tight')
 
     return df, best, fig

@@ -340,3 +340,68 @@ reco_cols_to_keep_for_data_mc_comparison = [
         ('slc','measure_var','delta_alpha_T','','',''),
         ('slc','measure_var','delta_phi_T','','',''),
     ]
+
+
+
+
+
+reco_cols_to_keep_for_BDT_comparison = [
+        ('slc', 'tmatch', 'idx', '', '', ''),
+        ('slc', 'self', '', '', '', ''),
+        
+        ('slc', 'nu_score', '', '', '', ''),
+    
+        #Pfp truth info
+        ('pfp', 'trk', 'truth', 'p', 'p_type', ''),
+        ('pfp', 'trk', 'truth', 'p', 'pdg', ''),
+        ('pfp', 'trk', 'truth', 'p', 'end_process', ''),
+        
+        #track optimization
+        ('pfp', 'trk', 'len', '', '', ''),
+        ('pfp', 'trackScore', '', '', '', ''),
+        ('pfp', 'dist_to_vertex', '', '', '', ''),
+        ('pfp', 'parent_is_primary', '', '', '', ''),
+        
+        #chi2 optimization
+        ('pfp', 'trk', 'chi2pid', 'best', 'chi2_muon', ''),
+        ('pfp', 'trk', 'chi2pid', 'best', 'chi2_proton', ''),
+        
+        #BDT vars
+        ('pfp', 'trk', 'chi2_exp_pol', '', '', ''),
+        ('pfp', 'trk', 'frac50', '', '', ''),
+        ('pfp', 'scatter_angle_ratio', '', '', '', ''),
+
+        #pfp containment masks
+        ('pfp', 'is_exiting', '', '', '', ''),
+        
+        #BDT columns
+        ('pfp','trk','bdt_muon_pion_score','','',''),
+        ('pfp','trk','bdt_proton_score','','',''),
+
+    
+        ('pfp', 'trk', 'calo', 'best', 'ke', ''),
+        ('pfp', 'trk', 'mean_dEdx', '', '', ''),
+        ('pfp', 'max_daughter_hits', '', '', '', ''),
+    
+        #cuts boolean
+        ('slc', 'cut', 'obvious_cosmic', '', '', ''),
+        ('slc', 'cut', 't0', '', '', ''),
+        ('slc', 'cut', 'inside_FV', '', '', ''),
+        ('slc', 'cut', 'nu_score', '', '', ''),
+        ('slc', 'cut', 'track', '', '', ''),
+        ('slc', 'cut', 'shower', '', '', ''),
+        ('slc', 'cut', 'MIP_candidates', '', '', ''),
+        ('slc', 'cut', 'angle', '', '', ''),
+        ('slc', 'cut', 'proton_BDT', '', '', ''),
+        ('slc', 'cut', 'proton_BDT_sideband', '', '', ''),
+        ('slc', 'cut', 'proton_BDT_2pi', '', '', ''),
+        ('slc', 'cut', 'TPC_containment', '', '', ''),
+        ('slc', 'cut', 'containment', '', '', ''),
+        ('slc', 'cut', 'michel', '', '', ''),
+        ('slc', 'cut', 'extra_pion', '', '', ''),
+        ('slc','cut','energy','','',''),
+        ('slc','cut','no_high_yz','','',''),
+    
+        ('slc','measure_var','reco_p_mu','','',''),
+        ('slc','measure_var','TLE_p_pi','','',''),
+    ]

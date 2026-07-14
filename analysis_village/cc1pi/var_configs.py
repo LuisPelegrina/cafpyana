@@ -43,8 +43,8 @@ class FullHistogramConfig:
     def __post_init__(self):
         self.bin_centers = (self.bins[:-1] + self.bins[1:]) / 2.
             
-slices_y_label = f'Candidate Slices'
-pfps_y_label = f'PFPs'
+slices_y_label = f'Candidate Events'
+pfps_y_label = f'Particles'
 
 nu_categ_column = ('truth','nu_categ','','','','')
 pfp_truth_column = ('pfp','trk','truth','p','p_type','')
@@ -514,7 +514,7 @@ config_primary_shower_energy = FullHistogramConfig(
     end_cut = "shower",
     extra_mask = "primary_shower",
     bins=np.linspace(0, 0.5, 41),
-    xlabel='primary shower energy [GeV]',
+    xlabel='primary shower energy [GeV/c]',
     ylabel= pfps_y_label,
     cut_value = [CTE.min_shower_ke],
     clip = False
@@ -845,7 +845,7 @@ config_p_pi = FullHistogramConfig(
     start_cut = "energy",
     end_cut = "energy",
     bins=np.linspace(0.13, 0.8, 41),
-    xlabel=r'Pion candidate P [GeV]',
+    xlabel=r'Pion candidate P [GeV/c]',
     ylabel=slices_y_label
 )
 
@@ -972,7 +972,7 @@ config_p_mu = FullHistogramConfig(
     start_cut = "energy",
     end_cut = "energy",
     bins=np.linspace(0.1,3, 41),
-    xlabel=r'Muon candidate P [GeV]',
+    xlabel=r'Muon candidate P [GeV/c]',
     ylabel=slices_y_label
 )
 
@@ -985,7 +985,7 @@ config_p_mu_contained = FullHistogramConfig(
     end_cut = "energy",
     extra_mask = "muon_contained",
     bins=np.linspace(0.1,3, 41),
-    xlabel=r'Contained muon candidate P [GeV]',
+    xlabel=r'Contained muon candidate P [GeV/c]',
     ylabel=slices_y_label
 )
 
@@ -998,7 +998,7 @@ config_p_mu_exiting = FullHistogramConfig(
     end_cut = "energy",
     extra_mask = "muon_exiting",
     bins=np.linspace(0.1,3, 41),
-    xlabel=r'Exiting muon candidate P [GeV]',
+    xlabel=r'Exiting muon candidate P [GeV/c]',
     ylabel=slices_y_label
 )
 
@@ -1207,7 +1207,7 @@ config_delta_pT_genie_categ = FullHistogramConfig(
     start_cut = "energy",
     end_cut = "energy",
     bins=np.linspace(0, 1, 41),
-    xlabel=r'$\delta p_T$ [GeV]',
+    xlabel=r'$\delta p_T$ [GeV/c]',
     ylabel=slices_y_label
 )
 
@@ -1252,7 +1252,7 @@ config_p_mu_final = FullHistogramConfig(
     start_cut = "energy",
     end_cut = "energy",
     bins= np.array([0.1, 0.242, 0.335,0.467, 1]),
-    xlabel=r'Muon candidate P [GeV]',
+    xlabel=r"$P_\mu$ [GeV/c]",
     ylabel=slices_y_label
 )
 
@@ -1264,7 +1264,7 @@ config_cos_theta_mu_final = FullHistogramConfig(
     start_cut = "energy",
     end_cut = "energy",
     bins= np.array([-1.,0.324, 0.667, 0.855, 1.]),
-    xlabel=r'Muon candidate $cos_{\theta_z}$',
+    xlabel=r"$cos(\theta_\mu)$",
     ylabel=slices_y_label,
     stats_horizontal_alignment = 'left'
 )
@@ -1277,7 +1277,7 @@ config_p_pi_final = FullHistogramConfig(
     start_cut = "energy",
     end_cut = "energy",
     bins= np.array([0.13, 0.218, 0.296,0.415,2]),
-    xlabel=r'Pion candidate P [GeV]',
+    xlabel=r"$P_\pi$ [GeV/c]",
     ylabel=slices_y_label
 )
 
@@ -1289,7 +1289,7 @@ config_cos_theta_pi_final = FullHistogramConfig(
     start_cut = "energy",
     end_cut = "energy",
     bins= np.array([-1.,0.131, 0.592, 0.830, 1.]),
-    xlabel=r'Pion candidate $cos_{\theta_z}$',
+    xlabel=r"$cos(\theta_\pi)$",
     ylabel=slices_y_label,
     stats_horizontal_alignment = 'left'
 )
@@ -1305,6 +1305,7 @@ config_delta_alpha_T_final = FullHistogramConfig(
     bins= np.array([0., 1.637, 2.643, np.pi]),
     xlabel=r'$\delta \alpha_T$ [rad]',
     ylabel=slices_y_label,
+    stats_horizontal_alignment = 'left'
 )
 
 
@@ -1315,8 +1316,8 @@ config_delta_pT_final = FullHistogramConfig(
     first_per_slice = True,
     start_cut = "energy",
     end_cut = "energy",
-    bins= np.array([0., 0.158, 0.372, 0.8]),
-    xlabel=r'$\delta p_T$ [GeV]',
+    bins= np.array([0., 0.158, 0.372, 1]),
+    xlabel=r'$\delta p_T$ [GeV/c]',
     ylabel=slices_y_label
 )
 
@@ -1341,9 +1342,22 @@ config_num_protons = FullHistogramConfig(
     start_cut = "energy",
     end_cut = "energy",
     bins=np.linspace(0, 3, 4),
-    xlabel=r'Number of protons',
-    ylabel=slices_y_label
+    xlabel=r"# protons",
+    ylabel=slices_y_label,
 )
+
+config_num_protons_two = FullHistogramConfig(
+    file_name = "num_protons_two",      
+    var_evt_reco_col=('slc','measure_var','num_protons','','',''),
+    truth_column = nu_categ_column,
+    first_per_slice = True,
+    start_cut = "energy",
+    end_cut = "energy",
+    bins=np.linspace(0, 2, 3),
+    xlabel=r"# protons",
+    ylabel=slices_y_label,
+)
+
 
 config_angle_between_candidates_final = FullHistogramConfig(
     file_name = "angle_between_candidates",      
@@ -1353,10 +1367,10 @@ config_angle_between_candidates_final = FullHistogramConfig(
     start_cut = "energy",
     end_cut = "energy",
     bins= np.array([0., 0.954,1.392, 1.848, 2.65]),
-    xlabel=r'Angle between MIP candidates [rad]',
+    xlabel=r"$\theta_{\pi,\mu}$ [rad]",
     ylabel=slices_y_label
 )
 
 final_var_configs = [config_all_evts_final, config_p_mu_final, config_cos_theta_mu_final, config_p_pi_final,
                      config_cos_theta_pi_final, config_delta_alpha_T_final, config_delta_pT_final,
-                    config_delta_phi_T_final, config_num_protons, config_angle_between_candidates_final]
+                    config_delta_phi_T_final, config_num_protons, config_num_protons_two,config_angle_between_candidates_final]

@@ -40,7 +40,7 @@ MIP_candidate_min_proton_score = 85
 
 max_angle_between_candidates = 2.65
 
-michel_max_track_score = 0.62
+michel_max_track_score = 0.6
 michel_max_visible_energy = 45
 michel_max_dEdx_mean = 200
 

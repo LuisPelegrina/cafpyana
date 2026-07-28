@@ -273,6 +273,15 @@ def cathode_crossing_pfp_mask(df):
     crossing_cathode = ((df.pfp.trk.start.x > xmin) & (df.pfp.trk.start.x < xmax))|((df.pfp.trk.end.x > xmin) & (df.pfp.trk.end.x < xmax) )
     return crossing_cathode
 
+def starts_in_high_y_high_z(df):
+    x = df.pfp.trk.start.x
+    y = df.pfp.trk.start.y
+    z = df.pfp.trk.start.z
+    in_high_y_high_z = (z > 250) & (y > 100) & (x < 0)
+    
+    return in_high_y_high_z
+
+
 def ends_in_high_y_high_z(df):
     x = df.pfp.trk.end.x
     y = df.pfp.trk.end.y

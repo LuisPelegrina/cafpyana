@@ -83,13 +83,16 @@ group_levels = ['entry', 'rec.slc..index']
 pfp_levels = ['entry','rec.slc..index','rec.slc.reco.pfp..index']
 
 
+
 def TruthInFV(data):
     x_region = (np.abs(data.x) > 5) & (np.abs(data.x) < 190)
     z_region1 = (data.z > 10)  & (data.z < 250) & (np.abs(data.y) < 190)
     z_region2 = (data.z > 250) & (data.z < 450) & (data.y > -190) & (data.y < 100) & (data.x < 0)
     z_region3 = (data.z > 250) & (data.z < 450) & (data.y > -190) & (data.y < 190) & (data.x > 0)
+    
     contained = x_region & (z_region1 | z_region2 | z_region3)
     return contained
+
     
 def IsNu(df):
     is_numu = abs(df.pdg) == 14
@@ -122,11 +125,97 @@ def isCC1Pi(df): # definition
         is_theta.loc[df_sel.index] = theta < CTE.max_angle_between_candidates
 
     is_mu_p =  df.mu.totp < 1
+    #return is_1pi1mu & is_NpiNmuNnNp & is_theta & is_mu_contained
     return is_1pi1mu & is_NpiNmuNnNp & is_theta & is_mu_p
 
-from itertools import combinations
-import numpy as np
-import pandas as pd
+def add_nu_categ_column(df, is_truth_df = False):
+    if(is_truth_df):
+        truth_df = df
+    else:
+        truth_df = df.slc.truth # Make a copy to safely assign
+
+    is_inside_fv = TruthInFV(truth_df.position)
+    is_nu = IsNu(truth_df)
+    is_signal = isCC1Pi(truth_df)
+    is_cc = truth_df.iscc
+    is_nu_mu_cc = is_cc & (abs(truth_df.pdg) == 14)
+
+    nu_categ = pd.Series("none", index=truth_df.index, dtype="object")
+    # Apply categories
+    nu_categ[~is_nu] = "cosmic"
+    nu_categ[is_nu & ~is_inside_fv] = "out_AV_nu"
+    nu_categ[is_nu & is_inside_fv & ~is_cc] = "NC"
+    nu_categ[is_nu & is_inside_fv & is_cc & (abs(truth_df.pdg) == 12)] = "CC_e"
+    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & (truth_df.npi_P_85MeV_10000MeV == 0) & (truth_df.np_P_325MeV_10000MeV == 1)] = "CC_mu_0pi_1p"
+    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & (truth_df.npi_P_85MeV_10000MeV == 0) & (truth_df.np_P_325MeV_10000MeV > 1)] = "CC_mu_0pi_2p"
+    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & (truth_df.npi_P_85MeV_10000MeV == 0) & (truth_df.np_P_325MeV_10000MeV == 0)] = "CC_mu_0pi_0p"
+    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & (truth_df.npi_P_85MeV_10000MeV > 1)] = "CC_mu_2pi"
+    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & is_signal] = "CC1pi"
+    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & ~is_signal & (truth_df.npi_P_85MeV_10000MeV == 1)] = "other_CC1pi"
+    
+    
+    if(is_truth_df):
+        df['nu_categ'] = nu_categ
+    else:
+        df[('slc','truth', 'nu_categ', '', '','')] = nu_categ 
+    return df
+
+   
+def add_nu_categ_proton_reduced_column(df, is_truth_df = False):
+    if(is_truth_df):
+        truth_df = df
+    else:
+        truth_df = df.truth # Make a copy to safely assign
+
+    is_inside_fv = TruthInFV(truth_df.position)
+    is_nu = IsNu(truth_df)
+    is_signal = isCC1Pi(truth_df)
+    is_cc = truth_df.iscc.astype(bool)
+    is_nu_mu_cc = is_cc & (abs(truth_df.pdg) == 14)
+
+    nu_categ = pd.Series("none", index=truth_df.index, dtype="object")
+    # Apply categories
+    nu_categ[~is_nu] = "cosmic"
+    nu_categ[is_nu & ~is_inside_fv] = "out_AV_nu"
+    nu_categ[is_nu & is_inside_fv & ~is_signal] = "other_nu"
+    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & (truth_df.npi_P_85MeV_10000MeV == 0)] = "CC_mu_0pi"
+    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & (truth_df.npi_P_85MeV_10000MeV > 1)] = "CC_mu_2pi"
+    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & is_signal & (truth_df.np_P_325MeV_10000MeV == 0)] = "0p_CC1Pi"
+    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & is_signal & (truth_df.np_P_325MeV_10000MeV == 1)] = "1p_CC1Pi"
+    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & is_signal & (truth_df.np_P_325MeV_10000MeV > 1)] = "plus2p_CC1Pi"
+    
+    if(is_truth_df):
+        df['nu_categ_proton_reduced'] = nu_categ
+    else:
+        df[('truth', 'nu_categ_proton_reduced', '', '','','')] = nu_categ 
+    return df
+
+def add_genie_categ_column(df, is_truth_df = False):
+    if(is_truth_df):
+        truth_df = df
+    else:
+        truth_df = df.truth # Make a copy to safely assign
+
+    is_inside_fv = TruthInFV(truth_df.position)
+    is_nu = IsNu(truth_df)
+    is_cc = truth_df.iscc.astype(bool)
+    is_nu_mu_cc = is_cc & (abs(truth_df.pdg) == 14)
+
+    genie_categ = pd.Series("other", index=truth_df.index, dtype="object")
+    # Apply categories
+    genie_categ[~is_nu] = "cosmic"
+    genie_categ[is_nu & ~is_inside_fv] = "out_AV_nu"
+    genie_categ[is_nu & is_inside_fv & ~is_cc & (abs(truth_df.pdg) == 14)] = "nu_mu_NC" 
+    genie_categ[is_nu & is_inside_fv & is_nu_mu_cc & (df.genie_mode == 0)] = "nu_mu_CC_QE" 
+    genie_categ[is_nu & is_inside_fv & is_nu_mu_cc & (df.genie_mode == 10)] = "nu_mu_CC_MEC" 
+    genie_categ[is_nu & is_inside_fv & is_nu_mu_cc & (df.genie_mode == 1)] = "nu_mu_CC_Res" 
+    genie_categ[is_nu & is_inside_fv & is_nu_mu_cc & (df.genie_mode == 2)] = "nu_mu_CC_Dis" 
+    
+    if(is_truth_df):
+        df['genie_categ'] = genie_categ
+    else:
+        df[('truth', 'genie_categ', '', '','','')] = nu_categ 
+    return df
 
 def add_max_angle_between_candidates_column(df, group_levels=['entry', 'rec.slc..index']):
     # 1. Initialize result series at the slice level
@@ -230,37 +319,6 @@ def add_n_protons_column(df):
     df.loc[df.slc.measure_var.num_protons > 2, target_key] = 2.
     return df
     
-def add_nu_categ_column(df, is_truth_df = False):
-    if(is_truth_df):
-        truth_df = df
-    else:
-        truth_df = df.slc.truth # Make a copy to safely assign
-
-    is_inside_fv = TruthInFV(truth_df.position)
-    is_nu = IsNu(truth_df)
-    is_signal = isCC1Pi(truth_df)
-    is_cc = truth_df.iscc
-    is_nu_mu_cc = is_cc & (abs(truth_df.pdg) == 14)
-
-    nu_categ = pd.Series("none", index=truth_df.index, dtype="object")
-    # Apply categories
-    nu_categ[~is_nu] = "cosmic"
-    nu_categ[is_nu & ~is_inside_fv] = "out_AV_nu"
-    nu_categ[is_nu & is_inside_fv & ~is_cc] = "NC"
-    nu_categ[is_nu & is_inside_fv & is_cc & (abs(truth_df.pdg) == 12)] = "CC_e"
-    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & (truth_df.npi_P_85MeV_10000MeV == 0) & (truth_df.np_P_325MeV_10000MeV == 1)] = "CC_mu_0pi_1p"
-    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & (truth_df.npi_P_85MeV_10000MeV == 0) & (truth_df.np_P_325MeV_10000MeV > 1)] = "CC_mu_0pi_2p"
-    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & (truth_df.npi_P_85MeV_10000MeV == 0) & (truth_df.np_P_325MeV_10000MeV == 0)] = "CC_mu_0pi_0p"
-    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & (truth_df.npi_P_85MeV_10000MeV > 1)] = "CC_mu_2pi"
-    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & is_signal] = "CC1pi"
-    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & ~is_signal & (truth_df.npi_P_85MeV_10000MeV == 1)] = "other_CC1pi"
-    
-    
-    if(is_truth_df):
-        df['nu_categ'] = nu_categ
-    else:
-        df[('slc','truth', 'nu_categ', '', '','')] = nu_categ 
-    return df
 
 
 def add_n_true_proton_column(df): 
@@ -268,65 +326,10 @@ def add_n_true_proton_column(df):
     df.loc[df.true_var.num_protons >= 2,('true_var', 'num_protons','')] = 2
     return df
 
-def add_nu_categ_proton_reduced_column(df, is_truth_df = False):
-    if(is_truth_df):
-        truth_df = df
-    else:
-        truth_df = df.truth # Make a copy to safely assign
-
-    is_inside_fv = TruthInFV(truth_df.position)
-    is_nu = IsNu(truth_df)
-    is_signal = isCC1Pi(truth_df)
-    is_cc = truth_df.iscc.astype(bool)
-    is_nu_mu_cc = is_cc & (abs(truth_df.pdg) == 14)
-
-    nu_categ = pd.Series("none", index=truth_df.index, dtype="object")
-    # Apply categories
-    nu_categ[~is_nu] = "cosmic"
-    nu_categ[is_nu & ~is_inside_fv] = "out_AV_nu"
-    nu_categ[is_nu & is_inside_fv & ~is_signal] = "other_nu"
-    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & (truth_df.npi_P_85MeV_10000MeV == 0)] = "CC_mu_0pi"
-    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & (truth_df.npi_P_85MeV_10000MeV > 1)] = "CC_mu_2pi"
-    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & is_signal & (truth_df.np_P_325MeV_10000MeV == 0)] = "0p_CC1Pi"
-    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & is_signal & (truth_df.np_P_325MeV_10000MeV == 1)] = "1p_CC1Pi"
-    nu_categ[is_nu & is_inside_fv & is_nu_mu_cc & is_signal & (truth_df.np_P_325MeV_10000MeV > 1)] = "plus2p_CC1Pi"
-    
-    if(is_truth_df):
-        df['nu_categ_proton_reduced'] = nu_categ
-    else:
-        df[('truth', 'nu_categ_proton_reduced', '', '','','')] = nu_categ 
-    return df
-
-def add_genie_categ_column(df, is_truth_df = False):
-    if(is_truth_df):
-        truth_df = df
-    else:
-        truth_df = df.truth # Make a copy to safely assign
-
-    is_inside_fv = TruthInFV(truth_df.position)
-    is_nu = IsNu(truth_df)
-    is_cc = truth_df.iscc.astype(bool)
-    is_nu_mu_cc = is_cc & (abs(truth_df.pdg) == 14)
-
-    genie_categ = pd.Series("other", index=truth_df.index, dtype="object")
-    # Apply categories
-    genie_categ[~is_nu] = "cosmic"
-    genie_categ[is_nu & ~is_inside_fv] = "out_AV_nu"
-    genie_categ[is_nu & is_inside_fv & ~is_cc & (abs(truth_df.pdg) == 14)] = "nu_mu_NC" 
-    genie_categ[is_nu & is_inside_fv & is_nu_mu_cc & (df.genie_mode == 0)] = "nu_mu_CC_QE" 
-    genie_categ[is_nu & is_inside_fv & is_nu_mu_cc & (df.genie_mode == 10)] = "nu_mu_CC_MEC" 
-    genie_categ[is_nu & is_inside_fv & is_nu_mu_cc & (df.genie_mode == 1)] = "nu_mu_CC_Res" 
-    genie_categ[is_nu & is_inside_fv & is_nu_mu_cc & (df.genie_mode == 2)] = "nu_mu_CC_Dis" 
-    
-    if(is_truth_df):
-        df['genie_categ'] = genie_categ
-    else:
-        df[('truth', 'genie_categ', '', '','','')] = nu_categ 
-    return df
-
 def add_best_chi2_columns(df, update_calo = None):
     chi2_vars = [
         'chi2_muon',
+        'chi2_pion',
         'chi2_proton',
     ]
 

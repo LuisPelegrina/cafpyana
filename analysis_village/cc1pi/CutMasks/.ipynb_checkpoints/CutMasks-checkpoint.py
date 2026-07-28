@@ -273,6 +273,15 @@ def cathode_crossing_pfp_mask(df):
     crossing_cathode = ((df.pfp.trk.start.x > xmin) & (df.pfp.trk.start.x < xmax))|((df.pfp.trk.end.x > xmin) & (df.pfp.trk.end.x < xmax) )
     return crossing_cathode
 
+def starts_in_high_y_high_z(df):
+    x = df.pfp.trk.start.x
+    y = df.pfp.trk.start.y
+    z = df.pfp.trk.start.z
+    in_high_y_high_z = (z > 250) & (y > 100) & (x < 0)
+    
+    return in_high_y_high_z
+
+
 def ends_in_high_y_high_z(df):
     x = df.pfp.trk.end.x
     y = df.pfp.trk.end.y
@@ -324,7 +333,20 @@ def TPC_containment_mask(df, group_levels):
     return mask & cathode_crossing_mask
 
 
+def primary_proton_cut_mask(df, group_levels):
+    primary_proton_df = df[is_primary_proton_mask(df)]
 
+    # Count how many pfps per slice
+    primary_proton_counts = primary_proton_df.groupby(level=group_levels).size()
+
+    # Get only slices with at least 2 pfps
+
+    valid_slices = primary_proton_counts[primary_proton_counts > 0].index
+
+    # Apply the mask to original DataFrame
+    final_mask = pd.Series(df.index.droplevel('rec.slc.reco.pfp..index').isin(valid_slices), index=df.index)
+
+    return final_mask
 
 
 def is_primary_proton_mask(df):
@@ -333,3 +355,24 @@ def is_primary_proton_mask(df):
     chi2_mask = (df.pfp.trk.chi2pid.best.chi2_proton < CTE.MIP_candidate_min_proton_score)
     
     return is_primary_mask & is_track_mask & chi2_mask
+
+def is_long_primary_track_mask(df):
+    is_primary_mask = (df.pfp.parent_is_primary == True) & (df.pfp.dist_to_vertex < CTE.max_primary_distance_to_vertex)
+    is_track_mask = (df.pfp.trk.len > CTE.MIP_candidate_min_TL) & (df.pfp.trackScore > CTE.min_track_score)
+    
+    return is_primary_mask & is_track_mask
+
+
+def long_primary_track_cut_mask(df, group_levels):
+    track_df = df[is_long_primary_track_mask(df)]
+
+    # Count how many pfps per slice
+    track_counts = track_df.groupby(level=group_levels).size()
+ 
+    # Get only slices with at least 2 pfps
+    valid_slices = track_counts[track_counts > 1].index
+
+    # Apply the mask to original DataFrame
+    final_mask = pd.Series(df.index.droplevel('rec.slc.reco.pfp..index').isin(valid_slices), index=df.index)
+
+    return final_mask

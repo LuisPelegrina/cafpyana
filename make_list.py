@@ -3,10 +3,15 @@ import os
 import sys
 
 sam_definitions = {
+    "mc_MCP2025C_1e20_v10_06_00_09_prodgenie_corsika_proton_rockbox_sbnd_CV_caf_flat_caf_sbnd":
+    "data_lists/1e20/CV/mc_MCP2025C_1e20_v10_06_00_09_prodgenie_corsika_proton_rockbox_sbnd_CV_caf_flat_caf_sbnd.list",
     
     "mc_MCP2025B_5e18_v10_06_00_09_prodgenie_corsika_proton_rockbox_sbnd_CV_caf_flat_caf_sbnd": 
 "data_lists/5e18POT/mc/mc_MCP2025B_5e18_v10_06_00_09_prodgenie_corsika_proton_rockbox_sbnd_CV_caf_flat_caf_sbnd.list",
 
+    "data_MCP2025C_Spring25_reprocess_FullData1e20_bnblight_v10_06_00_09_flatcaf_sbnd":
+    "data_lists/1e20/data/data_MCP2025B_02_FullData_1e20_bnblight_v10_06_00_02_flatcaf_sbnd.list",
+    
   "mc_MCP2025B_5e18_v10_06_00_09_prodcorsika_proton_intime_sbnd_CV_caf_flat_caf_sbnd": 
     "data_lists/5e18POT/mc/mc_in_time_cosmics_5e18.list",
     

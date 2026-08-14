@@ -289,6 +289,7 @@ def make_muon_selection_df(f, updatecalo = None):
     hit_names = ['nhit0', 'nhit1', 'nhit2']  
     pandora_df = add_nhit_column(pandora_df, hit_dfs, hit_names, 1000)
 
+    print(pandora_df.pfp.columns)
     pandora_df = add_p_type_column(pandora_df)
     pandora_df = add_best_chi2_columns(pandora_df, update_calo = updatecalo)
     
@@ -446,17 +447,19 @@ def make_trkhitdf_plane2_pion_selection_stopping(f):
     return make_trkhitdf_selection_df(f, plane = 2, pdg = 211, select_stopping = True, updatecalo=None)
 
 
+    
+
 def make_pion_selection_stopping_update_calo_cv_df(f):
-    return make_pion_selection_df(f, updatecalo = None, select_stopping = "cv")
+    return make_pion_selection_df(f, updatecalo = "cv", select_stopping = True)
 
 def make_trkhitdf_plane0_pion_selection_stopping_update_calo_cv(f):
-    return make_trkhitdf_selection_df(f, plane = 0, pdg = 211, select_stopping = True, updatecalo=None)
+    return make_trkhitdf_selection_df(f, plane = 0, pdg = 211, select_stopping = True, updatecalo="cv")
 
 def make_trkhitdf_plane1_pion_selection_stopping_update_calo_cv(f):
-    return make_trkhitdf_selection_df(f, plane = 1, pdg = 211, select_stopping = True, updatecalo=None)
+    return make_trkhitdf_selection_df(f, plane = 1, pdg = 211, select_stopping = True, updatecalo="cv")
     
 def make_trkhitdf_plane2_pion_selection_stopping_update_calo_cv(f):
-    return make_trkhitdf_selection_df(f, plane = 2, pdg = 211, select_stopping = True, updatecalo=None)
+    return make_trkhitdf_selection_df(f, plane = 2, pdg = 211, select_stopping = True, updatecalo="cv")
 
 
 

@@ -289,6 +289,7 @@ def make_muon_selection_df(f, updatecalo = None):
     hit_names = ['nhit0', 'nhit1', 'nhit2']  
     pandora_df = add_nhit_column(pandora_df, hit_dfs, hit_names, 1000)
 
+    print(pandora_df.pfp.columns)
     pandora_df = add_p_type_column(pandora_df)
     pandora_df = add_best_chi2_columns(pandora_df, update_calo = updatecalo)
     

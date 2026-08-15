@@ -1484,7 +1484,7 @@ cols = [
         ('pfp', 'trk', 'end', 'z', '', ''),
     ]
 
-def make_cc1pi_finaldf(f, updatecalo = None):
+def make_cc1pi_finaldf(f, updatecalo = "cv"):
     
     pandora_df  =  make_pandora_df(f, trkScoreCut = False, trkDistCut= -1, cutClearCosmic = True, requireFiducial=False, updatecalo=updatecalo)
     if pandora_df.empty:

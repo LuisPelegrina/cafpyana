@@ -32,7 +32,7 @@ min_distance_to_consider_contained = 5
 min_z_for_escaping_p = 5
 
 max_shower_track_score = 0.5
-min_shower_ke = 0.055
+min_shower_ke = 0.06
 
 MIP_candidate_min_TL = 10
 MIP_candidate_max_muon_score = 20

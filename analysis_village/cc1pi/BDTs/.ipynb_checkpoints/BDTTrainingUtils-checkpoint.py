@@ -37,93 +37,150 @@ def bdt_quality_mask(df, columns):
     return mask
 
 
+import numpy as np
+from sklearn.base import clone
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
+from sklearn.tree import DecisionTreeRegressor, DecisionTreeClassifier
+from sklearn.ensemble import (
+    AdaBoostClassifier,
+    GradientBoostingClassifier,
+    BaggingClassifier,
+    RandomForestClassifier,
+)
+from xgboost import XGBClassifier
+
 
 def create_models_for_columns(input_cols):
     model_vec = {}
 
     def wrap_in_pipeline(clf):
-        return Pipeline([
-            ('classifier', clf)
-        ])
-    
+        return Pipeline([("classifier", clf)])
+
     # --- BDT (AdaBoost) ---
     bdt_clf = AdaBoostClassifier(
-        estimator=DecisionTreeClassifier(max_depth=3, min_samples_leaf=0.025, criterion="gini"),
-        n_estimators=850, learning_rate=0.5, random_state=40
+        estimator=DecisionTreeClassifier(
+            max_depth=3, min_samples_leaf=0.025, criterion="gini"
+        ),
+        n_estimators=200,
+        learning_rate=0.5,
+        random_state=40,
     )
     model_vec["BDT"] = wrap_in_pipeline(bdt_clf)
 
-    # --- BDTG (Gradient Boost) ---
-
     bdtg_clf = GradientBoostingClassifier(
-        n_estimators=850, learning_rate=0.1, max_depth=3, 
-        subsample=0.5, min_samples_leaf=0.025, random_state=40
+        n_estimators = 850,          
+        learning_rate = 0.05,         
+        max_depth = 3,                 
+        min_samples_leaf = 0.025,      
+        subsample = 0.5,               
+        random_state=40,
     )
-
     model_vec["BDTG"] = wrap_in_pipeline(bdtg_clf)
 
+    
     # --- XGBoost ---
     xgb_clf = XGBClassifier(
-        n_estimators=850,
+        n_estimators=200,
         learning_rate=0.1,
         max_depth=3,
         subsample=0.5,
-        colsample_bytree=0.8,      # Similar to RF max_features
-        tree_method='hist',        # Fast histogram-based method
+        colsample_bytree=0.8,
+        tree_method="hist",
         random_state=40,
-        n_jobs=-1                  # Use all cores
+        n_jobs=-1,
     )
     model_vec["XGB"] = wrap_in_pipeline(xgb_clf)
 
     # --- BDTB (Bagging) ---
     bdtb_clf = BaggingClassifier(
-        estimator=DecisionTreeClassifier(max_depth=3, min_samples_leaf=0.025, criterion="gini"),
-        n_estimators=400, bootstrap=True, random_state=40, n_jobs=-1
+        estimator=DecisionTreeClassifier(
+            max_depth=3, min_samples_leaf=0.025, criterion="gini"
+        ),
+        n_estimators=200,
+        bootstrap=True,
+        random_state=40,
+        n_jobs=-1,
     )
     model_vec["BDTB"] = wrap_in_pipeline(bdtb_clf)
 
     # --- Random Forest ---
     rf_clf = RandomForestClassifier(
-        n_estimators=100, criterion='gini', max_depth=None, 
-        max_features='sqrt', bootstrap=True, n_jobs=-1, random_state=40
+        n_estimators=100,
+        criterion="gini",
+        max_depth=None,
+        max_features="sqrt",
+        bootstrap=True,
+        n_jobs=-1,
+        random_state=40,
     )
     model_vec["RF"] = wrap_in_pipeline(rf_clf)
 
     return model_vec
 
+import numpy as np
+from sklearn.base import clone
+from sklearn.model_selection import train_test_split
+import numpy as np
+from sklearn.base import clone
+from sklearn.model_selection import train_test_split
 
-def train_all_models(signal_df, bkg_df, input_cols, model_vec, test_size=0.2, random_state=40):
+
+def train_all_models(
+    signal_df, bkg_df, input_cols, model_vec, test_size=0.3, random_state=40
+):
     # 1. Build input arrays
     X_sig = signal_df[input_cols].values
     X_bkg = bkg_df[input_cols].values
     y_sig = np.ones(len(X_sig))
     y_bkg = np.zeros(len(X_bkg))
+
     X = np.vstack([X_sig, X_bkg])
     y = np.hstack([y_sig, y_bkg])
-    # 2. Train/test split (Using stratify to maintain signal/bkg ratio)
+
+    # 2. Train/test split (70/30)
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=test_size, stratify=y, random_state=random_state
     )
-    n_train_sig = int(y_train.sum())
-    n_train_bkg = int((y_train == 0).sum())
-    n_test_sig  = int(y_test.sum())
-    n_test_bkg  = int((y_test == 0).sum())
 
-    print(f"Total samples   — Signal: {len(X_sig)},  Background: {len(X_bkg)}")
-    print(f"Training samples — Signal: {n_train_sig}, Background: {n_train_bkg} (total: {len(X_train)})")
-    print(f"Testing samples  — Signal: {n_test_sig},  Background: {n_test_bkg}  (total: {len(X_test)})")
+    # 3. Calculate sample counts
+    n_train_sig = int((y_train == 1).sum())
+    n_train_bkg = int((y_train == 0).sum())
+    n_test_sig = int((y_test == 1).sum())
+    n_test_bkg = int((y_test == 0).sum())
+
+    print(
+        f"Total original samples — Signal: {len(X_sig)}, Background: {len(X_bkg)}"
+    )
+    print(
+        f"Training samples — Signal: {n_train_sig}, Background: {n_train_bkg} (total: {len(X_train)})"
+    )
+    print(
+        f"Testing samples  — Signal: {n_test_sig},  Background: {n_test_bkg}  (total: {len(X_test)})"
+    )
     print(f"Signal fraction in train: {y_train.mean():.4f}")
 
-    # 3. Train each model
+    # 4. Compute balanced sample weights (equalizes class impact)
+    weight_sig = 1.0
+    #weight_bkg = np.sqrt(float(n_train_sig) / float(n_train_bkg))
+    weight_bkg = float(n_train_sig) / float(n_train_bkg)
+    sample_weights = np.where(y_train == 1, weight_sig, weight_bkg)
+
+    # 5. Train each model passing class weights via pipeline step syntax
     trained_models = {}
     for name, pipeline in model_vec.items():
         new_pipeline = clone(pipeline)
-        new_pipeline.fit(X_train, y_train)
+        new_pipeline.fit(
+            X_train, y_train, classifier__sample_weight=sample_weights
+        )
         trained_models[name] = new_pipeline
         print(f"Trained {name}")
-        
+
     return trained_models, X_train, X_test, y_train, y_test
-    
+
+
+
+
 
 def get_scores(clf, X_train, X_test):
     """

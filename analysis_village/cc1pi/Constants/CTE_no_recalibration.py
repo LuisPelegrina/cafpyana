@@ -32,7 +32,7 @@ min_distance_to_consider_contained = 5
 min_z_for_escaping_p = 5
 
 max_shower_track_score = 0.5
-min_shower_ke = 0.06
+min_shower_ke = 0.055
 
 MIP_candidate_min_TL = 10
 MIP_candidate_max_muon_score = 20
@@ -45,7 +45,7 @@ michel_max_visible_energy = 45
 michel_max_dEdx_mean = 200
 
 TMVA_BDT_proton_max_score = -0.07
-BDT_proton_max_score = -1.7
+BDT_proton_max_score = 0.62
 BDT_proton_max_score_sideband = -1
 BDT_proton_max_score_sideband_pion = 1.5
 clear_pion_BDT_score = 0

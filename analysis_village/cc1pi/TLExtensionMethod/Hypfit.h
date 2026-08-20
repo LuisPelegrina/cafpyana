@@ -11,11 +11,20 @@
 
 using namespace std;
 
+struct Likelihood_point {
+  double rr;                  // some variable
+  double Likelihood;          // likelihood value
+  int num_hits_not_used;      // number of not used hits
+};
+
+
 class Hypfit {
+
 
 public:
   Hypfit();
 
+    
   virtual ~Hypfit();
 
   std::map< int, PhysdEdx* > map_PhysdEdx;
@@ -24,11 +33,13 @@ public:
   double NormLikelihood(const vector<double> & dEdx, const vector<double> & ResRange, const vector<double> & pitch, const vector<int> bad_hits, bool include_small_likelihood, int PID);
   double NormLikelihood_w_convolution(const vector<double> & dEdx, const vector<double> & ResRange, const vector<double> & pitch, const vector<int> bad_hits, bool include_small_likelihood, int PID, vector<TF1*> tf1_vec);
   double NormLikelihood_w_convolution_each_time(const vector<double> & dEdx, const vector<double> & ResRange, const vector<double> & pitch, const vector<int> bad_hits, bool include_small_likelihood, int PID, int target_plane);
+  vector<Likelihood_point> NormLikelihoodPairVector_w_convolution(const vector<double> & dEdx, const vector<double> & ResRange, const vector<double> & pitch, const vector<int> bad_hits, bool include_small_likelihood, int PID, vector<TF1*> tf1_vec);
+
 
   map<int, vector<TF1*>>  get_conv_function_map(int target_pdg, string mode, int max_rr);
   std::vector<int> get_hits_to_ignore( vector<double> rr, vector<double> dEdx, string mode);
   double GetTLExtensionP(int target_PDG, vector<double> this_rr_vec, vector<double> this_dEdx_vec, vector<double> this_pitch_vec, int best_plane, string cleaning_method);
-
+    
   double robust_max_x(TF1 *f, double xmin, double xmax, int n_scan = 2000);
 
 private:

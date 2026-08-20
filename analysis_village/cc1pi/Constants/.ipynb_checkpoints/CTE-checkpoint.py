@@ -45,7 +45,7 @@ michel_max_visible_energy = 45
 michel_max_dEdx_mean = 200
 
 TMVA_BDT_proton_max_score = -0.07
-BDT_proton_max_score = 0.62
+BDT_proton_max_score = -1.85
 BDT_proton_max_score_sideband = -1
 BDT_proton_max_score_sideband_pion = 1.5
 clear_pion_BDT_score = 0

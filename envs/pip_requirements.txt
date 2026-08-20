@@ -16,7 +16,7 @@ emcee
 corner
 lz4
 xxhash
-numpy 
+numpy
 fsspec-xrootd
 lmfit
 scikit-learn

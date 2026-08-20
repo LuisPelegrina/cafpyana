@@ -367,6 +367,84 @@ double Hypfit::NormLikelihood_w_convolution(const vector<double> & dEdx, const v
 
 }
 
+vector<Likelihood_point> Hypfit::NormLikelihoodPairVector_w_convolution(const vector<double> & dEdx, const vector<double> & ResRange, const vector<double> & pitch, const vector<int> bad_hits, bool include_small_likelihood, int PID, vector<TF1*> tf1_vec) {
+
+  vector<Likelihood_point> likelihood_point_vector;
+
+  // == PID input : mass hypothesis, valid only for muons, charged pions, and protons
+  if(!(PID == 13 || PID == 2212 || PID == 211)){
+    likelihood_point_vector = {{-9999, -9999, -9999}};
+    return likelihood_point_vector;
+  }
+
+  // == Tunable parameters
+  double min_additional_res_length = 0.;
+  double max_additional_res_length = max_additional_res_length_pion;
+  double res_length_step = res_length_step_pion;
+  if(PID == 2212){
+    max_additional_res_length = max_additional_res_length_proton;
+    res_length_step = res_length_step_proton;
+  }
+  int res_length_trial = (max_additional_res_length - min_additional_res_length) / res_length_step;
+
+  int this_N_calo = dEdx.size();
+  if(this_N_calo - 1 <= 0){
+    likelihood_point_vector = {{-2222, -2222, -2222}};
+    return likelihood_point_vector; // == No hits
+  }
+  if(this_N_calo - bad_hits.size() <= 4) {
+    likelihood_point_vector = {{-8888, -8888, -8888}};
+    return likelihood_point_vector; // == Too small number of hits
+  }
+  int this_N_hits = this_N_calo;
+
+  // == Fit
+  for(int i = 0; i < res_length_trial; i++) {
+
+    double this_additional_res_length = min_additional_res_length + (i + 0.) * res_length_step;
+    double this_m2lnL = 0.;
+    int num_invalid_hits = 0;
+    int num_valid_hits = 0;
+
+    for (int j = 0; j < this_N_hits; j++) {
+
+      if (std::find(bad_hits.begin(), bad_hits.end(), j) != bad_hits.end()) continue;
+
+      double this_res_length = ResRange.at(j) + this_additional_res_length;
+      double this_KE = map_PhysdEdx[PID]->KEFromRangeSpline(this_res_length);
+      double dEdx_measured = dEdx.at(j);
+      double this_pitch = pitch.at(j);
+
+      // == Corrected PDF calls matching NormLikelihood_w_convolution
+      double this_likelihood = map_PhysdEdx[PID]->dEdx_PDF_w_convolution_f1(this_KE, this_res_length, dEdx_measured, this_pitch, tf1_vec);
+      double this_likelihood_max = map_PhysdEdx[PID]->dEdx_PDF_max_w_convolution_f1(this_KE, this_res_length, this_pitch, tf1_vec);
+
+      if (this_likelihood > 1e-6) {
+        num_valid_hits++;
+        this_m2lnL += (2.0) * (log(this_likelihood_max) - log(this_likelihood));
+      } else {
+        if (include_small_likelihood) this_m2lnL += (2.0) * (log(this_likelihood_max) - log(1e-6));
+        num_invalid_hits++;
+      }
+    }
+
+    if (num_valid_hits > 0) {
+      if (include_small_likelihood) {
+        this_m2lnL = this_m2lnL / (num_valid_hits + num_invalid_hits);
+      } else {
+        this_m2lnL = this_m2lnL / num_valid_hits;
+      }
+    }
+
+    Likelihood_point lp = {this_additional_res_length + ResRange.at(this_N_calo - 1), this_m2lnL, num_invalid_hits};
+    likelihood_point_vector.push_back(lp);
+  }
+
+  // == Return
+  return likelihood_point_vector;
+}
+
+
 
 
 double Hypfit::NormLikelihood_w_convolution_each_time(const vector<double> & dEdx, const vector<double> & ResRange, const vector<double> & pitch, const vector<int> bad_hits, bool include_small_likelihood, int PID, int target_plane) {

@@ -29,6 +29,8 @@ public:
   std::vector<int> get_hits_to_ignore( vector<double> rr, vector<double> dEdx, string mode);
   double GetTLExtensionP(int target_PDG, vector<double> this_rr_vec, vector<double> this_dEdx_vec, vector<double> this_pitch_vec, int best_plane, string cleaning_method);
 
+  double robust_max_x(TF1 *f, double xmin, double xmax, int n_scan = 2000);
+
 private:
 
   // == Tunable parameters
@@ -44,6 +46,11 @@ private:
   double pion_mass = 0.13957039;
   double muon_mass = 0.1056583755;
   double proton_mass = 0.93827208943;
+
+  std::map<int, std::vector<TF1*>> conv_tf1_map_muon;
+  std::map<int, std::vector<TF1*>> conv_tf1_map_pion;
+  std::map<int, std::vector<TF1*>> conv_tf1_map_proton;
+
 };
 
 #endif

@@ -576,97 +576,74 @@ std::vector<int> Hypfit::get_hits_to_ignore( vector<double> rr, vector<double> d
 };
 
 
+
+double Hypfit::robust_max_x(TF1 *f, double xmin, double xmax, int n_scan) {
+  double step = (xmax - xmin) / (n_scan - 1);
+  std::vector<double> ys(n_scan);
+  int best_i = 0;
+  double best_y = f->Eval(xmin);
+  ys[0] = best_y;
+  for (int i = 1; i < n_scan; i++) {
+    double y = f->Eval(xmin + i * step);
+    ys[i] = y;
+    if (y > best_y) { best_y = y; best_i = i; }
+  }
+  double best_x = xmin + best_i * step;
+  if (best_i <= 0 || best_i >= n_scan - 1) return best_x;  // edge, skip refinement
+  double y0 = ys[best_i - 1], y1 = ys[best_i], y2 = ys[best_i + 1];
+  double denom = (y0 - 2.0 * y1 + y2);
+  if (denom == 0) return best_x;
+  double delta = 0.5 * (y0 - y2) / denom;  // vertex offset, in units of `step`
+  return best_x + delta * step;
+}
+    
 map<int, vector<TF1*>> Hypfit::get_conv_function_map(int target_pdg, string mode, int max_rr) {
-  map<int, vector<TF1 *>> conv_tf1_map;
+  map<int, vector<TF1*>> conv_tf1_map;
+
+  double mass = pion_mass;
+  if (target_pdg == 13)   mass = muon_mass;
+  if (target_pdg == 2212) mass = proton_mass;
 
   for (int i_rr = 0; i_rr < max_rr; i_rr++) {
     double pitch = 0.32;
-
-    double mass = pion_mass;
-    if (target_pdg == 13) mass = muon_mass;
-    if (target_pdg == 2212) mass = proton_mass;
-
-    double rr = (2 * i_rr + 1) / 2;
+    double rr = (2 * i_rr + 1) / 2.;
     double this_KE = map_PhysdEdx[target_pdg]->KEFromRangeSpline(rr);
     double gamma = (this_KE / mass) + 1.0;
-
-    double beta = TMath::Sqrt(1 - (1.0 / (gamma * gamma)));
-    double this_xi = map_PhysdEdx[target_pdg]->Landau_xi(this_KE, pitch);
+    double beta  = TMath::Sqrt(1 - (1.0 / (gamma * gamma)));
+    double this_xi   = map_PhysdEdx[target_pdg]->Landau_xi(this_KE, pitch);
     double this_Wmax = map_PhysdEdx[target_pdg]->Get_Wmax(this_KE);
     double this_kappa = this_xi / this_Wmax;
     double this_dEdx_BB = map_PhysdEdx[target_pdg]->meandEdx(this_KE);
     double par[5] = {this_kappa, beta * beta, this_xi, this_dEdx_BB, pitch};
 
-    TF1 *PDF = new TF1("dEdx_PDF_function", PhysdEdx::dEdx_PDF_function, -10., 20., 5);
+    TF1 *PDF = new TF1("", PhysdEdx::dEdx_PDF_function, -10., 20., 5);
     PDF->SetParameters(par[0], par[1], par[2], par[3], par[4]);
-
     double PDF_max = PDF->GetMaximumX();
 
     for (int i_p = 0; i_p < 3; i_p++) {
       double sigma = PhysdEdx::pdg_plane_map[i_p][target_pdg][0] +
-        PhysdEdx::pdg_plane_map[i_p][target_pdg][1] * pow(PDF_max,PhysdEdx::pdg_plane_map[i_p][target_pdg][2]);
+        PhysdEdx::pdg_plane_map[i_p][target_pdg][1] * pow(PDF_max, PhysdEdx::pdg_plane_map[i_p][target_pdg][2]);
 
       TF1 *f_gaus = new TF1("f_gaus", "gaus", -10, 10);
-      f_gaus->SetParameters(1.0, 0.0, sigma); // norm, mean, sigma
+      f_gaus->SetParameters(1.0, 0.0, sigma);
+
       TF1Convolution *fconv = new TF1Convolution(PDF, f_gaus, true);
       fconv->SetRange(0, 20);
-      fconv->SetNofPointsFFT(1000); // resolution of FFT
+      fconv->SetNofPointsFFT(10000);
       TF1 *f0 = new TF1("f0", fconv, 0, 20, 0);
 
+      double f0_max_x = robust_max_x(f0, 0., 20., 2000.);
+      double dx = PDF_max - f0_max_x;
+      TF1 *f_shifted = new TF1("f_shifted",
+        [f0, dx](double *x, double *p){ return f0->Eval(x[0] - dx); },
+        0, 20, 0);
 
-      TF1 *f_shifted;
-      double dx = PDF->GetMaximumX() - f0->GetMaximumX();
-      f_shifted = new TF1("f_shifted",
-                          [f0, dx](double *x, double *p) {
-                            return f0->Eval(x[0] - dx);
-                          },
-                          0, 20, 0);
-
-
-      TF1 *f_combined;
-      if(mode.find("pdf_tail") != std::string::npos) {
-        double xMaxShift = f_shifted->GetMaximumX();
-        PDF->GetMaximumX();
-        double yLeft = f_shifted->Eval(xMaxShift);
-        double yRight = PDF->Eval(xMaxShift);
-
-        double scale = (yLeft != 0) ? yRight / yLeft : 1.0;
-        if(mode.find("shift") != std::string::npos) {
-          f_combined = new TF1("f_combined",
-                               [f_shifted, PDF, xMaxShift, scale](double *x, double *p) {
-
-                                 if (x[0] <= xMaxShift)
-                                   return scale * f_shifted->Eval(x[0]);    // Use shifted function
-                                 else
-                                   return PDF->Eval(x[0]);       // Use PDF beyond the maximum
-                               },
-                               0, 20, 0);
-        } else {
-          double dx = PDF->GetMaximumX() - f0->GetMaximumX();
-          f_combined = new TF1("f_combined",
-                               [f_shifted, PDF, dx,  xMaxShift, scale](double *x, double *p) {
-
-                                 if (x[0] <= xMaxShift)
-                                   return scale * f_shifted->Eval(x[0] + dx);    // Use shifted function
-                                 else
-                                   return PDF->Eval(x[0] + dx);       // Use PDF beyond the maximum
-                               },
-                               0, 20, 0);
-        }
-      }
-
-      if(mode.find("pdf_tail") != std::string::npos) {
-        conv_tf1_map[i_p].push_back(f_combined);
-      } else if(mode.find("shift") != std::string::npos) {
-        conv_tf1_map[i_p].push_back(f_shifted);
-      } else {
-        conv_tf1_map[i_p].push_back(f0);
-      }
+      conv_tf1_map[i_p].push_back(mode.find("shift") != std::string::npos ? f_shifted : f0);
     }
   }
-
   return conv_tf1_map;
 }
+
 
 double Hypfit::GetTLExtensionP(int target_PDG, vector<double> this_rr_vec, vector<double> this_dEdx_vec, vector<double> this_pitch_vec, int best_plane, string cleaning_method) {
 

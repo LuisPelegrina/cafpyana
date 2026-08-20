@@ -23,6 +23,8 @@ cols = [
         ('pfp', 'trk', 'truth', 'p', 'pdg', ''),
         ('pfp', 'trk', 'truth', 'p', 'end_process', ''),
         ('pfp', 'trk', 'truth', 'genp', 'mag', ''),
+        ('pfp', 'trk', 'truth', 'pur', '', ''),
+        ('pfp', 'trk', 'truth', 'eff', '', ''),
         ('pfp', 'trk', 'rangeP', 'p_pion', '', ''),
         ('pfp', 'trk', 'rangeP', 'p_muon', '', ''),
         ('pfp', 'trk', 'chi2_exp_pol', '', '', ''),
@@ -38,6 +40,7 @@ cols = [
         ('pfp', 'nhit0', '', '', '', ''),
         ('pfp', 'nhit1', '', '', '', ''),
         ('pfp', 'nhit2', '', '', '', ''),
+        ("pfp", "best_plane", "", "", "", "")
     
     ]
 
@@ -228,7 +231,17 @@ def make_pion_selection_df(f, updatecalo = None, select_stopping = False):
     
     pandora_pion_df = pandora_pion_df[(x_start > 10) & (x_end > 10)]
 
-
+    # Define the multi-index tuples
+    hit_cols = [
+        ("pfp", "nhit0", "", "", "", ""),
+        ("pfp", "nhit1", "", "", "", ""),
+        ("pfp", "nhit2", "", "", "", ""),
+    ]
+    target_col = ("pfp", "best_plane", "", "", "", "")
+    
+    # Calculate the plane index (0, 1, or 2) with the maximum hits
+    pandora_pion_df[target_col] = np.argmax(pandora_pion_df[hit_cols].values, axis=1)
+    
     # Select stopping candidates if requested
     if select_stopping:
         pandora_pion_df = pandora_pion_df[pandora_pion_df.pfp.trk.chi2pid.best.chi2_pion < 6]
@@ -289,7 +302,6 @@ def make_muon_selection_df(f, updatecalo = None):
     hit_names = ['nhit0', 'nhit1', 'nhit2']  
     pandora_df = add_nhit_column(pandora_df, hit_dfs, hit_names, 1000)
 
-    print(pandora_df.pfp.columns)
     pandora_df = add_p_type_column(pandora_df)
     pandora_df = add_best_chi2_columns(pandora_df, update_calo = updatecalo)
     
@@ -363,6 +375,17 @@ def make_muon_selection_df(f, updatecalo = None):
     # Extra conditions for making sure its a muon
     pandora_muon_df = pandora_muon_df[pandora_muon_df.pfp.trk.chi2pid.best.chi2_muon < 6]
     pandora_muon_df = pandora_muon_df[pandora_muon_df.pfp.trk.len > 50]
+
+    # Define the multi-index tuples
+    hit_cols = [
+        ("pfp", "nhit0", "", "", "", ""),
+        ("pfp", "nhit1", "", "", "", ""),
+        ("pfp", "nhit2", "", "", "", ""),
+    ]
+    target_col = ("pfp", "best_plane", "", "", "", "")
+    
+    # Calculate the plane index (0, 1, or 2) with the maximum hits
+    pandora_muon_df[target_col] = np.argmax(pandora_muon_df[hit_cols].values, axis=1)
 
     min_df = pandora_muon_df[cols].copy()
     min_df = min_df[min_df[('pfp', 'trk', 'len', '', '', '')] > 0]
@@ -479,3 +502,17 @@ def make_trkhitdf_plane1_muon_selection(f):
     
 def make_trkhitdf_plane2_muon_selection(f):
     return make_trkhitdf_selection_df(f, plane = 2, pdg = 13, select_stopping = False, updatecalo=None)
+
+
+
+def make_muon_selection_update_calo_cv_df(f):
+    return make_muon_selection_df(f, updatecalo = "cv")
+
+def make_trkhitdf_plane0_muon_selection_update_calo_cv(f):
+    return make_trkhitdf_selection_df(f, plane=0, pdg=13, select_stopping=False, updatecalo="cv")
+    
+def make_trkhitdf_plane1_muon_selection_update_calo_cv(f):
+    return make_trkhitdf_selection_df(f, plane = 1, pdg = 13, select_stopping = False, updatecalo="cv")
+    
+def make_trkhitdf_plane2_muon_selection_update_calo_cv(f):
+    return make_trkhitdf_selection_df(f, plane = 2, pdg = 13, select_stopping = False, updatecalo="cv")

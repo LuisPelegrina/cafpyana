@@ -197,6 +197,8 @@ trkbranches = [
     trkbranch + "chi2pid.2.chi2_proton",
     trkbranch + "chi2pid.2.chi2_pion",
     trkbranch + "chi2pid.2.pida",
+    trkbranch + "truth.eff",
+    trkbranch + "truth.pur",
     trkbranch + 'calo.0.ke',   trkbranch + 'calo.1.ke', trkbranch + 'calo.2.ke',
 ] + pfpbranches
 

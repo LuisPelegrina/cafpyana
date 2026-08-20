@@ -29,6 +29,8 @@ public:
   std::vector<int> get_hits_to_ignore( vector<double> rr, vector<double> dEdx, string mode);
   double GetTLExtensionP(int target_PDG, vector<double> this_rr_vec, vector<double> this_dEdx_vec, vector<double> this_pitch_vec, int best_plane, string cleaning_method);
 
+  double robust_max_x(TF1 *f, double xmin, double xmax, int n_scan = 2000);
+
 private:
 
   // == Tunable parameters

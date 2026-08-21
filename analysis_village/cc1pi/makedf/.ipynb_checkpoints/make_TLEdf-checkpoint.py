@@ -456,6 +456,20 @@ def make_trkhitdf_plane2_pion_selection_all(f):
     return make_trkhitdf_selection_df(f, plane = 2, pdg = 211, select_stopping = False, updatecalo=None)
 
 
+def make_pion_selection_all_update_calo_cv_df(f):
+    return make_pion_selection_df(f, updatecalo = "cv")
+
+def make_trkhitdf_plane0_pion_selection_all_update_calo_cv(f):
+    return make_trkhitdf_selection_df(f, plane=0, pdg=211, select_stopping=False, updatecalo="cv")
+    
+def make_trkhitdf_plane1_pion_selection_all_update_calo_cv(f):
+    return make_trkhitdf_selection_df(f, plane = 1, pdg = 211, select_stopping = False, updatecalo="cv")
+    
+def make_trkhitdf_plane2_pion_selection_all_update_calo_cv(f):
+    return make_trkhitdf_selection_df(f, plane = 2, pdg = 211, select_stopping = False, updatecalo="cv")
+
+
+
     
 def make_pion_selection_stopping_df(f):
     return make_pion_selection_df(f, updatecalo = None, select_stopping = True)

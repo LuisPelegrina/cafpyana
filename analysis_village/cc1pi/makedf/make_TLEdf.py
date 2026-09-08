@@ -500,11 +500,6 @@ def make_trkhitdf_plane2_pion_selection_stopping_update_calo_cv(f):
 
 
 
-
-
-
-    
-
 def make_muon_selection_no_calo_df(f):
     return make_muon_selection_df(f, updatecalo = None)
 
@@ -518,7 +513,6 @@ def make_trkhitdf_plane2_muon_selection(f):
     return make_trkhitdf_selection_df(f, plane = 2, pdg = 13, select_stopping = False, updatecalo=None)
 
 
-
 def make_muon_selection_update_calo_cv_df(f):
     return make_muon_selection_df(f, updatecalo = "cv")
 
@@ -530,3 +524,68 @@ def make_trkhitdf_plane1_muon_selection_update_calo_cv(f):
     
 def make_trkhitdf_plane2_muon_selection_update_calo_cv(f):
     return make_trkhitdf_selection_df(f, plane = 2, pdg = 13, select_stopping = False, updatecalo="cv")
+
+
+
+
+
+
+def make_muon_selection_update_calo_ccal_p_df(f):
+    return make_muon_selection_df(f, updatecalo = "ccal_p")
+
+def make_trkhitdf_plane0_muon_selection_update_calo_ccal_p(f):
+    return make_trkhitdf_selection_df(f, plane=0, pdg=13, select_stopping=False, updatecalo="ccal_p")
+    
+def make_trkhitdf_plane1_muon_selection_update_calo_ccal_p(f):
+    return make_trkhitdf_selection_df(f, plane = 1, pdg = 13, select_stopping = False, updatecalo="ccal_p")
+    
+def make_trkhitdf_plane2_muon_selection_update_calo_ccal_p(f):
+    return make_trkhitdf_selection_df(f, plane = 2, pdg = 13, select_stopping = False, updatecalo="ccal_p")
+
+
+
+
+def make_muon_selection_update_calo_ccal_m_df(f):
+    return make_muon_selection_df(f, updatecalo = "ccal_m")
+
+def make_trkhitdf_plane0_muon_selection_update_calo_ccal_m(f):
+    return make_trkhitdf_selection_df(f, plane=0, pdg=13, select_stopping=False, updatecalo="ccal_m")
+    
+def make_trkhitdf_plane1_muon_selection_update_calo_ccal_m(f):
+    return make_trkhitdf_selection_df(f, plane = 1, pdg = 13, select_stopping = False, updatecalo="ccal_m")
+    
+def make_trkhitdf_plane2_muon_selection_update_calo_ccal_m(f):
+    return make_trkhitdf_selection_df(f, plane = 2, pdg = 13, select_stopping = False, updatecalo="ccal_m")
+
+
+
+
+
+def make_muon_selection_update_calo_alpha_p_df(f):
+    return make_muon_selection_df(f, updatecalo = "alpha_p")
+
+def make_trkhitdf_plane0_muon_selection_update_calo_alpha_p(f):
+    return make_trkhitdf_selection_df(f, plane=0, pdg=13, select_stopping=False, updatecalo="alpha_p")
+    
+def make_trkhitdf_plane1_muon_selection_update_calo_alpha_p(f):
+    return make_trkhitdf_selection_df(f, plane = 1, pdg = 13, select_stopping = False, updatecalo="alpha_p")
+    
+def make_trkhitdf_plane2_muon_selection_update_calo_alpha_p(f):
+    return make_trkhitdf_selection_df(f, plane = 2, pdg = 13, select_stopping = False, updatecalo="alpha_p")
+
+
+
+
+def make_muon_selection_update_calo_alpha_m_df(f):
+    return make_muon_selection_df(f, updatecalo = "alpha_m")
+
+def make_trkhitdf_plane0_muon_selection_update_calo_alpha_m(f):
+    return make_trkhitdf_selection_df(f, plane=0, pdg=13, select_stopping=False, updatecalo="alpha_m")
+    
+def make_trkhitdf_plane1_muon_selection_update_calo_alpha_m(f):
+    return make_trkhitdf_selection_df(f, plane = 1, pdg = 13, select_stopping = False, updatecalo="alpha_m")
+    
+def make_trkhitdf_plane2_muon_selection_update_calo_alpha_m(f):
+    return make_trkhitdf_selection_df(f, plane = 2, pdg = 13, select_stopping = False, updatecalo="alpha_m")
+
+

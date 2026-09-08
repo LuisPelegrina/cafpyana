@@ -15,7 +15,10 @@ using namespace std;
 
 class TSpline3;
 
-class PhysdEdx {
+
+
+class PhysdEdx :  public TObject{
+
 
 public:
 
@@ -42,13 +45,49 @@ public:
   double dEdx_PDF(double KE, double pitch, double dEdx);
   double dEdx_PDF_max(double KE, double pitch, double dEdx);
   double dEdx_Gaus_Sigma(double KE, double pitch);
-  double dEdx_PDF_w_convolution(double KE, double pitch, double dEdx, int target_plane, int PDG);
-  double dEdx_PDF_max_w_convolution(double KE, double pitch, double dEdx, int target_plane, int PDG);
+  void dEdx_PDF_and_max_w_convolution(double KE, double pitch, double dEdx,
+                                               int target_plane, int PDG, const string &mode,
+                                               double &out_likelihood, double &out_likelihood_max);
+      
   double dEdx_PDF_w_convolution_f1(double KE, double rr, double dEdx, double pitch, vector<TF1*> tf1_vec);
   double dEdx_PDF_max_w_convolution_f1(double KE, double rr, double pitch, vector<TF1*> tf1_vec);
   static double dEdx_PDF_function(double *x, double *par);
   static vector<map<int, vector<double>>> pdg_plane_map;
+  static vector<map<int, vector<double>>> pdg_plane_shift_map;
+  static vector<map<int, vector<double>>> pdg_plane_map_data;
+  static vector<map<int, vector<double>>> pdg_plane_shift_map_data;
+     static vector<map<int, vector<double>>> pdg_plane_mpv_map;
+    static vector<map<int, vector<double>>> pdg_plane_gsigma_map;
+    static vector<map<int, vector<double>>> pdg_plane_width_map;
+    static vector<map<int, vector<double>>> pdg_plane_mpv_map_data;
+    static vector<map<int, vector<double>>> pdg_plane_gsigma_map_data;
+    static vector<map<int, vector<double>>> pdg_plane_width_map_data;
+// Low Residual Range maps (3-entry vectors: {mpv, gsigma, width})
+  static vector<map<int, vector<double>>> pdg_plane_low_rr_3p5;
+  static vector<map<int, vector<double>>> pdg_plane_low_rr_3p5_data;
+  static vector<map<int, vector<double>>> pdg_plane_low_rr_2p5;
+  static vector<map<int, vector<double>>> pdg_plane_low_rr_2p5_data;
 
+/*
+// PhysdEdx.h
+
+// Flat replacement for vector<vector<map<int, vector<double>>>>.
+// Key: (x_range_idx, plane_idx, pdg) -> {p0, p1, p2}
+using XRangePlanePdgKey = std::tuple<int, int, int>;
+
+static std::map<XRangePlanePdgKey, std::array<double, 3>> pdg_plane_map_w_x_ranges;
+static std::map<XRangePlanePdgKey, std::array<double, 3>> pdg_plane_shift_map_w_x_ranges;
+
+// Small accessor so call sites don't need to spell out std::get<> everywhere.
+// Returns {-1,-1,-1} if the (x_range, plane, pdg) combo hasn't been filled in yet.
+static const std::array<double, 3>& GetPlaneMapEntry(
+    const std::map<XRangePlanePdgKey, std::array<double, 3>> &m,
+    int x_range_idx, int plane_idx, int pdg) {
+  static const std::array<double, 3> not_found = {-1, -1, -1};
+  auto it = m.find({x_range_idx, plane_idx, pdg});
+  return it != m.end() ? it->second : not_found;
+}
+*/
 private:
 
   int pdgcode;
@@ -79,6 +118,12 @@ private:
   const double density_y1 = 3.0;
   const double density_a = 0.19559;
   const double density_k = 3.0;
+
+public:
+  ClassDef(PhysdEdx,1)  //
 };
+
+
+
 
 #endif

@@ -266,7 +266,7 @@ def langau_fit_two_stage(
     # ROOT always uses a fixed 0.8x-1.5x MPV1 window, with no clamping
     # back into first_stage_range.
     mpv_stage1 = p1[1]
-    second_stage_range = (mpv_stage1 * 0.7, mpv_stage1 * 1.5)
+    second_stage_range = (mpv_stage1 * 0.8, mpv_stage1 * 1.5)
 
     # ROOT reuses the *original* Stage-1 bound arrays (lo, hi) unchanged for
     # Stage 2 -- only the start values are updated, to the Stage-1 result.
@@ -368,7 +368,7 @@ def fit_rr_slices(
     first_stage_range=(0.5, 20.0),
     theoretical_mpv_func=None,
     max_gsigma_err=0.2,  # Added max error threshold
-    min_gsigma_err=0.001,  # Added max error threshold
+    min_gsigma_err=0.0001,  # Added max error threshold
     verbose=False,
 ):
     """Fits individual RR slices and collects MPV and Gaussian Smearing parameters."""
@@ -570,3 +570,302 @@ def analyze(
         )
 
     return all_results, fit_params
+# ===========================================================================
+# 8. Driver for the theoretical-PDF (x) smearing-only fit -- parallel to
+#    `analyze`, but calls `fit_rr_slices_theoretical` instead of
+#    `fit_rr_slices`, and uses `mpv_theory` (not `mpv_x`) as the x-axis
+#    for the sigma-vs-MPV power-law fit, since here the theoretical MPV
+#    *is* the x-axis by construction (pitch fixed at 0.32, no reco MPV).
+# ===========================================================================
+def analyze_theoretical(
+    hit_dfs,
+    hfit,
+    pdg,
+    particle="muon",
+    dedx_col="dedx",
+    rr_max_by_particle=None,
+    pitch=0.32,
+    mass=None,
+    sigma0=0.2,
+    sigma_bounds=(1e-4, 5.0),
+    max_sigma_err=0.2,
+    out_prefix="langau_rr_theoretical",
+    make_summary_plots=True,
+    verbose=True,
+):
+    """Analyzes a set of hit DataFrames across planes and TPCs, fitting the
+    fixed theoretical PDF (x) zero-mean-Gaussian(sigma) to each rr slice
+    instead of a free 4-parameter Langau.
+
+    In addition to the per-TPC fits (tpc = 0, 1), each plane is also fit
+    with both TPCs combined, stored under tpc = -1 -- same convention as
+    `analyze`.
+    """
+    if rr_max_by_particle is None:
+        rr_max_by_particle = {"muon": 80.0, "pion": 40.0, "proton": 60.0}
+    rr_max = rr_max_by_particle.get(particle, 80.0)
+
+    all_results = {}
+    fit_params = {}
+
+    for plane, df in enumerate(hit_dfs):
+        # tpc == -1 means "both TPCs combined": fit the full per-plane
+        # dataframe instead of filtering down to a single TPC.
+        for tpc in (0, 1, -1):
+            if verbose:
+                tpc_label = "combined" if tpc == -1 else tpc
+                print(f"[theoretical] Plane {plane}, TPC {tpc_label}")
+
+            sub = df if tpc == -1 else df[df["tpc"] == tpc]
+
+            res = fit_rr_slices_theoretical(
+                sub,
+                plane,
+                tpc,
+                hfit=hfit,
+                pdg=pdg,
+                dedx_col=dedx_col,
+                rr_max=rr_max,
+                pitch=pitch,
+                mass=mass,
+                sigma0=sigma0,
+                sigma_bounds=sigma_bounds,
+                max_sigma_err=max_sigma_err,
+                verbose=verbose,
+            )
+            all_results[(plane, tpc)] = res
+
+            popt = perr = None
+            if len(res) >= 3:
+                try:
+                    popt, perr = fit_sigma_vs_mpv(
+                        res, x_col="mpv_theory", y_col="gsigma", yerr_col="gsigma_err"
+                    )
+                except RuntimeError as exc:
+                    if verbose:
+                        print(f"  power-law fit failed: {exc}")
+            fit_params[(plane, tpc)] = (popt, perr)
+
+    non_empty = [
+        r.assign(plane=p, tpc=t)
+        for (p, t), r in all_results.items()
+        if len(r)
+    ]
+    combined = (
+        pd.concat(non_empty, ignore_index=True)
+        if non_empty
+        else pd.DataFrame()
+    )
+
+    if len(combined):
+        combined.to_hdf(
+            f"{out_prefix}_slices.h5",
+            key="fits",
+            mode="w",
+            format="table",
+            complib="blosc",
+            complevel=9,
+        )
+
+    return all_results, fit_params
+
+
+
+
+# ===========================================================================
+# 7. Theoretical-PDF (x) zero-mean-Gaussian smearing-only fit
+#
+#    Instead of fitting a free 4-parameter Langau (Width, MPV, Area, GSigma)
+#    to each rr slice, this fixes the underlying physics PDF entirely
+#    (pitch = 0.32, rr = slice center, via build_theoretical_pdf) and only
+#    lets a Gaussian smearing sigma (mean fixed at 0) float, plus an
+#    amplitude to match the histogram's raw counts. The convolution is done
+#    numerically with scipy.signal.fftconvolve instead of TF1Convolution --
+#    more robust/easier to inspect than the ROOT FFT convolution, and no
+#    ROOT-side TF1 fit machinery is needed for this part.
+# ===========================================================================
+from scipy.signal import fftconvolve
+
+
+def gaussian_kernel(x, sigma):
+    """Zero-mean Gaussian sampled on x, normalized to unit area by
+    the caller (not here, since spacing dx isn't known inside this fn)."""
+    if sigma <= 0:
+        kernel = np.zeros_like(x)
+        kernel[np.argmin(np.abs(x))] = 1.0
+        return kernel
+    return np.exp(-0.5 * (x / sigma) ** 2)
+
+
+def build_pdf_grid(pdf, xmin=-5.0, xmax=25.0, n_points=6001):
+    """Evaluate the theoretical TF1 PDF once on a fixed fine grid.
+    Reused across all sigma trials during the fit -- only the Gaussian
+    kernel and the convolution are recomputed per curve_fit iteration."""
+    x_grid = np.linspace(xmin, xmax, n_points)
+    pdf_vals = np.array([pdf.Eval(x) for x in x_grid])
+    dx = x_grid[1] - x_grid[0]
+    return x_grid, pdf_vals, dx
+
+
+def robust_max_x_py(tf1, xmin, xmax, n_points=2000):
+    """Python port of the C++ robust_max_x: scan a grid rather than trust
+    TF1::GetMaximumX(), which can get stuck depending on start point."""
+    xs = np.linspace(xmin, xmax, n_points)
+    vals = np.array([tf1.Eval(x) for x in xs])
+    return xs[np.argmax(vals)]
+
+
+def convolved_theoretical_pdf(x_query, sigma, amplitude, x_grid, pdf_vals, dx):
+    """model(x) = amplitude * (theoretical PDF (x) Gaussian(0, sigma))(x).
+
+    x_grid/pdf_vals/dx are the *fixed* physics PDF (pitch=0.32, rr=slice
+    center) -- only sigma and amplitude change during the fit.
+    """
+    x_centered = x_grid - x_grid[len(x_grid) // 2]
+    kernel = gaussian_kernel(x_centered, sigma)
+    kernel = kernel / (kernel.sum() * dx)  # == unit-area Gaussian
+    conv = fftconvolve(pdf_vals, kernel, mode="same") * dx
+    return amplitude * np.interp(x_query, x_grid, conv)
+
+
+def fit_theoretical_conv_slice(
+    bin_centers,
+    bin_counts,
+    bin_errs,
+    x_grid,
+    pdf_vals,
+    dx,
+    mpv_theory,
+    fit_range=None,
+    sigma0=0.2,
+    sigma_bounds=(1e-4, 5.0),
+):
+    """curve_fit wrapper: only (sigma, amplitude) float. Fit range defaults
+    to [0.7, 1.5] x mpv_theory, matching the Langau Stage-2 window."""
+    if fit_range is None:
+        fit_range = (0.7 * mpv_theory, 1.5 * mpv_theory)
+
+    mask = (bin_centers >= fit_range[0]) & (bin_centers <= fit_range[1]) & (bin_counts > 0)
+    if mask.sum() < 5:
+        return None
+
+    xs, ys, yerr = bin_centers[mask], bin_counts[mask], bin_errs[mask]
+    yerr = np.where(yerr > 0, yerr, 1.0)
+
+    # == Rough amplitude start: match data peak height to the (unsmeared)
+    # == PDF peak height -- curve_fit refines both params from here.
+    amp0 = ys.max() / max(pdf_vals.max(), 1e-9)
+
+    def model(x, sigma, amplitude):
+        return convolved_theoretical_pdf(x, sigma, amplitude, x_grid, pdf_vals, dx)
+
+    try:
+        popt, pcov = curve_fit(
+            model, xs, ys, p0=[sigma0, amp0],
+            sigma=yerr, absolute_sigma=True,
+            bounds=([sigma_bounds[0], 0.0], [sigma_bounds[1], np.inf]),
+            maxfev=20000,
+        )
+    except Exception:
+        return None
+
+    perr = np.sqrt(np.diag(pcov))
+    sigma_fit, amp_fit = popt
+    sigma_err, amp_err = perr
+    return dict(
+        sigma=sigma_fit, sigma_err=sigma_err,
+        amplitude=amp_fit, amplitude_err=amp_err,
+        fit_range=fit_range,
+    )
+
+
+def fit_rr_slices_theoretical(
+    df,
+    plane,
+    tpc,
+    hfit,
+    pdg,
+    dedx_col="dedx",
+    rr_min=3.0,
+    rr_max=40.0,
+    rr_bin_width=1.0,
+    hist_nbins=150,
+    hist_xmin=0.0,
+    hist_xmax=20.0,
+    min_entries=30,
+    pitch=0.32,  # == fixed, per the hardcoded C++ pitch / distribution mode
+    mass=None,
+    sigma0=0.2,
+    sigma_bounds=(1e-4, 5.0),
+    max_sigma_err=0.2,
+    verbose=False,
+):
+    """Same rr-slicing loop as fit_rr_slices, but fits the fixed theoretical
+    PDF (x) zero-mean-Gaussian(sigma) instead of a free 4-parameter Langau.
+
+    Output columns are aligned with fit_rr_slices's output (mpv_x/mpv_x_err
+    is the theoretical MPV here, mpv_x_err fixed at 0 since it isn't a
+    fitted quantity) so downstream code (fit_sigma_vs_mpv, plot_all_planes,
+    plot_by_plane) works unchanged on either analyze(...) or
+    analyze_theoretical(...) output.
+    """
+    edges = make_rr_edges(rr_min, rr_max, rr_bin_width)
+    rows = []
+    for lo, hi in zip(edges[:-1], edges[1:]):
+        sl = df[(df["rr"] >= lo) & (df["rr"] < hi)]
+        if len(sl) < min_entries:
+            continue
+        rr_center = 0.5 * (lo + hi)
+
+        pdf = build_theoretical_pdf(hfit, pdg, rr_center, pitch, mass=mass)
+        mpv_theory = robust_max_x_py(pdf, 0.0, 10.0, 2000)
+        x_grid, pdf_vals, dx = build_pdf_grid(pdf)
+
+        counts, bin_edges = np.histogram(
+            sl[dedx_col].to_numpy(), bins=hist_nbins, range=(hist_xmin, hist_xmax)
+        )
+        bin_centers = 0.5 * (bin_edges[:-1] + bin_edges[1:])
+        bin_errs = np.where(counts > 0, np.sqrt(counts), 1.0)
+
+        fit = fit_theoretical_conv_slice(
+            bin_centers, counts.astype(float), bin_errs,
+            x_grid, pdf_vals, dx, mpv_theory,
+            sigma0=sigma0, sigma_bounds=sigma_bounds,
+        )
+        if fit is None:
+            if verbose:
+                print(f"   [plane {plane}, tpc {tpc}] rr={rr_center:.2f}: fit failed")
+            continue
+        if fit["sigma_err"] > max_sigma_err or not np.isfinite(fit["sigma_err"]):
+            if verbose:
+                print(f"   [plane {plane}, tpc {tpc}] rr={rr_center:.2f}: "
+                      f"dropped, sigma_err={fit['sigma_err']:.3f}")
+            continue
+
+        rows.append(dict(
+            plane=plane,
+            tpc=tpc,
+            rr_center=rr_center,
+            n_hits=len(sl),
+            # == mpv_x/mpv_x_err: same names fit_rr_slices uses, so
+            # == downstream code (fit_sigma_vs_mpv, plotting) is identical
+            # == regardless of which fitter produced the dataframe.
+            mpv_x=mpv_theory,
+            mpv_x_err=0.0,
+            # == kept too, for anything that wants the theoretical value by
+            # == its more explicit name
+            mpv_theory=mpv_theory,
+            width=np.nan,       # == no free Landau width in this fit
+            width_err=np.nan,
+            area=fit["amplitude"],
+            area_err=fit["amplitude_err"],
+            gsigma=fit["sigma"],
+            gsigma_err=fit["sigma_err"],
+            chi2=np.nan,        # == not computed by curve_fit here
+            ndf=np.nan,
+            status=np.nan,
+            fit_range_lo=fit["fit_range"][0],
+            fit_range_hi=fit["fit_range"][1],
+        ))
+
+    return pd.DataFrame(rows)

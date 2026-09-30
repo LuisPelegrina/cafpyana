@@ -470,6 +470,8 @@ def make_trkhitdf_plane2_pion_selection_all_update_calo_cv(f):
 
 
 
+
+
     
 def make_pion_selection_stopping_df(f):
     return make_pion_selection_df(f, updatecalo = None, select_stopping = True)
@@ -484,7 +486,6 @@ def make_trkhitdf_plane2_pion_selection_stopping(f):
     return make_trkhitdf_selection_df(f, plane = 2, pdg = 211, select_stopping = True, updatecalo=None)
 
 
-    
 
 def make_pion_selection_stopping_update_calo_cv_df(f):
     return make_pion_selection_df(f, updatecalo = "cv", select_stopping = True)
@@ -498,6 +499,73 @@ def make_trkhitdf_plane1_pion_selection_stopping_update_calo_cv(f):
 def make_trkhitdf_plane2_pion_selection_stopping_update_calo_cv(f):
     return make_trkhitdf_selection_df(f, plane = 2, pdg = 211, select_stopping = True, updatecalo="cv")
 
+
+
+def make_pion_selection_stopping_update_calo_ccal_p_df(f):
+    return make_pion_selection_df(f, updatecalo = "ccal_p",  select_stopping = True)
+
+def make_trkhitdf_plane0_pion_selection_stopping_update_calo_ccal_p(f):
+    return make_trkhitdf_selection_df(f, plane=0, pdg=211, select_stopping=True, updatecalo="ccal_p")
+    
+def make_trkhitdf_plane1_pion_selection_stopping_update_calo_ccal_p(f):
+    return make_trkhitdf_selection_df(f, plane = 1, pdg = 211, select_stopping = True, updatecalo="ccal_p")
+    
+def make_trkhitdf_plane2_pion_selection_stopping_update_calo_ccal_p(f):
+    return make_trkhitdf_selection_df(f, plane = 2, pdg = 211, select_stopping = True, updatecalo="ccal_p")
+
+
+def make_pion_selection_stopping_update_calo_ccal_m_df(f):
+    return make_pion_selection_df(f, updatecalo = "ccal_m", select_stopping = True)
+
+def make_trkhitdf_plane0_pion_selection_stopping_update_calo_ccal_m(f):
+    return make_trkhitdf_selection_df(f, plane=0, pdg=211, select_stopping=True, updatecalo="ccal_m")
+    
+def make_trkhitdf_plane1_pion_selection_stopping_update_calo_ccal_m(f):
+    return make_trkhitdf_selection_df(f, plane = 1, pdg = 211, select_stopping = True, updatecalo="ccal_m")
+    
+def make_trkhitdf_plane2_pion_selection_stopping_update_calo_ccal_m(f):
+    return make_trkhitdf_selection_df(f, plane = 2, pdg = 211, select_stopping = True, updatecalo="ccal_m")
+
+
+def make_pion_selection_stopping_update_calo_alpha_p_df(f):
+    return make_pion_selection_df(f, updatecalo = "alpha_p", select_stopping = True)
+
+def make_trkhitdf_plane0_pion_selection_stopping_update_calo_alpha_p(f):
+    return make_trkhitdf_selection_df(f, plane=0, pdg=211, select_stopping=True, updatecalo="alpha_p")
+    
+def make_trkhitdf_plane1_pion_selection_stopping_update_calo_alpha_p(f):
+    return make_trkhitdf_selection_df(f, plane = 1, pdg = 211, select_stopping = True, updatecalo="alpha_p")
+    
+def make_trkhitdf_plane2_pion_selection_stopping_update_calo_alpha_p(f):
+    return make_trkhitdf_selection_df(f, plane = 2, pdg = 211, select_stopping = True, updatecalo="alpha_p")
+
+
+def make_pion_selection_stopping_update_calo_alpha_m_df(f):
+    return make_pion_selection_df(f, updatecalo = "alpha_m", select_stopping = True)
+
+def make_trkhitdf_plane0_pion_selection_stopping_update_calo_alpha_m(f):
+    return make_trkhitdf_selection_df(f, plane=0, pdg=211, select_stopping=True, updatecalo="alpha_m")
+    
+def make_trkhitdf_plane1_pion_selection_stopping_update_calo_alpha_m(f):
+    return make_trkhitdf_selection_df(f, plane = 1, pdg = 211, select_stopping = True, updatecalo="alpha_m")
+    
+def make_trkhitdf_plane2_pion_selection_stopping_update_calo_alpha_m(f):
+    return make_trkhitdf_selection_df(f, plane = 2, pdg = 211, select_stopping = True, updatecalo="alpha_m")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
 
 def make_muon_selection_no_calo_df(f):

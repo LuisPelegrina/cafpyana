@@ -49,8 +49,8 @@ public:
                                                int target_plane, int PDG, const string &mode,
                                                double &out_likelihood, double &out_likelihood_max);
       
-  double dEdx_PDF_w_convolution_f1(double KE, double rr, double dEdx, double pitch, vector<TF1*> tf1_vec);
-  double dEdx_PDF_max_w_convolution_f1(double KE, double rr, double pitch, vector<TF1*> tf1_vec);
+  double dEdx_PDF_w_tf1_vec(double KE, double rr, double dEdx, double pitch, vector<TF1*> tf1_vec);
+  double dEdx_PDF_max_w_tf1_vec(double KE, double rr, double pitch, vector<TF1*> tf1_vec);
   static double dEdx_PDF_function(double *x, double *par);
   static vector<map<int, vector<double>>> pdg_plane_map;
   static vector<map<int, vector<double>>> pdg_plane_shift_map;

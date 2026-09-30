@@ -49,20 +49,22 @@ public:
                                                int target_plane, int PDG, const string &mode,
                                                double &out_likelihood, double &out_likelihood_max);
       
-  double dEdx_PDF_w_convolution_f1(double KE, double rr, double dEdx, double pitch, vector<TF1*> tf1_vec);
-  double dEdx_PDF_max_w_convolution_f1(double KE, double rr, double pitch, vector<TF1*> tf1_vec);
+  double dEdx_PDF_w_tf1_vec(double KE, double rr, double dEdx, double pitch, vector<TF1*> tf1_vec);
+  double dEdx_PDF_max_w_tf1_vec(double KE, double rr, double pitch, vector<TF1*> tf1_vec);
   static double dEdx_PDF_function(double *x, double *par);
+
   static vector<map<int, vector<double>>> pdg_plane_map;
   static vector<map<int, vector<double>>> pdg_plane_shift_map;
   static vector<map<int, vector<double>>> pdg_plane_map_data;
   static vector<map<int, vector<double>>> pdg_plane_shift_map_data;
-     static vector<map<int, vector<double>>> pdg_plane_mpv_map;
-    static vector<map<int, vector<double>>> pdg_plane_gsigma_map;
-    static vector<map<int, vector<double>>> pdg_plane_width_map;
-    static vector<map<int, vector<double>>> pdg_plane_mpv_map_data;
-    static vector<map<int, vector<double>>> pdg_plane_gsigma_map_data;
-    static vector<map<int, vector<double>>> pdg_plane_width_map_data;
-// Low Residual Range maps (3-entry vectors: {mpv, gsigma, width})
+  static vector<map<int, vector<double>>> pdg_plane_mpv_map;
+  static vector<map<int, vector<double>>> pdg_plane_gsigma_map;
+  static vector<map<int, vector<double>>> pdg_plane_width_map;
+  static vector<map<int, vector<double>>> pdg_plane_mpv_map_data;
+  static vector<map<int, vector<double>>> pdg_plane_gsigma_map_data;
+  static vector<map<int, vector<double>>> pdg_plane_width_map_data;
+
+  // Low Residual Range maps (3-entry vectors: {mpv, gsigma, width})
   static vector<map<int, vector<double>>> pdg_plane_low_rr_3p5;
   static vector<map<int, vector<double>>> pdg_plane_low_rr_3p5_data;
   static vector<map<int, vector<double>>> pdg_plane_low_rr_2p5;

@@ -839,16 +839,14 @@ def add_n_protons_column(df):
     return df
  
 
-
-
 def calculate_hypfit_p(track_id, best_plane, hit_df, target_pdg=211, cleaning="all", use_data=False):
-    """Return the Hypfit momentum for one track, or -1.0 on any failure."""
+    """Return the Hypfit momentum (GeV) for one track, or -1.0 on any failure."""
     try:
         plane = int(best_plane.iloc[0] if hasattr(best_plane, "iloc") else best_plane)
-        if plane not in (0, 1, 2):          # operator[] on std::map would insert a key
+        if plane not in (0, 1, 2):
             return -1.0
         pdg = int(target_pdg)
- 
+
         track_hits = hit_df.loc[track_id]
         arrays = [np.ascontiguousarray(track_hits[c].to_numpy(dtype=np.float64))
                   for c in ("rr", "dedx", "pitch")]
@@ -856,16 +854,21 @@ def calculate_hypfit_p(track_id, best_plane, hit_df, target_pdg=211, cleaning="a
         rr, dedx, pitch = (a[finite] for a in arrays)
         if len(rr) == 0:
             return -1.0
- 
+
         v_rr = ROOT.std.vector('double')(rr)
         v_dedx = ROOT.std.vector('double')(dedx)
         v_pitch = ROOT.std.vector('double')(pitch)
         bad_hits = h_fit.get_hits_to_ignore(v_rr, v_dedx, str(cleaning))
- 
+
         conv_map = select_conv_tf1_map(pdg, use_data)
-        return h_fit.NormLikelihood_w_tf1_vec(
+        TLE_p = h_fit.NormLikelihood_w_tf1_vec(
             v_dedx, v_rr, v_pitch, bad_hits, True, pdg, conv_map[plane])
- 
+
+        if TLE_p > 0:
+            return h_fit.map_PhysdEdx.at(target_pdg).KEtoMomentum(TLE_p) / 1000.0
+        return TLE_p 
+
+    
     except KeyError:
         return -1.0
     except Exception as e:
@@ -886,6 +889,7 @@ def calculate_hypfit_p(track_id, best_plane, hit_df, target_pdg=211, cleaning="a
         # 3. Specifically clear the global list of functions to prevent 
         # accumulation of TF1 objects created in C++
         ROOT.gROOT.GetListOfFunctions().Clear()
+
 
 
 def _mask_invalid_tki(df):
@@ -1579,6 +1583,7 @@ def make_cc1pi_finaldf(f, updatecalo="cv"):
         .groupby(level=group_levels, group_keys=False)
         .apply(get_mu_pi_vars, best_hit_df=best_hit_df, use_data=is_data)
     )
+    
 
     # Build slcdf aligned to all slices in pandora_df
     # (every slice gets a row, even if missing in muon_pion_vars)
@@ -1608,6 +1613,7 @@ def make_cc1pi_finaldf(f, updatecalo="cv"):
     slcdf.columns = pd.MultiIndex.from_tuples(
         [('slc', 'measure_var', col, '', '', '') for col in slcdf.columns]
     )
+    
 
     # Join back
     pandora_df = pandora_df.join(slcdf, on=['entry', 'rec.slc..index'])

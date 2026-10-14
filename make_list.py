@@ -3,6 +3,9 @@ import os
 import sys
 
 sam_definitions = {
+    "mc_SBND2026A_AR23plus_knobs_BNBLight_CV_v1_00_01_flatcaf_sbnd":
+    "data_lists/AR23p_xroot.list",
+        
     "mc_MCP2025C_1e20_v10_06_00_09_prodgenie_corsika_proton_rockbox_sbnd_CV_caf_flat_caf_sbnd":
     "data_lists/1e20/CV/mc_MCP2025C_1e20_v10_06_00_09_prodgenie_corsika_proton_rockbox_sbnd_CV_caf_flat_caf_sbnd.list",
     
@@ -18,9 +21,8 @@ sam_definitions = {
     "mc_SBND2026A_gen1_prodgenie_corsika_proton_rockbox_sbnd_GIBUU_CV_v10_06_00_09_flatcaf_sbnd": 
 "data_lists/GIBUU/mc_SBND2026A_gen1_prodgenie_corsika_proton_rockbox_sbnd_GIBUU_CV_v10_06_00_09_flatcaf_sbnd.list",
             
-  "mc_MCP2025B_v10_06_00_09_prodgenie_corsika_proton_rockbox_lowenergydirt_sbnd_CV_caf_flat_caf_sbnd": 
+  "mc_SBND2026A_AR23plus_knobs_LowThresholdDirt_CV_v1_00_01_flatcaf_sbnd": 
 "data_lists/1e20/CV/mc_MCP2025B_v10_06_00_09_prodgenie_corsika_proton_rockbox_lowenergydirt_sbnd_CV_caf_flat_caf_sbnd.list",
-
   
     "data_MCP2025C_Spring25_reprocess_FixedDev_bnblight_v10_06_00_09_flatcaf_sbnd": 
 "data_lists/5e18POT/data/data_MCP2025C_Spring25_reprocess_fixed_Dev_bnblight_v10_06_00_09_flatcaf_sbnd.list",
@@ -49,11 +51,11 @@ sam_definitions = {
 "data_lists/1e20/SystVar/mc_MCP2025B_1e20_10_prodgenie_corsika_proton_rockbox_sbnd_SystVar_PMTHighNoise_caf_flat_caf_sbnd.list",
     "mc_MCP2025B_1e20_10_prodgenie_corsika_proton_rockbox_sbnd_SystVar_WireMod_XThetaXW_caf_flat_caf_sbnd": 
 "data_lists/1e20/SystVar/mc_MCP2025B_1e20_10_prodgenie_corsika_proton_rockbox_sbnd_SystVar_WireMod_XThetaXW_caf_flat_caf_sbnd.list",
-
     "mc_MCP2025B_1e20_10_prodgenie_corsika_proton_rockbox_sbnd_SystVar_WireMod_YZ_caf_flat_caf_sbnd": 
 "data_lists/1e20/SystVar/mc_MCP2025B_1e20_10_prodgenie_corsika_proton_rockbox_sbnd_SystVar_WireMod_YZ_caf_flat_caf_sbnd.list",
         
 }
+
 
 def generate_lists(definitions_dict):
     script_path = os.path.abspath("data/sample_lists/create_list.py")

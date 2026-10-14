@@ -17,64 +17,77 @@ import pickle
 from itertools import combinations
 
 
-# 1. Setup Paths
 base_running_path = os.path.dirname(os.path.abspath(__file__))
 base_path = base_running_path + "/../TLExtensionMethod"
-
+ 
 try:
     root_lib_dir = subprocess.check_output(['root-config', '--libdir'], text=True).strip()
 except:
     root_lib_dir = "/cvmfs/larsoft.opensciencegrid.org/products/root/v6_28_12/Linux64bit+3.10-2.17-e26-p3915-prof/lib"
 
+
 # 2. Update Environment
 os.environ['LD_LIBRARY_PATH'] = f"{root_lib_dir}:{os.environ.get('LD_LIBRARY_PATH', '')}"
 ROOT.gSystem.AddDynamicPath(root_lib_dir)
 
-# 3. Add Include Path so classes can find each other's headers
-ROOT.gInterpreter.AddIncludePath(base_path)
+# 3. Load the "Big" ROOT dependency blocks
+# Loading these covers almost all physics class requirements (Hist, Geom, Graf, etc.)
+root_libs = ["libRint","libROOTGpadv7","libMathMore","libCore", "libRIO", "libNet", "libHist", "libGraf", "libGraf3d", "libGpad", "libTree", "libMathCore", "libThread", "libMatrix", "libGeom","libROOTHist"]
+for lib in root_libs:
+    ROOT.gSystem.Load(lib)
 
-# 4. Explicit Compilation and Loading Function
 def load_custom_class(class_name):
     source_file = os.path.join(base_path, f"{class_name}.cpp")
     header_file = os.path.join(base_path, f"{class_name}.h")
     so_file = os.path.join(base_path, f"{class_name}_cpp.so")
-    
-    # Compile with 'k' (keep), 'O' (optimize), 'f' (force)
-    # Force is useful to ensure the symbol table is rebuilt correctly
+
     status = ROOT.gSystem.CompileMacro(source_file, "kOf")
-    
     if status >= 0:
-        # CRITICAL: Manually load the shared library to resolve symbols
         if ROOT.gSystem.Load(so_file) < 0:
             print(f"⚠️  Compiled {class_name} but failed to load {so_file}")
             return False
-            
-        # Declare the header to the interpreter to help dictionary lookup
-        ROOT.gInterpreter.Declare(f'#include "{header_file}"')
+        ROOT.gInterpreter.Declare(f'#include "{header_file}"')  # keep this!
         print(f"📦 Successfully compiled and linked: {class_name}")
         return True
     else:
         print(f"❌ Failed to compile: {class_name}")
         return False
 
-# 5. Execute Sequence
-# We must load PhysdEdx first as Hypfit depends on it
 if load_custom_class("PhysdEdx"):
     if load_custom_class("Hypfit"):
         try:
-            # Re-declaring just to be safe before instantiation
             ROOT.gInterpreter.ProcessLine(f'#include "{os.path.join(base_path, "Hypfit.h")}"')
-            
-            # Instantiate
             h_fit = ROOT.Hypfit()
             print("🚀 Success! Hypfit object initialized and linked.")
         except Exception as e:
             print(f"❌ Error during instantiation: {e}")
-            # Final fallback: access via C++ global pointer if Python attribute fails
             ROOT.gInterpreter.ProcessLine("Hypfit* h_fit_ptr = new Hypfit();")
             h_fit = ROOT.h_fit_ptr
             print("🚀 Success! Hypfit object initialized via Global Pointer fallback.")
-            
+  
+# Keep your original calls (3-arg for MC, 4-arg with True for data)
+_CONV_TF1_MAPS = {
+    (211, False): h_fit.get_conv_function_map(211, "og", 500),
+    (211, True):  h_fit.get_conv_function_map(211, "og", 500, True),
+    (13,  False): h_fit.get_conv_function_map(13,  "og", 500),
+    (13,  True):  h_fit.get_conv_function_map(13,  "og", 500, True),
+}
+ 
+ 
+def select_conv_tf1_map(target_pdg, use_data):
+    key = (abs(int(target_pdg)), bool(use_data))
+    try:
+        return _CONV_TF1_MAPS[key]
+    except KeyError:
+        valid = sorted({pdg for pdg, _ in _CONV_TF1_MAPS})
+        raise ValueError(f"No conv TF1 map for pdg={target_pdg}. Available: {valid}")
+
+
+ 
+ 
+
+
+         
 # Silence ROOT
 #ROOT.gSystem.RedirectOutput(os.devnull, "w")
 #ROOT.gROOT.SetBatch(True)
@@ -190,33 +203,28 @@ def add_nu_categ_proton_reduced_column(df, is_truth_df = False):
         df[('truth', 'nu_categ_proton_reduced', '', '','','')] = nu_categ 
     return df
 
-def add_genie_categ_column(df, is_truth_df = False):
-    if(is_truth_df):
-        truth_df = df
-    else:
-        truth_df = df.truth # Make a copy to safely assign
-
+def add_genie_categ_column(df, is_truth_df=False):
+    truth_df = df if is_truth_df else df.truth
+ 
     is_inside_fv = TruthInFV(truth_df.position)
     is_nu = IsNu(truth_df)
     is_cc = truth_df.iscc.astype(bool)
     is_nu_mu_cc = is_cc & (abs(truth_df.pdg) == 14)
-
+    base = is_nu & is_inside_fv
+ 
     genie_categ = pd.Series("other", index=truth_df.index, dtype="object")
-    # Apply categories
     genie_categ[~is_nu] = "cosmic"
     genie_categ[is_nu & ~is_inside_fv] = "out_AV_nu"
-    genie_categ[is_nu & is_inside_fv & ~is_cc & (abs(truth_df.pdg) == 14)] = "nu_mu_NC" 
-    genie_categ[is_nu & is_inside_fv & is_nu_mu_cc & (df.genie_mode == 0)] = "nu_mu_CC_QE" 
-    genie_categ[is_nu & is_inside_fv & is_nu_mu_cc & (df.genie_mode == 10)] = "nu_mu_CC_MEC" 
-    genie_categ[is_nu & is_inside_fv & is_nu_mu_cc & (df.genie_mode == 1)] = "nu_mu_CC_Res" 
-    genie_categ[is_nu & is_inside_fv & is_nu_mu_cc & (df.genie_mode == 2)] = "nu_mu_CC_Dis" 
-    
-    if(is_truth_df):
+    genie_categ[base & ~is_cc & (abs(truth_df.pdg) == 14)] = "nu_mu_NC"
+    for mode, name in [(0, "nu_mu_CC_QE"), (10, "nu_mu_CC_MEC"), (1, "nu_mu_CC_Res"), (2, "nu_mu_CC_Dis")]:
+        genie_categ[base & is_nu_mu_cc & (df.genie_mode == mode)] = name
+ 
+    if is_truth_df:
         df['genie_categ'] = genie_categ
     else:
-        df[('truth', 'genie_categ', '', '','','')] = nu_categ 
+        df[('truth', 'genie_categ', '', '', '', '')] = genie_categ   # was: nu_categ (NameError)
     return df
-
+    
 def add_max_angle_between_candidates_column(df, group_levels=['entry', 'rec.slc..index']):
     # 1. Initialize result series at the slice level
     angle_series = pd.Series(np.nan, index=df.index)
@@ -361,45 +369,21 @@ def add_best_chi2_columns(df, update_calo = None):
         )
     return df
 
-def add_nhit_column(
-    slc_df,
-    hit_dfs,
-    hit_names,
-    dedx_max=1000
-):
 
+def add_nhit_column(slc_df, hit_dfs, hit_names, dedx_max=1000):
     if len(hit_dfs) != len(hit_names):
         raise ValueError("hit_dfs and hit_names must have the same length")
-
-    for df, name in zip(hit_dfs, hit_names):
-        out_col = ('pfp', name, '', '', '', '')
-
-        # Count hits per particle
-        hit_counts = (
-            df[df.dedx < dedx_max]
-            .groupby(level=[
-                'entry',
-                'rec.slc..index',
-                'rec.slc.reco.pfp..index'
-            ])
-            .size()
-            .rename(out_col)
-        )
-
-        # Map counts into slc_df (0 if no hits)
-        slc_df.loc[:, out_col] = hit_counts.reindex(
-            slc_df.index,
-            fill_value=0
-        )
-
-    # Total nhit column
-    nhit_cols = [('pfp', name, '', '', '', '') for name in hit_names]
-    total_col = ('pfp', 'nhit', '', '', '', '')
-
-    slc_df.loc[:, total_col] = slc_df[nhit_cols[0]] + slc_df[nhit_cols[1]] + slc_df[nhit_cols[2]]
-
+ 
+    cols = []
+    for hit_df, name in zip(hit_dfs, hit_names):
+        col = ('pfp', name, '', '', '', '')
+        counts = hit_df[hit_df.dedx < dedx_max].groupby(level=pfp_levels).size()
+        slc_df[col] = counts.reindex(slc_df.index, fill_value=0)
+        cols.append(col)
+ 
+    slc_df[('pfp', 'nhit', '', '', '', '')] = slc_df[cols].sum(axis=1)
     return slc_df
-
+    
 
 def add_max_daughter_hits_column(df):
     # Column names
@@ -444,29 +428,18 @@ def add_max_daughter_hits_column(df):
     df[new_col] = df[('pfp','max_daughter_hits','','','','')].fillna(0).astype(int)
     return df
 
+
 def get_best_hit_df(slc_df, hit_dfs):
     for df in hit_dfs:
-        df.index = df.index.set_names(
-            'rec.slc.reco.pfp.trk.calo.points..index',
-            level=-1
-        )
-    
-    for df in hit_dfs:
-        level_name = f"rec.slc.reco.pfp.trk.calo.points..index"
-        mask = df.index.droplevel(level_name).isin(slc_df.index)
-        df = df[mask]
-  
-    # Unpack back if you want the same variable names
+        df.index = df.index.set_names('rec.slc.reco.pfp.trk.calo.points..index', level=-1)
+ 
     best_plane = slc_df.pfp.trk.bestplane
-
     best_hit_df = (
         hit_dfs[0].where(best_plane == 0)
         .combine_first(hit_dfs[1].where(best_plane == 1))
         .combine_first(hit_dfs[2].where(best_plane == 2))
     )
-    
-    best_hit_df = best_hit_df.sort_values('rr', ascending=True)
-    return best_hit_df
+    return best_hit_df.sort_values('rr', ascending=True)
 
 def get_reduced_hit_df(hit_df):
     reduced_best_hit_df = hit_df[hit_df.rr < 30].copy()
@@ -795,181 +768,110 @@ def add_TMVA_BDT_muon_pion_column(df, xmlWeightsFile_mp, output_column):
     df[output_column] = bdt_scores_muon_pion
     return df
 
-def add_n_primary_tracks_column(df):
-    track_df = df[CutMasks.is_primary_track_mask(df)]
-    track_counts = track_df.groupby(level=group_levels).size()
 
-    target_key = ('slc','cut_var','n_prim_tracks','','','')
-    
-    # Expand counts to full MultiIndex (broadcast to pfp level)
-    df.loc[:,target_key] = df.index.droplevel('rec.slc.reco.pfp..index').map(track_counts)
-    
-    # Replace NaN (slices with 0 tracks) with 0
-    df.loc[:,target_key] = df[target_key].fillna(0)
-    
-    return df
-
-def add_n_primary_showers_column(df):
-    is_pandora_primary_mask = (df.pfp.parent_is_primary == True)
-    is_shower_mask = (df.pfp.trackScore >= 0) & (df.pfp.trackScore < CTE.max_shower_track_score)
-    energy_mask = (df.pfp.shw.bestplane_energy > CTE.min_shower_ke)
-    shower_df = df[is_pandora_primary_mask & is_shower_mask & energy_mask] 
-        
-    # Count how many pfps per slice
-    shower_counts = shower_df.groupby(level=group_levels).size()
-
-    target_key = ('slc','cut_var','n_prim_showers','','','')
-    
-    # Expand counts to full MultiIndex (broadcast to pfp level)
-    df.loc[:,target_key] = df.index.droplevel('rec.slc.reco.pfp..index').map(shower_counts)
-    
-    # Replace NaN (slices with 0 tracks) with 0
-    df.loc[:,target_key] = df[target_key].fillna(0)
-    
-    return df
-    
-def add_n_primary_MIP_column(df):
-    MIP_df = df[CutMasks.is_MIP_candidate_mask(df)]
-    MIP_counts = MIP_df.groupby(level=group_levels).size()
-
-    target_key = ('slc','cut_var','n_MIP_candidates','','','')
-    
-    # Expand counts to full MultiIndex (broadcast to pfp level)
-    df.loc[:,target_key] = df.index.droplevel('rec.slc.reco.pfp..index').map(MIP_counts)
-    
-    # Replace NaN (slices with 0 tracks) with 0
-    df.loc[:,target_key] = df[target_key].fillna(0)
-    
-    return df
-
-def add_n_primary_MIP_proton_column(df):
-    BDT_proton_df = df[(CutMasks.is_MIP_candidate_mask(df)) & (df.pfp.trk.bdt_proton_score < CTE.BDT_proton_max_score)]
-    BDT_proton_counts = BDT_proton_df.groupby(level=group_levels).size()
-
-    target_key = ('slc','cut_var','n_MIP_candidates_proton','','','')
-    
-    # Expand counts to full MultiIndex (broadcast to pfp level)
-    df.loc[:,target_key] = df.index.droplevel('rec.slc.reco.pfp..index').map(BDT_proton_counts)
-    
-    # Replace NaN (slices with 0 tracks) with 0
-    df.loc[:,target_key] = df[target_key].fillna(0)
-    
-    return df
-
-def add_n_exiting_pfps_column(df):
-    exiting_pfp_df = df[(CutMasks.exiting_pfp_mask(df))]
-    exiting_pfp_counts = exiting_pfp_df.groupby(level=group_levels).size()
-
-    target_key = ('slc','cut_var','n_exiting_pfps','','','')
-    
-    # Expand counts to full MultiIndex (broadcast to pfp level)
-    df.loc[:,target_key] = df.index.droplevel('rec.slc.reco.pfp..index').map(exiting_pfp_counts)
-    
-    # Replace NaN (slices with 0 tracks) with 0
-    df.loc[:,target_key] = df[target_key].fillna(0)
-    
-    return df
-
-
-def add_n_exiting_z_pfps_column(df):
-    exiting_z_pfp_df = df[(CutMasks.exiting_z_pfp_mask(df))]
-    exiting_z_pfp_counts = exiting_z_pfp_df.groupby(level=group_levels).size()
-
-    target_key = ('slc','cut_var','n_exiting_z_pfps','','','')
-    
-    # Expand counts to full MultiIndex (broadcast to pfp level)
-    df.loc[:,target_key] = df.index.droplevel('rec.slc.reco.pfp..index').map(exiting_z_pfp_counts)
-    
-    # Replace NaN (slices with 0 tracks) with 0
-    df.loc[:,target_key] = df[target_key].fillna(0)
-    
-    return df
-
-def add_n_MIP_candidate_michel_column(df):
-    michel_df = df[(CutMasks.is_MIP_candidate_mask(df)) 
-        & (df.pfp.trackScore < CTE.michel_max_track_score)
-        & (df.pfp.trk.calo.best.ke < CTE.michel_max_visible_energy)
-        & (df.pfp.max_daughter_hits == 0)]
-    michel_pfp_counts = michel_df.groupby(level=group_levels).size()
-
-    target_key = ('slc','cut_var','n_MIP_candidate_michel','','','')
-    
-    # Expand counts to full MultiIndex (broadcast to pfp level)
-    df.loc[:,target_key] = df.index.droplevel('rec.slc.reco.pfp..index').map(michel_pfp_counts)
-    
-    # Replace NaN (slices with 0 tracks) with 0
-    df.loc[:,target_key] = df[target_key].fillna(0)
-    
-    return df
-
-
-def add_n_extra_pions_column(df):
-    chi2_mask = (df.pfp.trk.chi2pid.best.chi2_muon < CTE.MIP_candidate_max_muon_score) & (df.pfp.trk.chi2pid.best.chi2_proton > CTE.MIP_candidate_min_proton_score)
-    relaxed_MIP_df = df[(CutMasks.is_primary_track_mask(df)) & (chi2_mask)]
-    
-    # Count how many pfps per slice
-    candidate_counts = relaxed_MIP_df.groupby(level=group_levels).size() - 2
+_PFP_LEVEL = 'rec.slc.reco.pfp..index'
  
-    target_key = ('slc','cut_var','n_extra_pions','','','')
-    
-    # Expand counts to full MultiIndex (broadcast to pfp level)
-    df.loc[:,target_key] = df.index.droplevel('rec.slc.reco.pfp..index').map(candidate_counts)
-    
-    # Replace NaN (slices with 0 tracks) with 0
-    df.loc[:,target_key] = df[target_key].fillna(0)
-    
+ 
+def _add_slice_count(df, mask, key, offset=0, fill=0):
+    counts = df[mask].groupby(level=group_levels).size() + offset
+    df[key] = df.index.droplevel(_PFP_LEVEL).map(counts)
+    df[key] = df[key].fillna(fill)
     return df
-  
-def calculate_hypfit_p(track_id, best_plane, hit_df, target_pdg=211, cleaning="none"):
+ 
+ 
+def add_n_primary_tracks_column(df):
+    return _add_slice_count(df, CutMasks.is_primary_track_mask(df),
+                            ('slc', 'cut_var', 'n_prim_tracks', '', '', ''))
+ 
+ 
+def add_n_primary_showers_column(df):
+    mask = ((df.pfp.parent_is_primary == True)
+            & (df.pfp.trackScore >= 0) & (df.pfp.trackScore < CTE.max_shower_track_score)
+            & (df.pfp.shw.bestplane_energy > CTE.min_shower_ke))
+    return _add_slice_count(df, mask, ('slc', 'cut_var', 'n_prim_showers', '', '', ''))
+ 
+ 
+def add_n_primary_MIP_column(df):
+    return _add_slice_count(df, CutMasks.is_MIP_candidate_mask(df),
+                            ('slc', 'cut_var', 'n_MIP_candidates', '', '', ''))
+ 
+ 
+def add_n_primary_MIP_proton_column(df):
+    mask = CutMasks.is_MIP_candidate_mask(df) & (df.pfp.trk.bdt_proton_score < CTE.BDT_proton_max_score)
+    return _add_slice_count(df, mask, ('slc', 'cut_var', 'n_MIP_candidates_proton', '', '', ''))
+ 
+ 
+def add_n_exiting_pfps_column(df):
+    return _add_slice_count(df, CutMasks.exiting_pfp_mask(df),
+                            ('slc', 'cut_var', 'n_exiting_pfps', '', '', ''))
+ 
+ 
+def add_n_exiting_z_pfps_column(df):
+    return _add_slice_count(df, CutMasks.exiting_z_pfp_mask(df),
+                            ('slc', 'cut_var', 'n_exiting_z_pfps', '', '', ''))
+ 
+ 
+def add_n_MIP_candidate_michel_column(df):
+    mask = (CutMasks.is_MIP_candidate_mask(df)
+            & (df.pfp.trackScore < CTE.michel_max_track_score)
+            & (df.pfp.trk.calo.best.ke < CTE.michel_max_visible_energy)
+            & (df.pfp.max_daughter_hits == 0))
+    return _add_slice_count(df, mask, ('slc', 'cut_var', 'n_MIP_candidate_michel', '', '', ''))
+ 
+ 
+def add_n_extra_pions_column(df):
+    chi2 = df.pfp.trk.chi2pid.best
+    mask = (CutMasks.is_primary_track_mask(df)
+            & (chi2.chi2_muon < CTE.MIP_candidate_max_muon_score)
+            & (chi2.chi2_proton > CTE.MIP_candidate_min_proton_score))
+    # NOTE: fill=0 means "no relaxed MIPs" -> 0 but "1 relaxed MIP" -> -1.
+    # Check this is what your cut expects (num_protons uses fill=-2).
+    return _add_slice_count(df, mask, ('slc', 'cut_var', 'n_extra_pions', '', '', ''),
+                            offset=-2, fill=0)
+ 
+ 
+def add_n_protons_column(df):
+    is_track = (df.pfp.trk.len > CTE.min_track_lenght) & (df.pfp.trackScore > CTE.min_track_score)
+    is_primary = (df.pfp.parent_is_primary == True) & (df.pfp.dist_to_vertex < CTE.max_primary_distance_to_vertex)
+    key = ('slc', 'measure_var', 'num_protons', '', '', '')
+    df = _add_slice_count(df, is_primary & is_track, key, offset=-2, fill=-2)
+    df.loc[df[key] > 2, key] = 2.
+    return df
+ 
+
+
+
+def calculate_hypfit_p(track_id, best_plane, hit_df, target_pdg=211, cleaning="all", use_data=False):
+    """Return the Hypfit momentum for one track, or -1.0 on any failure."""
     try:
-        # 1. Extract and sort hits
+        plane = int(best_plane.iloc[0] if hasattr(best_plane, "iloc") else best_plane)
+        if plane not in (0, 1, 2):          # operator[] on std::map would insert a key
+            return -1.0
+        pdg = int(target_pdg)
+ 
         track_hits = hit_df.loc[track_id]
-        # 2. Strict type casting for C++ 
-        # Fix: Handle cases where best_plane is a Series or a scalar
-        if hasattr(best_plane, "iloc"):
-            c_plane = int(best_plane.iloc[0])
-        else:
-            c_plane = int(best_plane)
-            
-        c_pdg = int(target_pdg)
-        c_cleaning = str(cleaning)
-
-        # Convert to contiguous float64 numpy arrays
-        rr    = np.ascontiguousarray(track_hits['rr'].to_numpy(dtype=np.float64))
-        dedx  = np.ascontiguousarray(track_hits['dedx'].to_numpy(dtype=np.float64))
-        pitch = np.ascontiguousarray(track_hits['pitch'].to_numpy(dtype=np.float64))
-
-        # Build mask: keep only entries where ALL values are finite
-        mask = np.isfinite(rr) & np.isfinite(dedx) & np.isfinite(pitch)
-        
-        # Apply mask consistently to all arrays
-        rr    = rr[mask]
-        dedx  = dedx[mask]
-        pitch = pitch[mask]
-        
-        # Now create ROOT vectors
-        v_rr    = ROOT.std.vector('double')(rr)
-        v_dedx  = ROOT.std.vector('double')(dedx)
+        arrays = [np.ascontiguousarray(track_hits[c].to_numpy(dtype=np.float64))
+                  for c in ("rr", "dedx", "pitch")]
+        finite = np.logical_and.reduce([np.isfinite(a) for a in arrays])
+        rr, dedx, pitch = (a[finite] for a in arrays)
+        if len(rr) == 0:
+            return -1.0
+ 
+        v_rr = ROOT.std.vector('double')(rr)
+        v_dedx = ROOT.std.vector('double')(dedx)
         v_pitch = ROOT.std.vector('double')(pitch)
-
-        reco_p = -10000
-        reco_p = h_fit.GetTLExtensionP(c_pdg, v_rr, v_dedx, v_pitch, c_plane, c_cleaning)
-        # Explicitly clear/delete to help PyROOT
-        if 'v_rr' in locals():
-            v_rr.clear()
-            v_dedx.clear()
-            v_pitch.clear()
-            # Explicitly delete the Python reference to the C++ object
-            del v_rr, v_dedx, v_pitch
-            
-        return reco_p
-        
+        bad_hits = h_fit.get_hits_to_ignore(v_rr, v_dedx, str(cleaning))
+ 
+        conv_map = select_conv_tf1_map(pdg, use_data)
+        return h_fit.NormLikelihood_w_tf1_vec(
+            v_dedx, v_rr, v_pitch, bad_hits, True, pdg, conv_map[plane])
+ 
     except KeyError:
         return -1.0
     except Exception as e:
         print(f"Error for track {track_id}: {e}")
         return -1.0
-
+        
     finally:
         # 1. Clear the vectors
         if 'v_rr' in locals():
@@ -986,80 +888,78 @@ def calculate_hypfit_p(track_id, best_plane, hit_df, target_pdg=211, cleaning="n
         ROOT.gROOT.GetListOfFunctions().Clear()
 
 
-def build_p3d(df, p_col):
-    return np.vstack([
-        df[p_col] * df[('pfp','trk','dir','x','','')],
-        df[p_col] * df[('pfp','trk','dir','y','','')],
-        df[p_col] * df[('pfp','trk','dir','z','','')]
-    ]).T
-
-
-def add_transverse_vars_column(df):
-    
-    # --- Select primary MIP protons ---
-    proton_mask = ~CutMasks.is_MIP_candidate_mask(df) & CutMasks.is_primary_track_mask(df)
-    proton_df = df[proton_mask].copy()
-
-    # --- Build 3D proton vectors ---
-    p_col = ('pfp','trk','rangeP','p_proton','','')
-    proton_df[('slc','measure_var','p_px','','','')] = proton_df[p_col] * proton_df[('pfp','trk','dir','x','','')]
-    proton_df[('slc','measure_var','p_py','','','')] = proton_df[p_col] * proton_df[('pfp','trk','dir','y','','')]
-    proton_df[('slc','measure_var','p_pz','','','')] = proton_df[p_col] * proton_df[('pfp','trk','dir','z','','')]
-
-    # --- Sum proton components per slice ---
-    proton_sum = proton_df.groupby(group_levels)[[('slc','measure_var','p_px','','',''),('slc','measure_var','p_py','','',''),('slc','measure_var','p_pz','','','')]].sum()
-    slice_index = df.index.droplevel('rec.slc.reco.pfp..index').unique()
-    proton_sum = proton_sum.reindex(slice_index, fill_value=0)
-
-    df[('slc','p_proton_total_x','','','','')] = proton_sum[('slc','measure_var','p_px','','','')].reindex(df.index.droplevel('rec.slc.reco.pfp..index')).values
-    df[('slc','p_proton_total_y','','','','')] = proton_sum[('slc','measure_var','p_py','','','')].reindex(df.index.droplevel('rec.slc.reco.pfp..index')).values
-    df[('slc','p_proton_total_z','','','','')] = proton_sum[('slc','measure_var','p_pz','','','')].reindex(df.index.droplevel('rec.slc.reco.pfp..index')).values
-
-    # --- Sum proton + pion component-wise for hadron ---
-
-    df[('slc','p_hadron_x','','','','')] = df[('slc','measure_var','p_pi_x','','','')] + df[('slc','p_proton_total_x','','','','')]
-    df[('slc','p_hadron_y','','','','')] = df[('slc','measure_var','p_pi_y','','','')] + df[('slc','p_proton_total_y','','','','')]
-    df[('slc','p_hadron_z','','','','')] = df[('slc','measure_var','p_pi_z','','','')] + df[('slc','p_proton_total_z','','','','')]
-    
-    # --- Build 3D arrays for muon and hadron ---
-    p_mu_2d = np.stack([
-        df[('slc','measure_var','p_mu_x','','','')],
-        df[('slc','measure_var','p_mu_y','','','')],
-        np.zeros(len(df))
-    ], axis=1)
-    
-    p_had_2d = np.stack([
-        df[('slc','p_hadron_x','','','','')],
-        df[('slc','p_hadron_y','','','','')],
-        np.zeros(len(df))
-    ], axis=1)
-
-  
-    
-    # --- Delta PT vector and magnitude ---
-    delta_pT_vec = p_mu_2d + p_had_2d
-    df[('slc','measure_var','delta_pT','','','')] = np.linalg.norm(delta_pT_vec, axis=1)
-
-    # --- Delta alphaT ---
-    dot_alpha = np.einsum('ij,ij->i', -p_mu_2d, delta_pT_vec)
-    norm_alpha = np.linalg.norm(p_mu_2d, axis=1) * np.linalg.norm(delta_pT_vec, axis=1)
-    safe = norm_alpha > 0
-    delta_alpha_T = np.full(len(df), -999.0)
-    delta_alpha_T[safe] = np.arccos(np.clip(dot_alpha[safe] / norm_alpha[safe], -1, 1))
-    df[('slc','measure_var','delta_alpha_T','','','')] = delta_alpha_T
-
-    # --- Delta phiT ---
-    dot_phi = np.einsum('ij,ij->i', -p_mu_2d, p_had_2d)
-    norm_phi = np.linalg.norm(p_mu_2d, axis=1) * np.linalg.norm(p_had_2d, axis=1)
-    safe_phi = norm_phi > 0
-    delta_phi_T = np.full(len(df), -999.0)
-    delta_phi_T[safe_phi] = np.arccos(np.clip(dot_phi[safe_phi] / norm_phi[safe_phi], -1, 1))
-    df[('slc','measure_var','delta_phi_T','','','')] = delta_phi_T
-
+def _mask_invalid_tki(df):
+    """Set TKI variables to -999 where the muon/pion momenta are not valid."""
+    mv = df.slc.measure_var
+    valid = (mv.p_mu_x > -900) & (mv.p_pi_x > -900) & (mv.TLE_p_pi > 0)
+    for name in ('delta_pT', 'delta_alpha_T', 'delta_phi_T'):
+        df.loc[~valid, ('slc', 'measure_var', name, '', '', '')] = -999.0
     return df
-
+ 
+ 
+def _angle_between(a, b):
+    """Row-wise angle between two (N,3) arrays; -999 where either norm is 0."""
+    norm = np.linalg.norm(a, axis=1) * np.linalg.norm(b, axis=1)
+    out = np.full(len(a), -999.0)
+    ok = norm > 0
+    dot = np.einsum('ij,ij->i', a[ok], b[ok])
+    out[ok] = np.arccos(np.clip(dot / norm[ok], -1, 1))
+    return out
+ 
+ 
+def add_transverse_vars_column(df):
+    len_col = ('pfp', 'trk', 'len', '', '', '')
+    slice_index = df.index.droplevel(_PFP_LEVEL)
+ 
+    # --- Proton-like primary tracks: non-MIP primary tracks ---
+    proton_mask = ~CutMasks.is_MIP_candidate_mask(df) & CutMasks.is_primary_track_mask(df)
+ 
+    # --- Remove the pion from the proton sum (fix for double counting) ---
+    # In get_mu_pi_vars, when a slice has exactly 1 MIP, the pion is the longest
+    # track of is_primary_proton_mask. That track is already counted in p_pi, so
+    # it must not be added again to the proton momentum.
+    n_mip = CutMasks.is_MIP_candidate_mask(df).groupby(level=group_levels).transform('sum')
+    pion_cands = df[(n_mip == 1) & CutMasks.is_primary_proton_mask(df)]
+    if len(pion_cands) > 0:
+        pion_idx = pion_cands[len_col].astype(float).groupby(level=group_levels).idxmax()
+        proton_mask &= ~df.index.isin(pion_idx.tolist())
+ 
+    proton_df = df[proton_mask]
+ 
+    # --- Sum proton momentum components per slice ---
+    p_col = ('pfp', 'trk', 'rangeP', 'p_proton', '', '')
+    comps = {}
+    for axis in 'xyz':
+        comps[axis] = proton_df[p_col] * proton_df[('pfp', 'trk', 'dir', axis, '', '')]
+    proton_sum = (
+        pd.DataFrame(comps)
+        .groupby(level=group_levels).sum()
+        .reindex(slice_index.unique(), fill_value=0)
+        .reindex(slice_index)
+    )
+ 
+    mv = df.slc.measure_var
+    for axis in 'xyz':
+        df[('slc', f'p_proton_total_{axis}', '', '', '', '')] = proton_sum[axis].values
+        df[('slc', f'p_hadron_{axis}', '', '', '', '')] = (
+            mv[f'p_pi_{axis}'].values + proton_sum[axis].values
+        )
+ 
+    # --- 2D (x, y, 0) vectors for muon and hadron ---
+    zeros = np.zeros(len(df))
+    p_mu_2d = np.stack([mv.p_mu_x.values, mv.p_mu_y.values, zeros], axis=1)
+    p_had_2d = np.stack([df[('slc', 'p_hadron_x', '', '', '', '')].values,
+                         df[('slc', 'p_hadron_y', '', '', '', '')].values, zeros], axis=1)
+ 
+    delta_pT_vec = p_mu_2d + p_had_2d
+    df[('slc', 'measure_var', 'delta_pT', '', '', '')] = np.linalg.norm(delta_pT_vec, axis=1)
+    df[('slc', 'measure_var', 'delta_alpha_T', '', '', '')] = _angle_between(-p_mu_2d, delta_pT_vec)
+    df[('slc', 'measure_var', 'delta_phi_T', '', '', '')] = _angle_between(-p_mu_2d, p_had_2d)
+ 
+    return _mask_invalid_tki(df)
+ 
     
-def get_mu_pi_vars(group, best_hit_df):
+def get_mu_pi_vars(group, best_hit_df, use_data = False):
     """
     Selects a Muon and a Pion from a group of PFPs based on:
     - If >= 2 MIPs: Muon and Pion are both selected from the MIP group.
@@ -1165,10 +1065,10 @@ def get_mu_pi_vars(group, best_hit_df):
     cos_theta_pi = pion_row. pfp.trk.dir.z.iloc[0]
     pion_id = pion_row.index[0] # (ntuple, entry, slc, pfp)
     best_plane = pion_row.pfp.trk.bestplane.iloc[0]
-    
+
     # Calculate Hypfit (TLE) Momentum
     p_pi_TLE = calculate_hypfit_p(track_id=pion_id, best_plane=best_plane, 
-                                  hit_df=best_hit_df, target_pdg=211, cleaning="all")
+                                  hit_df=best_hit_df, target_pdg=211, cleaning="all", use_data = use_data)
     
     p_pi_x = p_pi_TLE * pion_row.pfp.trk.dir.x.iloc[0]
     p_pi_y = p_pi_TLE * pion_row.pfp.trk.dir.y.iloc[0]
@@ -1483,92 +1383,140 @@ cols = [
         ('pfp', 'trk', 'end', 'y', '', ''),
         ('pfp', 'trk', 'end', 'z', '', ''),
     ]
+# Requires the module-level helpers defined above get_mu_pi_vars:
+#   EXPECTED_COLS, _MU_PI_SCHEMA, _empty_mu_pi_vars, _enforce_schema
+# (see transverse_and_schema.py)
 
-def make_cc1pi_finaldf(f, updatecalo = "cv"):
-    
-    pandora_df  =  make_pandora_df(f, trkScoreCut = False, trkDistCut= -1, cutClearCosmic = True, requireFiducial=False, updatecalo=updatecalo)
+
+# =====================================================================
+# Schema helpers (module level, above get_mu_pi_vars)
+# =====================================================================
+_MU_PI_FLOAT_COLS = [
+    'p_mu_x', 'p_mu_y', 'p_mu_z', 'p_pi_x', 'p_pi_y', 'p_pi_z',
+    'reco_p_mu', 'cos_theta_mu',
+    'mu_chi2_proton', 'mu_chi2_mu', 'mu_chi2_exp_pol', 'mu_scatter_angle_ratio',
+    'mu_max_daughter_hits', 'mu_frac50', 'mu_bdt_score_proton', 'mu_bdt_score_muon_pion',
+    'range_p_pi', 'TLE_p_pi', 'cos_theta_pi',
+    'pi_chi2_proton', 'pi_chi2_mu', 'pi_chi2_exp_pol', 'pi_scatter_angle_ratio',
+    'pi_max_daughter_hits', 'pi_frac50', 'pi_bdt_score_proton', 'pi_bdt_score_muon_pion',
+    'pi_true_p', 'mu_true_p', 'pi_true_costheta', 'mu_true_costheta',
+]
+ 
+_MU_PI_DEFAULTS = {
+    **{c: -999.0 for c in _MU_PI_FLOAT_COLS},
+    'muon_contained': False,
+    'mu_true_pdg': -1, 'mu_true_end_process': -1,
+    'pi_true_pdg': -1, 'pi_true_end_process': -1,
+    'mu_true_p_type': "none", 'pi_true_p_type': "none",
+}
+ 
+EXPECTED_COLS = list(_MU_PI_DEFAULTS)
+ 
+_MU_PI_SCHEMA = {
+    **{c: 'float32' for c in _MU_PI_FLOAT_COLS},
+    'muon_contained': 'bool',
+    'mu_true_pdg': 'int32', 'mu_true_end_process': 'int32',
+    'pi_true_pdg': 'int32', 'pi_true_end_process': 'int32',
+    'mu_true_p_type': 'object', 'pi_true_p_type': 'object',
+}
+ 
+ 
+def _empty_mu_pi_vars():
+    return pd.Series(_MU_PI_DEFAULTS)
+ 
+ 
+def _enforce_schema(slcdf):
+    for col, dtype in _MU_PI_SCHEMA.items():
+        if dtype == 'bool':
+            slcdf[col] = slcdf[col].fillna(False).astype(bool)
+        elif dtype == 'int32':
+            slcdf[col] = pd.to_numeric(slcdf[col], errors='coerce').fillna(-9999).astype('int32')
+        elif dtype == 'object':
+            slcdf[col] = slcdf[col].fillna("none").astype('object')
+        else:
+            slcdf[col] = pd.to_numeric(slcdf[col], errors='coerce').astype('float32')
+    return slcdf
+ 
+
+def make_cc1pi_finaldf(f, updatecalo="cv"):
+
+    pandora_df = make_pandora_df(f, trkScoreCut=False, trkDistCut=-1, cutClearCosmic=True,
+                                 requireFiducial=False, updatecalo=updatecalo)
     if pandora_df.empty:
-       # Define the 3-level empty MultiIndex
+        # Define the 3-level empty MultiIndex
         idx = pd.MultiIndex(
-            levels=[[], [], []],  # Three levels
-            codes=[[], [], []],   # Three levels
+            levels=[[], [], []],
+            codes=[[], [], []],
             names=['entry', 'rec.slc..index', 'rec.slc.reco.pfp..index']
         )
-        
-        # Create the DataFrame using the columns from your 'cols' list
-        empty_df = pd.DataFrame(index=idx, columns=pd.MultiIndex.from_tuples(cols))
-        
-        return empty_df
-        
-    cc1pi_shwbranches = [
-        shwbranch + 'bestplane_energy'
-    ]
+        return pd.DataFrame(index=idx, columns=pd.MultiIndex.from_tuples(cols))
+
+    # Data vs MC: data has no truth matching. Computed on the whole file,
+    # BEFORE any slice filtering.
+    tm = pandora_df.slc.tmatch
+    is_data = bool(tm.idx.eq(-999).all() and tm.eff.isna().all() and tm.pur.isna().all())
+
+    cc1pi_shwbranches = [shwbranch + 'bestplane_energy']
     shw_df = loadbranches(f["recTree"], cc1pi_shwbranches)
     shw_df = shw_df.rec.slc.reco
 
-    #create mcs df
+    # create mcs df
     mcs_df = loadbranches(f["recTree"], [trkmcsbranches[1]]).rec.slc.reco.pfp.trk.mcsP
 
-    hit0_df = make_trkhitdf_plane0(f, updatecalo = updatecalo)
-    hit1_df = make_trkhitdf_plane1(f, updatecalo = updatecalo)
-    hit2_df = make_trkhitdf_plane2(f, updatecalo = updatecalo)
-    
+    hit0_df = make_trkhitdf_plane0(f, updatecalo=updatecalo)
+    hit1_df = make_trkhitdf_plane1(f, updatecalo=updatecalo)
+    hit2_df = make_trkhitdf_plane2(f, updatecalo=updatecalo)
+
     hit0_df = hit0_df.sort_values('rr', ascending=True)
     hit1_df = hit1_df.sort_values('rr', ascending=True)
     hit2_df = hit2_df.sort_values('rr', ascending=True)
-        
-    hit_dfs = [hit0_df, hit1_df, hit2_df]
-    hit_names = ['nhit0', 'nhit1', 'nhit2']  
 
-    
+    hit_dfs = [hit0_df, hit1_df, hit2_df]
+    hit_names = ['nhit0', 'nhit1', 'nhit2']
+
     best_hit_df = get_best_hit_df(pandora_df, hit_dfs)
-    pandora_df = add_nhit_column(pandora_df, hit_dfs, hit_names,1000)
-    pandora_df = multicol_merge(pandora_df, shw_df, left_index=True, right_index=True, how="left", validate="one_to_one")  
-    
+    pandora_df = add_nhit_column(pandora_df, hit_dfs, hit_names, 1000)
+    pandora_df = multicol_merge(pandora_df, shw_df, left_index=True, right_index=True,
+                                how="left", validate="one_to_one")
+
     pandora_df = pandora_df[CutMasks.is_obvious_cosmic_cut_mask(pandora_df)]
     pandora_df[('slc', 'vertex_inside_fv', '', '', '', '')] = CutMasks.is_inside_FV_cut_mask(pandora_df)
-    
-    #pandora_df = pandora_df[pandora_df.slc.vertex_inside_fv == True]
 
-    #take only primary particles for optimization of cosmic, track, shower,Michel, MIP and Angle cut
-                
     pandora_df = add_best_ke_column(pandora_df)
-    pandora_df = add_p_type_column(pandora_df)  
-    pandora_df = add_best_chi2_columns(pandora_df, update_calo = updatecalo)
+    pandora_df = add_p_type_column(pandora_df)
+    pandora_df = add_best_chi2_columns(pandora_df, update_calo=updatecalo)
     pandora_df = add_max_daughter_hits_column(pandora_df)
 
-    #Remove non primary particles (not usefull for analysis)
+    # Remove non primary particles (not useful for analysis)
     pandora_df = pandora_df[pandora_df.pfp.parent_is_primary == True]
     pandora_df = add_n_protons_column(pandora_df)
-    
-    
+
     fixed_hit_df = (
         best_hit_df
         .groupby(level=group_levels, group_keys=False)
-        .apply(dEdxCleaning.get_fix_hit_df, plot = False)
+        .apply(dEdxCleaning.get_fix_hit_df, plot=False)
     )
     fixed_hit_df['dE'] = fixed_hit_df.dedx * fixed_hit_df.pitch
-    
-    pandora_df = add_mean_dedx_column(pandora_df,fixed_hit_df)  
+
+    pandora_df = add_mean_dedx_column(pandora_df, fixed_hit_df)
     pandora_df = add_chi2_exp_pol_column(pandora_df, fixed_hit_df)
-    #pandora_df = add_chi2_exp_pol_column_3var_fit(pandora_df, fixed_hit_df)
     pandora_df = add_frac50_column(pandora_df, fixed_hit_df)
-    pandora_df = add_scatter_angle_ratio_column(pandora_df,mcs_df)
+    pandora_df = add_scatter_angle_ratio_column(pandora_df, mcs_df)
     pandora_df = add_max_angle_between_candidates_column(pandora_df)
-    pandora_df[('slc', 'measure_var', 'angle_between_candidates', '', '', '')] = pandora_df[('slc', 'measure_var', 'max_angle_between_candidates', '', '', '')]
-    
-    
+    pandora_df[('slc', 'measure_var', 'angle_between_candidates', '', '', '')] = \
+        pandora_df[('slc', 'measure_var', 'max_angle_between_candidates', '', '', '')]
+
     pandora_df[('pfp', 'is_exiting', '', '', '', '')] = CutMasks.exiting_pfp_mask(pandora_df)
     pandora_df[('pfp', 'is_exiting_z', '', '', '', '')] = CutMasks.exiting_z_pfp_mask(pandora_df)
-    
-    #add proton BDT column
+
+    # add proton BDT column
     proton_BDT_input_columns = [
-        ('pfp','trk','chi2pid','best','chi2_muon',''),
-        ('pfp','trk','chi2pid','best','chi2_proton',''),
-        ('pfp','trk','chi2_exp_pol','','',''),
-        ('pfp','trk','frac50','','','')
+        ('pfp', 'trk', 'chi2pid', 'best', 'chi2_muon', ''),
+        ('pfp', 'trk', 'chi2pid', 'best', 'chi2_proton', ''),
+        ('pfp', 'trk', 'chi2_exp_pol', '', '', ''),
+        ('pfp', 'trk', 'frac50', '', '', '')
     ]
-    col_BDTG_score_proton = ('pfp','trk','bdt_proton_score','','','')
+    col_BDTG_score_proton = ('pfp', 'trk', 'bdt_proton_score', '', '', '')
     pandora_df = add_bdt_score(
         pandora_df,
         base_running_path + "/../BDTs/bdtg_model_proton.pkl",
@@ -1576,7 +1524,7 @@ def make_cc1pi_finaldf(f, updatecalo = "cv"):
         col_BDTG_score_proton
     )
 
-    #add muon pion BDT column
+    # add muon pion BDT column
     muon_pion_BDT_input_columns = [
         ('pfp', 'trk', 'chi2pid', 'best', 'chi2_muon', ''),
         ('pfp', 'trk', 'chi2pid', 'best', 'chi2_proton', ''),
@@ -1584,7 +1532,7 @@ def make_cc1pi_finaldf(f, updatecalo = "cv"):
         ('pfp', 'scatter_angle_ratio', '', '', '', ''),
         ('pfp', 'max_daughter_hits', '', '', '', '')
     ]
-    col_BDTG_score_muon_pion = ('pfp','trk','bdt_muon_pion_score','','','')
+    col_BDTG_score_muon_pion = ('pfp', 'trk', 'bdt_muon_pion_score', '', '', '')
     pandora_df = add_bdt_score(
         pandora_df,
         base_running_path + "/../BDTs/bdtg_model_muon_pion.pkl",
@@ -1592,7 +1540,7 @@ def make_cc1pi_finaldf(f, updatecalo = "cv"):
         col_BDTG_score_muon_pion
     )
 
-    #Passing cuts or not boolean
+    # Passing cuts or not boolean
     pandora_df[('slc', 'cut', 'obvious_cosmic', '', '', '')] = CutMasks.is_obvious_cosmic_cut_mask(pandora_df)
     pandora_df[('slc', 'cut', 't0', '', '', '')] = CutMasks.t0_cut_mask(pandora_df)
     pandora_df[('slc', 'cut', 'inside_FV', '', '', '')] = CutMasks.InFV_strict(pandora_df)
@@ -1610,7 +1558,6 @@ def make_cc1pi_finaldf(f, updatecalo = "cv"):
     pandora_df[('slc', 'cut', 'TPC_containment', '', '', '')] = CutMasks.TPC_containment_mask(pandora_df, group_levels)
     pandora_df[('slc', 'cut', 'no_high_yz', '', '', '')] = CutMasks.not_in_high_y_high_z_containment_mask(pandora_df, group_levels)
 
-
     pandora_df = add_n_primary_tracks_column(pandora_df)
     pandora_df = add_n_primary_showers_column(pandora_df)
     pandora_df = add_n_primary_MIP_column(pandora_df)
@@ -1620,158 +1567,63 @@ def make_cc1pi_finaldf(f, updatecalo = "cv"):
     pandora_df = add_n_MIP_candidate_michel_column(pandora_df)
     pandora_df = add_n_extra_pions_column(pandora_df)
 
-    EXPECTED_COLS = [
-        'p_mu_x',
-        'p_mu_y',
-        'p_mu_z',
-        'p_pi_x',
-        'p_pi_y',
-        'p_pi_z',
-        
-        'reco_p_mu',
-        'cos_theta_mu',
-        'mu_chi2_proton',
-        'mu_chi2_mu',
-        'mu_chi2_exp_pol',
-        'mu_scatter_angle_ratio',
-        'mu_max_daughter_hits',
-        'mu_frac50',
-        'mu_bdt_score_proton',
-        'mu_bdt_score_muon_pion',
-
-        'range_p_pi',
-        'TLE_p_pi',
-        'cos_theta_pi',        
-        'pi_chi2_proton',
-        'pi_chi2_mu',
-        'pi_chi2_exp_pol',
-        'pi_scatter_angle_ratio',
-        'pi_max_daughter_hits',
-        'pi_frac50',
-        'pi_bdt_score_proton',
-        'pi_bdt_score_muon_pion',
-
-        'muon_contained',
-
-        'mu_true_pdg',
-        'mu_true_p_type',
-        'mu_true_end_process',
-        'pi_true_pdg',
-        'pi_true_p_type',
-        'pi_true_end_process',
-        
-        'pi_true_p',
-        'mu_true_p',
-        'pi_true_costheta',
-        'mu_true_costheta'
-    ]
-    
-    # 1. Define schema: default float32, override specific types
-    schema = {col: 'float32' for col in EXPECTED_COLS}
-    schema.update({
-        'muon_contained': 'bool',      # nullable bool
-        'mu_true_pdg': 'int32',           # nullable int
-        'mu_true_end_process': 'int32',
-        'pi_true_pdg': 'int32',
-        'pi_true_end_process': 'int32',
-        'mu_true_p_type': 'object',
-        'pi_true_p_type': 'object'
-    })
-
-
+    # Candidate slices for the muon/pion kinematics
     candidate_mask = (pandora_df.slc.cut.inside_FV & pandora_df.slc.cut.t0
-                       & CutMasks.long_primary_track_cut_mask(pandora_df, group_levels)
-                       & (pandora_df.slc.cut_var.n_MIP_candidates >= 1) 
-                       & pandora_df.slc.cut.containment
-                      )
-    
+                      & CutMasks.long_primary_track_cut_mask(pandora_df, group_levels)
+                      & (pandora_df.slc.cut_var.n_MIP_candidates >= 1)
+                      & pandora_df.slc.cut.containment)
     candidate_df = pandora_df[candidate_mask]
-    
-    
-    #process only with plane 2
+
     muon_pion_vars = (
         candidate_df
-            .groupby(level=group_levels, group_keys=False)
-            .apply(get_mu_pi_vars, best_hit_df=best_hit_df)
+        .groupby(level=group_levels, group_keys=False)
+        .apply(get_mu_pi_vars, best_hit_df=best_hit_df, use_data=is_data)
     )
 
-    
-    # 3. Build slcdf aligned to all slices in pandora_df
-    #    Ensures every slice has a row, even if missing in muon_pion_vars
+    # Build slcdf aligned to all slices in pandora_df
+    # (every slice gets a row, even if missing in muon_pion_vars)
     all_slices_idx = pandora_df.index.droplevel('rec.slc.reco.pfp..index').unique()
-    
+
     if muon_pion_vars.empty:
         slcdf = pd.DataFrame(index=all_slices_idx, columns=EXPECTED_COLS)
     else:
         if isinstance(muon_pion_vars, pd.Series):
-            # If it's a Series but has the Expected Columns as its index, 
-            # we need to unstack it or convert it.
-            # But usually, if apply returns a Series per group, 
-            # the result is already a DF. 
-            # If it's a single group, it might be a Series.
+            # A single group can come back as a Series
             if not isinstance(muon_pion_vars.index, pd.MultiIndex):
-                 muon_pion_vars = muon_pion_vars.to_frame().T
+                muon_pion_vars = muon_pion_vars.to_frame().T
             else:
-                 # It's a Series with a MultiIndex (likely from a single group)
-                 # We want the columns to be the inner-most labels
-                 muon_pion_vars = muon_pion_vars.unstack()
-                
-        # Keep only expected columns
+                muon_pion_vars = muon_pion_vars.unstack()
+
         slcdf = muon_pion_vars.reindex(columns=EXPECTED_COLS)
-        # Reindex to include all slices
         slcdf = slcdf.reindex(all_slices_idx)
-    
-    # 4. Enforce schema and nullable dtypes
-    '''
-    for col, dtype in schema.items():
-        # Replace missing values for non-nullable types
-        if dtype == 'bool':
-            slcdf[col] = slcdf[col].fillna(False).astype(bool)
-        elif dtype == 'int32':
-            slcdf[col] = slcdf[col].fillna(-9999).astype('int32')
-        elif dtype == 'object':
-            slcdf[col] = slcdf[col].fillna("none").astype('object')
-        else:  # float32 or object
-            slcdf[col] = slcdf[col].astype(dtype)
-    '''
-    for col, dtype in schema.items():
-        if dtype == 'bool':
-            slcdf[col] = slcdf[col].fillna(False).astype(bool)
-        elif dtype == 'int32':
-            # Use to_numeric first to safely handle any Series-like objects in the cells
-            slcdf[col] = pd.to_numeric(slcdf[col], errors='coerce').fillna(-9999).astype('int32')
-        elif dtype == 'object':
-            slcdf[col] = slcdf[col].fillna("none").astype('object')
-        else:  # float32 
-            # Use to_numeric here as well to kill the FutureWarning
-            slcdf[col] = pd.to_numeric(slcdf[col], errors='coerce').astype('float32')
-            
-    # 5. Optional: rename columns
+
+    # Enforce schema and dtypes (replaces the old for-loop over `schema`)
+    slcdf = _enforce_schema(slcdf)
+
     slcdf = slcdf.rename(columns={
         'cos_theta_mu': 'reco_cos_theta_mu',
         'cos_theta_pi': 'reco_cos_theta_pi'
     })
-    
-    # 6. Apply MultiIndex columns
+
     slcdf.columns = pd.MultiIndex.from_tuples(
         [('slc', 'measure_var', col, '', '', '') for col in slcdf.columns]
     )
 
-    # 7. Join back safely
-    pandora_df = pandora_df.join(
-        slcdf,
-        on=['entry', 'rec.slc..index']
-    )
+    # Join back
+    pandora_df = pandora_df.join(slcdf, on=['entry', 'rec.slc..index'])
 
     pandora_df = add_transverse_vars_column(pandora_df)
-    
-    pandora_df[('slc', 'cut', 'energy', '', '', '')] = (pandora_df.slc.measure_var.reco_p_mu > 0.1) & (pandora_df.slc.measure_var.reco_p_mu < 1) & (pandora_df.slc.measure_var.TLE_p_pi > 0.13) & (pandora_df.slc.measure_var.TLE_p_pi < 2)   
 
+    mv = pandora_df.slc.measure_var
+    pandora_df[('slc', 'cut', 'energy', '', '', '')] = (
+        (mv.reco_p_mu > 0.1) & (mv.reco_p_mu < 1)
+        & (mv.TLE_p_pi > 0.13) & (mv.TLE_p_pi < 2)
+    )
 
-    
     min_df = pandora_df[cols].copy()
     min_df = min_df[min_df.pfp.trk.len > 0]
     return min_df
+    
 
 
 def make_cc1pi_final_df_slim(f):

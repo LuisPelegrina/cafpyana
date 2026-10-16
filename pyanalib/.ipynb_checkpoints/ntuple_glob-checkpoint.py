@@ -14,6 +14,7 @@ from functools import partial
 import time
 import uuid
 import tempfile
+import traceback
 
 from makedf.makedf import make_histpotdf
 from makedf.makedf import make_histgenevtdf
@@ -143,8 +144,8 @@ def _loaddf(applyfs, preprocess, g):
         dfs.append(df_histgenevt) # ALWAYS append
 
     except (OSError, ValueError) as e:
-        print(f"Could not open file ({fname}). Skipping...")
-        print(e)
+        print(f"Error processing file ({fname}). Skipping...")
+        traceback.print_exc()
         dfs = None
 
 

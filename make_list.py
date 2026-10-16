@@ -3,6 +3,7 @@ import os
 import sys
 
 sam_definitions = {
+
     "mc_SBND2026A_AR23plus_knobs_BNBLight_CV_v1_00_01_flatcaf_sbnd":
     "data_lists/AR23p_xroot.list",
         

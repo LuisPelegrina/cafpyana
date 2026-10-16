@@ -1703,8 +1703,6 @@ def make_cc1pi_final_df_recalo_r_p(f):
 def make_cc1pi_final_df_recalo_r_m(f):
     return make_cc1pi_finaldf(f, updatecalo = "R_m")
 
-
-
 def make_trkhitdf_plane2_ccal_p(f):
     return make_trkhitdf_plane2(f, updatecalo = "ccal_p")
 

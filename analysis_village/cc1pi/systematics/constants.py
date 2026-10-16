@@ -32,9 +32,15 @@ M_AR = 39.95 # g, molar mass of argon
 
 plot = True
 #data_tot_pot = 4.516288e+18
-data_tot_pot = 4.4343664e+18
-data_gates = 948132
+
+#data_tot_pot = 4.4343664e+18
+#data_gates = 948132
+#integrated_fv_flux = 0.000151169785920044047/1e4
+
+data_tot_pot = 4.4479443e+18
+data_gates = 906076
 integrated_fv_flux = 0.000151169785920044047/1e4
+
 
 def get_xsec_unit():
     print("data_tot_pot: %.3e" %(data_tot_pot))

@@ -8,7 +8,7 @@ from analysis_village.cc1pi.CutMasks import CutMasks
 from analysis_village.cc1pi.dEdxCleaning import dEdxCleaning
 import lmfit
 import uproot as uproot
-from ROOT import TMVA
+#from ROOT import TMVA
 import os
 import ROOT
 import subprocess
@@ -574,6 +574,7 @@ def add_chi2_exp_pol_column_3var_fit(df, best_hit_df):
 
     return df
 
+'''
 def add_BDT_TMVA_proton_column(df, xmlWeightsFile, output_column):   
     # Initialize TMVA
     TMVA.Tools.Instance()
@@ -614,7 +615,7 @@ def add_BDT_TMVA_proton_column(df, xmlWeightsFile, output_column):
     df[output_column] = bdt_scores
     return(df)
     
-
+'''
 # Unpack back if you want the same variable names
 def add_best_ke_column(df):
     best_plane = df.pfp.trk.bestplane
@@ -723,6 +724,7 @@ def add_bdt_score(evt_df, bdt_model_file, input_cols, output_col):
 
     return evt_df
 
+'''
 def add_TMVA_BDT_muon_pion_column(df, xmlWeightsFile_mp, output_column):  
     # Initialize TMVA
 
@@ -767,7 +769,7 @@ def add_TMVA_BDT_muon_pion_column(df, xmlWeightsFile_mp, output_column):
     # Assign the full array in **one step**
     df[output_column] = bdt_scores_muon_pion
     return df
-
+'''
 
 _PFP_LEVEL = 'rec.slc.reco.pfp..index'
  
@@ -1223,7 +1225,7 @@ def make_cc1pinudf(f, include_weights=True, multisim_nuniv=100, genie_multisim_n
     #add TKI
     nudf = add_transverse_observables_mc(nudf)
     
-    return nudf
+    return shrink_df(nudf)
 
 
 def make_cc1pinudf_expanded_syst(f):
@@ -1427,7 +1429,28 @@ _MU_PI_SCHEMA = {
  
 def _empty_mu_pi_vars():
     return pd.Series(_MU_PI_DEFAULTS)
- 
+
+def _col_tokens(label):
+    """Set of string tokens of a column label (works for tuple labels)."""
+    if isinstance(label, tuple):
+        return {str(t) for t in label}
+    return {str(label)}
+
+
+def _float_is_safe(s):
+    """True if casting the float64 Series to float32 loses nothing important:
+    no overflow, and no large integer-valued data (ids, counters) stored as float."""
+    a = s.to_numpy()
+    fin = a[np.isfinite(a)]
+    if fin.size == 0:
+        return True
+    amax = np.abs(fin).max()
+    if amax >= _F32_MAX:
+        return False
+    if amax >= _F32_EXACT_INT and np.all(fin == np.round(fin)):
+        return False
+    return True
+
  
 def _enforce_schema(slcdf):
     for col, dtype in _MU_PI_SCHEMA.items():
@@ -1440,9 +1463,64 @@ def _enforce_schema(slcdf):
         else:
             slcdf[col] = pd.to_numeric(slcdf[col], errors='coerce').astype('float32')
     return slcdf
- 
 
-def make_cc1pi_finaldf(f, updatecalo="cv"):
+SHRINK_SKIP_COLS = {"run", "subrun", "evt", "event", "pot", "spill", "ntuple", "entry"}
+
+_F32_MAX = 3.0e38
+_F32_EXACT_INT = 2 ** 24      # float32 represents integers exactly only up to here
+
+
+def _col_tokens(label):
+    """Set of string tokens of a column label (works for tuple labels)."""
+    if isinstance(label, tuple):
+        return {str(t) for t in label}
+    return {str(label)}
+
+import gc
+import pyarrow as pa
+import pandas as pd
+
+
+
+def shrink_df(df, floats=True, ints=True, skip_cols=None, verbose=False, **_ignored):
+    """In place, column by column:
+       float64 -> float32  (only if safe: no overflow, no large integer-valued ids stored as float)
+       int64   -> int32    (only if all values fit in int32)
+    Everything else (objects, bools, categoricals, already-small dtypes) is untouched.
+    The index is never modified. Do NOT use on the hdr DataFrame (POT sums need float64)."""
+    if df is None or df.empty:
+        return df
+
+    skip = set(SHRINK_SKIP_COLS) | set(skip_cols or ())
+    before = df.memory_usage(deep=True).sum() if verbose else 0
+    i32 = np.iinfo(np.int32)
+
+    for c in list(df.columns):
+        if _col_tokens(c) & skip:
+            continue
+        s = df[c]
+        if not isinstance(s, pd.Series):          # duplicated column label -> leave alone
+            continue
+        dt = s.dtype
+
+        if floats and dt == np.float64:
+            if _float_is_safe(s):
+                df[c] = s.astype(np.float32)
+        elif (ints and pd.api.types.is_integer_dtype(dt) and dt != np.bool_
+              and np.dtype(dt).itemsize > 4 and len(s) > 0):
+            if s.min() >= i32.min and s.max() <= i32.max:
+                df[c] = s.astype(np.int32)
+
+    if verbose:
+        after = df.memory_usage(deep=True).sum()
+        print(f"    shrink_df: {before / 1e9:.3f} GB -> {after / 1e9:.3f} GB")
+    return df
+
+import gc
+import pandas as pd
+
+
+def make_cc1pi_finaldf(f, updatecalo=None):
 
     pandora_df = make_pandora_df(f, trkScoreCut=False, trkDistCut=-1, cutClearCosmic=True,
                                  requireFiducial=False, updatecalo=updatecalo)
@@ -1626,7 +1704,7 @@ def make_cc1pi_finaldf(f, updatecalo="cv"):
         & (mv.TLE_p_pi > 0.13) & (mv.TLE_p_pi < 2)
     )
 
-    min_df = pandora_df[cols].copy()
+    min_df = shrink_df(pandora_df[cols].copy())
     min_df = min_df[min_df.pfp.trk.len > 0]
     return min_df
     
@@ -1673,7 +1751,7 @@ def make_cc1pi_final_df_slim(f):
             .groupby(['entry', 'rec.slc..index'])
             .first()
         )
-    slc_df = slc_df.sort_index()
+    slc_df = shrink_df(slc_df.sort_index())
     
     return slc_df
 

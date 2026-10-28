@@ -622,8 +622,8 @@ map<int, vector<TF1*>> Hypfit::get_conv_function_map(int target_pdg, string mode
 
 
 
-double power_law_cpp(double x, double a, double b, double c) {
-    return a * std::pow(x, -b) + c;
+inline double power_law_cpp(double x, double a, double b, double c) {
+  return a + b * std::pow(x, c);
 }
 
 double Hypfit::langau_cpp(double *x, double *p) {

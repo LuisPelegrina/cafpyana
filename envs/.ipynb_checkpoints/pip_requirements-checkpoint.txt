@@ -20,3 +20,4 @@ numpy
 fsspec-xrootd
 lmfit
 scikit-learn
+pyarrow

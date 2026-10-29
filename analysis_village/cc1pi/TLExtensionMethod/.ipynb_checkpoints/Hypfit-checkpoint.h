@@ -57,9 +57,9 @@ private:
   double dEdx_truncate_bellow_harsh = 0.5;
   double dEdx_truncate_upper = 10.;
   double dEdx_truncate_bellow = 0.5;
-  double pion_mass = 0.13957039;
-  double muon_mass = 0.1056583755;
-  double proton_mass = 0.93827208943;
+  double pion_mass = 139.57039;
+  double muon_mass = 105.6583755;
+  double proton_mass = 938.27208943;
 };
 
 #endif

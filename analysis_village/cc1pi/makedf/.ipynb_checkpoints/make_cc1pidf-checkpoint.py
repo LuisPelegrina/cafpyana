@@ -150,7 +150,7 @@ def add_nu_categ_column(df, is_truth_df = False):
     is_inside_fv = TruthInFV(truth_df.position)
     is_nu = IsNu(truth_df)
     is_signal = isCC1Pi(truth_df)
-    is_cc = truth_df.iscc
+    is_cc = truth_df.iscc.astype(bool)
     is_nu_mu_cc = is_cc & (abs(truth_df.pdg) == 14)
 
     nu_categ = pd.Series("none", index=truth_df.index, dtype="object")
@@ -445,7 +445,9 @@ def get_reduced_hit_df(hit_df):
     reduced_best_hit_df = hit_df[hit_df.rr < 30].copy()
     return reduced_best_hit_df
 
+    
 def compute_frac50(group):
+    group = group.sort_values('rr')
     total_E = group['dE'].sum()
     max_rr = group['rr'].max()
     cumE = group['dE'].cumsum()
@@ -453,7 +455,7 @@ def compute_frac50(group):
     # find first point where cumE >= 50% total
     mask = cumE >= 0.5 * total_E
     if not mask.any():
-        return 1
+        return -1
 
     if max_rr == 0:
         return -1
@@ -829,7 +831,7 @@ def add_n_extra_pions_column(df):
     # NOTE: fill=0 means "no relaxed MIPs" -> 0 but "1 relaxed MIP" -> -1.
     # Check this is what your cut expects (num_protons uses fill=-2).
     return _add_slice_count(df, mask, ('slc', 'cut_var', 'n_extra_pions', '', '', ''),
-                            offset=-2, fill=0)
+                            offset=-2, fill=-2)
  
  
 def add_n_protons_column(df):
@@ -1562,7 +1564,7 @@ def make_cc1pi_finaldf(f, updatecalo=None):
                                 how="left", validate="one_to_one")
 
     pandora_df = pandora_df[CutMasks.is_obvious_cosmic_cut_mask(pandora_df)]
-    pandora_df[('slc', 'vertex_inside_fv', '', '', '', '')] = CutMasks.is_inside_FV_cut_mask(pandora_df)
+    pandora_df[('slc', 'vertex_inside_fv', '', '', '', '')] = CutMasks.InFV_strict(pandora_df)
 
     pandora_df = add_best_ke_column(pandora_df)
     pandora_df = add_p_type_column(pandora_df)
@@ -1575,7 +1577,7 @@ def make_cc1pi_finaldf(f, updatecalo=None):
 
     fixed_hit_df = (
         best_hit_df
-        .groupby(level=group_levels, group_keys=False)
+        .groupby(level=pfp_levels, group_keys=False)
         .apply(dEdxCleaning.get_fix_hit_df, plot=False)
     )
     fixed_hit_df['dE'] = fixed_hit_df.dedx * fixed_hit_df.pitch
@@ -1756,6 +1758,10 @@ def make_cc1pi_final_df_slim(f):
     return slc_df
 
 
+    
+def make_cc1pi_final_df_recalo_update_cv(f):
+    return make_cc1pi_finaldf(f, updatecalo = "cv")
+    
 
 def make_cc1pi_final_df_recalo_ccal_p(f):
     return make_cc1pi_finaldf(f, updatecalo = "ccal_p")

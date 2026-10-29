@@ -568,7 +568,7 @@ map<int, vector<TF1*>> Hypfit::get_conv_function_map(int target_pdg, string mode
   for (int i_rr = 0; i_rr < max_rr; i_rr++) {
     double rr = (2 * i_rr + 1) / 2.;
     double this_KE = map_PhysdEdx[target_pdg]->KEFromRangeSpline(rr);
-    double gamma = (this_KE / mass) + 1.0;
+    double gamma = (this_KE / mass) + 1.0; 
     double beta  = TMath::Sqrt(1 - (1.0 / (gamma * gamma)));
     double this_xi   = map_PhysdEdx[target_pdg]->Landau_xi(this_KE, pitch);
     double this_Wmax = map_PhysdEdx[target_pdg]->Get_Wmax(this_KE);
@@ -580,7 +580,7 @@ map<int, vector<TF1*>> Hypfit::get_conv_function_map(int target_pdg, string mode
     TF1 PDF("", PhysdEdx::dEdx_PDF_function, -10., 20., 5);
     PDF.AddToGlobalList(kFALSE);
     PDF.SetParameters(par[0], par[1], par[2], par[3], par[4]);
-    double PDF_max = robust_max_x(&PDF, 0., 10., 2000);
+    double PDF_max = robust_max_x(&PDF, 0., 10., 10000);
 
     for (int i_p = 0; i_p < 3; i_p++) {
       double sigma = sigma_map[i_p].at(target_pdg)[0] +
@@ -594,7 +594,7 @@ map<int, vector<TF1*>> Hypfit::get_conv_function_map(int target_pdg, string mode
       // TF1Convolution takes owned clones of PDF & f_gaus
       TF1Convolution *fconv = new TF1Convolution(&PDF, &f_gaus, true);
       fconv->SetRange(0, 20);
-      fconv->SetNofPointsFFT(2000);
+      fconv->SetNofPointsFFT(10000);
 
       // TF1 constructed with fconv takes ownership of fconv
       TF1 *f0 = new TF1("f0", fconv, 0, 10, 0);

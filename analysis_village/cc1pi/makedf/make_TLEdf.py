@@ -44,6 +44,8 @@ cols = [
     
     ]
 
+pfp_levels = ['entry','rec.slc..index','rec.slc.reco.pfp..index']
+
 def get_pion_candidate_id(group):
     """
     Applies the same muon/pion separation logic as get_mu_pi_vars,
@@ -108,7 +110,7 @@ def make_pion_selection_df(f, updatecalo = None, select_stopping = False):
     pandora_df = multicol_merge(pandora_df, shw_df, left_index=True, right_index=True, how="left", validate="one_to_one")  
     
     pandora_df = pandora_df[CutMasks.is_obvious_cosmic_cut_mask(pandora_df)]
-    pandora_df[('slc', 'vertex_inside_fv', '', '', '', '')] = CutMasks.is_inside_FV_cut_mask(pandora_df)
+    pandora_df[('slc', 'vertex_inside_fv', '', '', '', '')] = CutMasks.InFV_strict(pandora_df)
                  
     pandora_df = add_best_ke_column(pandora_df)
     pandora_df = add_p_type_column(pandora_df)  
@@ -120,8 +122,8 @@ def make_pion_selection_df(f, updatecalo = None, select_stopping = False):
     
     fixed_hit_df = (
         best_hit_df
-        .groupby(level=group_levels, group_keys=False)
-        .apply(dEdxCleaning.get_fix_hit_df, plot = False)
+        .groupby(level=pfp_levels, group_keys=False)
+        .apply(dEdxCleaning.get_fix_hit_df, plot=False)
     )
     fixed_hit_df['dE'] = fixed_hit_df.dedx * fixed_hit_df.pitch
     
@@ -167,7 +169,7 @@ def make_pion_selection_df(f, updatecalo = None, select_stopping = False):
 
     # CC1Pi selection cuts
     pandora_df = pandora_df[CutMasks.is_obvious_cosmic_cut_mask(pandora_df)]
-    pandora_df = pandora_df[CutMasks.is_inside_FV_cut_mask(pandora_df)]
+    pandora_df = pandora_df[CutMasks.InFV_strict(pandora_df)]
     pandora_df = pandora_df[CutMasks.t0_cut_mask(pandora_df)]
     pandora_df = pandora_df[CutMasks.nu_score_cut_mask(pandora_df)]
     pandora_df = pandora_df[CutMasks.track_cut_mask(pandora_df, group_levels)]
@@ -231,16 +233,8 @@ def make_pion_selection_df(f, updatecalo = None, select_stopping = False):
     
     pandora_pion_df = pandora_pion_df[(x_start > 10) & (x_end > 10)]
 
-    # Define the multi-index tuples
-    hit_cols = [
-        ("pfp", "nhit0", "", "", "", ""),
-        ("pfp", "nhit1", "", "", "", ""),
-        ("pfp", "nhit2", "", "", "", ""),
-    ]
-    target_col = ("pfp", "best_plane", "", "", "", "")
-    
-    # Calculate the plane index (0, 1, or 2) with the maximum hits
-    pandora_pion_df[target_col] = np.argmax(pandora_pion_df[hit_cols].values, axis=1)
+    # Same best plane as make_cc1pi_finaldf: Pandora's choice, used there for hits, chi2 and the conv map
+    pandora_pion_df[("pfp", "best_plane", "", "", "", "")] = pandora_pion_df[("pfp", "trk", "bestplane", "", "", "")]
     
     # Select stopping candidates if requested
     if select_stopping:
@@ -318,7 +312,7 @@ def make_muon_selection_df(f, updatecalo = None):
     pandora_df = add_n_exiting_pfps_column(pandora_df)
     
     pandora_df = pandora_df[CutMasks.is_obvious_cosmic_cut_mask(pandora_df)]
-    pandora_df = pandora_df[CutMasks.is_inside_FV_cut_mask(pandora_df)]
+    pandora_df = pandora_df[CutMasks.InFV_strict(pandora_df)]
     pandora_df = pandora_df[CutMasks.t0_cut_mask(pandora_df)]
     pandora_df = pandora_df[CutMasks.nu_score_cut_mask(pandora_df)]
     pandora_df = pandora_df[CutMasks.track_cut_mask(pandora_df, group_levels)]
@@ -376,16 +370,7 @@ def make_muon_selection_df(f, updatecalo = None):
     pandora_muon_df = pandora_muon_df[pandora_muon_df.pfp.trk.chi2pid.best.chi2_muon < 6]
     pandora_muon_df = pandora_muon_df[pandora_muon_df.pfp.trk.len > 50]
 
-    # Define the multi-index tuples
-    hit_cols = [
-        ("pfp", "nhit0", "", "", "", ""),
-        ("pfp", "nhit1", "", "", "", ""),
-        ("pfp", "nhit2", "", "", "", ""),
-    ]
-    target_col = ("pfp", "best_plane", "", "", "", "")
-    
-    # Calculate the plane index (0, 1, or 2) with the maximum hits
-    pandora_muon_df[target_col] = np.argmax(pandora_muon_df[hit_cols].values, axis=1)
+    pandora_muon_df[("pfp", "best_plane", "", "", "", "")] = pandora_muon_df[("pfp", "trk", "bestplane", "", "", "")]
 
     min_df = pandora_muon_df[cols].copy()
     min_df = min_df[min_df[('pfp', 'trk', 'len', '', '', '')] > 0]

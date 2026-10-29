@@ -1522,7 +1522,7 @@ import gc
 import pandas as pd
 
 
-def make_cc1pi_finaldf(f, updatecalo=None):
+def make_cc1pi_finaldf(f, updatecalo=None, use_recalo = False):
 
     pandora_df = make_pandora_df(f, trkScoreCut=False, trkDistCut=-1, cutClearCosmic=True,
                                  requireFiducial=False, updatecalo=updatecalo)
@@ -1601,9 +1601,15 @@ def make_cc1pi_finaldf(f, updatecalo=None):
         ('pfp', 'trk', 'frac50', '', '', '')
     ]
     col_BDTG_score_proton = ('pfp', 'trk', 'bdt_proton_score', '', '', '')
+
+    BDT_proton_path = "/../BDTs/bdtg_model_proton_gen1_og.pkl"
+    if use_recalo:
+        BDT_proton_path = "/../BDTs/bdtg_model_proton_gen1_recalo.pkl"
+
+        
     pandora_df = add_bdt_score(
         pandora_df,
-        base_running_path + "/../BDTs/bdtg_model_proton.pkl",
+        base_running_path + BDT_proton_path,
         proton_BDT_input_columns,
         col_BDTG_score_proton
     )
@@ -1616,10 +1622,16 @@ def make_cc1pi_finaldf(f, updatecalo=None):
         ('pfp', 'scatter_angle_ratio', '', '', '', ''),
         ('pfp', 'max_daughter_hits', '', '', '', '')
     ]
+
+    
+    BDT_muon_pion_path = "/../BDTs/bdtg_model_muon_pion_gen1_og.pkl"
+    if use_recalo:
+        BDT_muon_pion_path = "/../BDTs/bdtg_model_muon_pion_gen1_recalo.pkl"
+        
     col_BDTG_score_muon_pion = ('pfp', 'trk', 'bdt_muon_pion_score', '', '', '')
     pandora_df = add_bdt_score(
         pandora_df,
-        base_running_path + "/../BDTs/bdtg_model_muon_pion.pkl",
+        base_running_path + BDT_muon_pion_path,
         muon_pion_BDT_input_columns,
         col_BDTG_score_muon_pion
     )
@@ -1636,7 +1648,7 @@ def make_cc1pi_finaldf(f, updatecalo=None):
     pandora_df[('slc', 'cut', 'containment', '', '', '')] = CutMasks.containment_z_cut_mask(pandora_df, group_levels)
     pandora_df[('slc', 'cut', 'michel', '', '', '')] = CutMasks.michel_cut_mask(pandora_df, group_levels)
     pandora_df[('slc', 'cut', 'extra_pion', '', '', '')] = CutMasks.extra_pion_cut_mask(pandora_df, group_levels)
-    pandora_df[('slc', 'cut', 'proton_BDT', '', '', '')] = CutMasks.proton_BDT_cut_mask(pandora_df, group_levels)
+    pandora_df[('slc', 'cut', 'proton_BDT', '', '', '')] = CutMasks.proton_BDT_cut_mask(pandora_df, group_levels, use_recalo)
     pandora_df[('slc', 'cut', 'proton_BDT_sideband', '', '', '')] = CutMasks.proton_BDT_sideband_mask(pandora_df, group_levels)
     pandora_df[('slc', 'cut', 'proton_BDT_2pi', '', '', '')] = CutMasks.proton_BDT_cut_mask_2pi(pandora_df, group_levels)
     pandora_df[('slc', 'cut', 'TPC_containment', '', '', '')] = CutMasks.TPC_containment_mask(pandora_df, group_levels)
@@ -1760,7 +1772,7 @@ def make_cc1pi_final_df_slim(f):
 
     
 def make_cc1pi_final_df_recalo_update_cv(f):
-    return make_cc1pi_finaldf(f, updatecalo = "cv")
+    return make_cc1pi_finaldf(f, updatecalo = "cv", use_recalo = True)
     
 
 def make_cc1pi_final_df_recalo_ccal_p(f):

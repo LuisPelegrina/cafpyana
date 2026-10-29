@@ -20,6 +20,7 @@ ICARUS_CALO_PARAMS = {
 }
 
 
+'''
 SBND_CALO_PARAMS = {
     "alpha_emb": [0.904, 0.904],
     "beta_90": [0.204, 0.204],
@@ -33,6 +34,7 @@ SBND_CALO_PARAMS = {
 
 # calo variations
 # variations on recombination parameters are taken from the ICARUS measurement uncertainties
+'''
 CALO_VARIATIONS = {
     "cv": SBND_CALO_PARAMS,
     "ccal_p": {**SBND_CALO_PARAMS, "c_cal_frac": [1.02, 1.02, 1.02]},
@@ -45,7 +47,6 @@ CALO_VARIATIONS = {
     "R_m": {**SBND_CALO_PARAMS, "R_emb": [1.25-0.02, 1.25-0.02]},
 }
 
-'''
 Gen2 parameters
 #### == For each element, the first entry is for MC and the second entry is for the data
 SBND_CALO_PARAMS = {
@@ -58,7 +59,6 @@ SBND_CALO_PARAMS = {
     "c_cal_frac": [1., 1., 1.],
     "etau": [35., 35.], ## first value for MC and second value for data
 }
-'''
 
 
 

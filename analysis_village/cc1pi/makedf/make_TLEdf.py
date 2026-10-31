@@ -79,7 +79,7 @@ def get_pion_candidate_id(group):
     return pd.Series({'pion_candidate_id': pion_id})
 
 
-def make_pion_selection_df(f, updatecalo = None, select_stopping = False):
+def make_pion_selection_df(f, updatecalo = None, select_stopping = False, use_recalo = False):
     
     pandora_df = make_pandora_df(f, trkScoreCut = False, trkDistCut= -1, cutClearCosmic = True, requireFiducial=False, updatecalo=updatecalo)
     if pandora_df.empty:
@@ -144,13 +144,20 @@ def make_pion_selection_df(f, updatecalo = None, select_stopping = False):
         ('pfp','trk','chi2_exp_pol','','',''),
         ('pfp','trk','frac50','','','')
     ]
-    col_BDTG_score_proton = ('pfp','trk','bdt_proton_score','','','')
+    
+    col_BDTG_score_proton = ('pfp', 'trk', 'bdt_proton_score', '', '', '')
+    BDT_proton_path = "/../BDTs/bdtg_model_proton_gen1_og.pkl"
+    if use_recalo:
+        BDT_proton_path = "/../BDTs/bdtg_model_proton_gen1_recalo.pkl"
+
+        
     pandora_df = add_bdt_score(
         pandora_df,
-        base_running_path + "/../BDTs/bdtg_model_proton.pkl",
+        base_running_path + BDT_proton_path,
         proton_BDT_input_columns,
         col_BDTG_score_proton
     )
+
 
     muon_pion_BDT_input_columns = [
         ('pfp', 'trk', 'chi2pid', 'best', 'chi2_muon', ''),
@@ -159,14 +166,20 @@ def make_pion_selection_df(f, updatecalo = None, select_stopping = False):
         ('pfp', 'scatter_angle_ratio', '', '', '', ''),
         ('pfp', 'max_daughter_hits', '', '', '', '')
     ]
-    col_BDTG_score_muon_pion = ('pfp','trk','bdt_muon_pion_score','','','')
+    
+
+    BDT_muon_pion_path = "/../BDTs/bdtg_model_muon_pion_gen1_og.pkl"
+    if use_recalo:
+        BDT_muon_pion_path = "/../BDTs/bdtg_model_muon_pion_gen1_recalo.pkl"
+        
+    col_BDTG_score_muon_pion = ('pfp', 'trk', 'bdt_muon_pion_score', '', '', '')
     pandora_df = add_bdt_score(
         pandora_df,
-        base_running_path + "/../BDTs/bdtg_model_muon_pion.pkl",
+        base_running_path + BDT_muon_pion_path,
         muon_pion_BDT_input_columns,
         col_BDTG_score_muon_pion
     )
-
+    
     # CC1Pi selection cuts
     pandora_df = pandora_df[CutMasks.is_obvious_cosmic_cut_mask(pandora_df)]
     pandora_df = pandora_df[CutMasks.InFV_strict(pandora_df)]
@@ -176,7 +189,7 @@ def make_pion_selection_df(f, updatecalo = None, select_stopping = False):
     pandora_df = pandora_df[CutMasks.shower_cut_mask(pandora_df, group_levels)]
     pandora_df = pandora_df[CutMasks.chi2_cut_mask(pandora_df, group_levels)]
     pandora_df = pandora_df[CutMasks.angle_cut_mask(pandora_df)]
-    pandora_df = pandora_df[CutMasks.proton_BDT_cut_mask(pandora_df, group_levels)]
+    pandora_df[('slc', 'cut', 'proton_BDT', '', '', '')] = CutMasks.proton_BDT_cut_mask(pandora_df, group_levels, use_recalo)
     pandora_df = pandora_df[CutMasks.containment_z_cut_mask(pandora_df, group_levels)]
     pandora_df = pandora_df[CutMasks.michel_cut_mask(pandora_df, group_levels)]
     pandora_df = pandora_df[CutMasks.extra_pion_cut_mask(pandora_df, group_levels)]
@@ -429,7 +442,7 @@ def make_trkhitdf_selection_df(f, plane=0, pdg=211, select_stopping=False, updat
 
 
 def make_pion_selection_all_df(f):
-    return make_pion_selection_df(f, updatecalo = None)
+    return make_pion_selection_df(f, updatecalo = None, use_recalo = True)
 
 def make_trkhitdf_plane0_pion_selection_all(f):
     return make_trkhitdf_selection_df(f, plane=0, pdg=211, select_stopping=False, updatecalo=None)
@@ -442,7 +455,7 @@ def make_trkhitdf_plane2_pion_selection_all(f):
 
 
 def make_pion_selection_all_update_calo_cv_df(f):
-    return make_pion_selection_df(f, updatecalo = "cv")
+    return make_pion_selection_df(f, updatecalo = "cv", use_recalo = True)
 
 def make_trkhitdf_plane0_pion_selection_all_update_calo_cv(f):
     return make_trkhitdf_selection_df(f, plane=0, pdg=211, select_stopping=False, updatecalo="cv")
@@ -473,7 +486,7 @@ def make_trkhitdf_plane2_pion_selection_stopping(f):
 
 
 def make_pion_selection_stopping_update_calo_cv_df(f):
-    return make_pion_selection_df(f, updatecalo = "cv", select_stopping = True)
+    return make_pion_selection_df(f, updatecalo = "cv", select_stopping = True, use_recalo = True)
 
 def make_trkhitdf_plane0_pion_selection_stopping_update_calo_cv(f):
     return make_trkhitdf_selection_df(f, plane = 0, pdg = 211, select_stopping = True, updatecalo="cv")

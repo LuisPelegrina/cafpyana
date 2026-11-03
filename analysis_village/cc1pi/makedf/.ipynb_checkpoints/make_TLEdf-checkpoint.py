@@ -29,6 +29,7 @@ cols = [
         ('pfp', 'trk', 'rangeP', 'p_muon', '', ''),
         ('pfp', 'trk', 'chi2_exp_pol', '', '', ''),
         ('pfp', 'trk', 'len', '', '', ''),
+        ('pfp', 'trk', 'chi2pid', 'best', 'chi2_muon', ''),
         ('pfp', 'trk', 'chi2pid', 'best', 'chi2_pion', ''),
         ('pfp', 'trk', 'chi2pid', 'best', 'chi2_proton', ''),
         ('pfp', 'trk', 'start', 'x', '', ''),
@@ -190,6 +191,7 @@ def make_pion_selection_df(f, updatecalo = None, select_stopping = False, use_re
     pandora_df = pandora_df[CutMasks.chi2_cut_mask(pandora_df, group_levels)]
     pandora_df = pandora_df[CutMasks.angle_cut_mask(pandora_df)]
     pandora_df[('slc', 'cut', 'proton_BDT', '', '', '')] = CutMasks.proton_BDT_cut_mask(pandora_df, group_levels, use_recalo)
+    pandora_df = pandora_df[pandora_df[('slc', 'cut', 'proton_BDT', '', '', '')]]
     pandora_df = pandora_df[CutMasks.containment_z_cut_mask(pandora_df, group_levels)]
     pandora_df = pandora_df[CutMasks.michel_cut_mask(pandora_df, group_levels)]
     pandora_df = pandora_df[CutMasks.extra_pion_cut_mask(pandora_df, group_levels)]
@@ -223,7 +225,8 @@ def make_pion_selection_df(f, updatecalo = None, select_stopping = False, use_re
     # Filter out invalid entries (-999)
     pion_candidates = pion_candidates[pion_candidates['pion_candidate_id'] != -999]
     if pion_candidates.empty:
-        return pd.DataFrame(index=pandora_df.index, columns=pd.MultiIndex.from_tuples(cols))
+        # Zero rows: pandora_df still holds every MIP candidate at this point
+        return pd.DataFrame(index=pandora_df.index[:0], columns=pd.MultiIndex.from_tuples(cols))
 
     # --- Index-based filtering instead of merge to avoid MultiIndex column corruption ---
     # Match the pfp id column directly against the candidate map
@@ -315,12 +318,15 @@ def make_muon_selection_df(f, updatecalo = None):
     best_hit_df = get_best_hit_df(pandora_df, hit_dfs)
     fixed_hit_df = (
         best_hit_df
-        .groupby(level=group_levels, group_keys=False)
-        .apply(dEdxCleaning.get_fix_hit_df, plot = False)
+        .groupby(level=pfp_levels, group_keys=False)
+        .apply(dEdxCleaning.get_fix_hit_df, plot=False)
     )
     fixed_hit_df['dE'] = fixed_hit_df.dedx * fixed_hit_df.pitch
     
     pandora_df = add_chi2_exp_pol_column(pandora_df, fixed_hit_df)
+
+    # Remove non-primary particles
+    pandora_df = pandora_df[pandora_df.pfp.parent_is_primary == True]
     
     pandora_df = add_n_exiting_pfps_column(pandora_df)
     
@@ -358,7 +364,8 @@ def make_muon_selection_df(f, updatecalo = None):
     # Filter out invalid entries (-999)
     muon_candidates = muon_candidates[muon_candidates['muon_candidate_id'] != -999]
     if muon_candidates.empty:
-        return pd.DataFrame(index=pandora_df.index, columns=pd.MultiIndex.from_tuples(cols))
+        # Zero rows: pandora_df still holds every MIP candidate at this point
+        return pd.DataFrame(index=pandora_df.index[:0], columns=pd.MultiIndex.from_tuples(cols))
 
     # --- Index-based filtering instead of merge to avoid MultiIndex column corruption ---
     # Match the pfp id column directly against the candidate map
@@ -390,12 +397,12 @@ def make_muon_selection_df(f, updatecalo = None):
     return min_df
 
 
-def make_trkhitdf_selection_df(f, plane=0, pdg=211, select_stopping=False, updatecalo=None):
+def make_trkhitdf_selection_df(f, plane=0, pdg=211, select_stopping=False, updatecalo=None, use_recalo=False):
     hit_df = make_trkhitdf(f, plane, updatecalo=updatecalo)
 
     if pdg == 211:
         selection_df = make_pion_selection_df(
-            f, updatecalo=updatecalo, select_stopping=select_stopping
+            f, updatecalo=updatecalo, select_stopping=select_stopping, use_recalo=use_recalo
         )
     elif pdg == 13:
         selection_df = make_muon_selection_df(
@@ -442,7 +449,7 @@ def make_trkhitdf_selection_df(f, plane=0, pdg=211, select_stopping=False, updat
 
 
 def make_pion_selection_all_df(f):
-    return make_pion_selection_df(f, updatecalo = None, use_recalo = True)
+    return make_pion_selection_df(f, updatecalo = None)
 
 def make_trkhitdf_plane0_pion_selection_all(f):
     return make_trkhitdf_selection_df(f, plane=0, pdg=211, select_stopping=False, updatecalo=None)
@@ -458,13 +465,13 @@ def make_pion_selection_all_update_calo_cv_df(f):
     return make_pion_selection_df(f, updatecalo = "cv", use_recalo = True)
 
 def make_trkhitdf_plane0_pion_selection_all_update_calo_cv(f):
-    return make_trkhitdf_selection_df(f, plane=0, pdg=211, select_stopping=False, updatecalo="cv")
+    return make_trkhitdf_selection_df(f, plane=0, pdg=211, select_stopping=False, updatecalo="cv", use_recalo = True)
     
 def make_trkhitdf_plane1_pion_selection_all_update_calo_cv(f):
-    return make_trkhitdf_selection_df(f, plane = 1, pdg = 211, select_stopping = False, updatecalo="cv")
+    return make_trkhitdf_selection_df(f, plane = 1, pdg = 211, select_stopping = False, updatecalo="cv", use_recalo = True)
     
 def make_trkhitdf_plane2_pion_selection_all_update_calo_cv(f):
-    return make_trkhitdf_selection_df(f, plane = 2, pdg = 211, select_stopping = False, updatecalo="cv")
+    return make_trkhitdf_selection_df(f, plane = 2, pdg = 211, select_stopping = False, updatecalo="cv", use_recalo = True)
 
 
 
@@ -489,66 +496,66 @@ def make_pion_selection_stopping_update_calo_cv_df(f):
     return make_pion_selection_df(f, updatecalo = "cv", select_stopping = True, use_recalo = True)
 
 def make_trkhitdf_plane0_pion_selection_stopping_update_calo_cv(f):
-    return make_trkhitdf_selection_df(f, plane = 0, pdg = 211, select_stopping = True, updatecalo="cv")
+    return make_trkhitdf_selection_df(f, plane = 0, pdg = 211, select_stopping = True, updatecalo="cv", use_recalo = True)
 
 def make_trkhitdf_plane1_pion_selection_stopping_update_calo_cv(f):
-    return make_trkhitdf_selection_df(f, plane = 1, pdg = 211, select_stopping = True, updatecalo="cv")
+    return make_trkhitdf_selection_df(f, plane = 1, pdg = 211, select_stopping = True, updatecalo="cv", use_recalo = True)
     
 def make_trkhitdf_plane2_pion_selection_stopping_update_calo_cv(f):
-    return make_trkhitdf_selection_df(f, plane = 2, pdg = 211, select_stopping = True, updatecalo="cv")
+    return make_trkhitdf_selection_df(f, plane = 2, pdg = 211, select_stopping = True, updatecalo="cv", use_recalo = True)
 
 
 
 def make_pion_selection_stopping_update_calo_ccal_p_df(f):
-    return make_pion_selection_df(f, updatecalo = "ccal_p",  select_stopping = True)
+    return make_pion_selection_df(f, updatecalo = "ccal_p",  select_stopping = True, use_recalo = True)
 
 def make_trkhitdf_plane0_pion_selection_stopping_update_calo_ccal_p(f):
-    return make_trkhitdf_selection_df(f, plane=0, pdg=211, select_stopping=True, updatecalo="ccal_p")
+    return make_trkhitdf_selection_df(f, plane=0, pdg=211, select_stopping=True, updatecalo="ccal_p", use_recalo = True)
     
 def make_trkhitdf_plane1_pion_selection_stopping_update_calo_ccal_p(f):
-    return make_trkhitdf_selection_df(f, plane = 1, pdg = 211, select_stopping = True, updatecalo="ccal_p")
+    return make_trkhitdf_selection_df(f, plane = 1, pdg = 211, select_stopping = True, updatecalo="ccal_p", use_recalo = True)
     
 def make_trkhitdf_plane2_pion_selection_stopping_update_calo_ccal_p(f):
-    return make_trkhitdf_selection_df(f, plane = 2, pdg = 211, select_stopping = True, updatecalo="ccal_p")
+    return make_trkhitdf_selection_df(f, plane = 2, pdg = 211, select_stopping = True, updatecalo="ccal_p", use_recalo = True)
 
 
 def make_pion_selection_stopping_update_calo_ccal_m_df(f):
-    return make_pion_selection_df(f, updatecalo = "ccal_m", select_stopping = True)
+    return make_pion_selection_df(f, updatecalo = "ccal_m", select_stopping = True, use_recalo = True)
 
 def make_trkhitdf_plane0_pion_selection_stopping_update_calo_ccal_m(f):
-    return make_trkhitdf_selection_df(f, plane=0, pdg=211, select_stopping=True, updatecalo="ccal_m")
+    return make_trkhitdf_selection_df(f, plane=0, pdg=211, select_stopping=True, updatecalo="ccal_m", use_recalo = True)
     
 def make_trkhitdf_plane1_pion_selection_stopping_update_calo_ccal_m(f):
-    return make_trkhitdf_selection_df(f, plane = 1, pdg = 211, select_stopping = True, updatecalo="ccal_m")
+    return make_trkhitdf_selection_df(f, plane = 1, pdg = 211, select_stopping = True, updatecalo="ccal_m", use_recalo = True)
     
 def make_trkhitdf_plane2_pion_selection_stopping_update_calo_ccal_m(f):
-    return make_trkhitdf_selection_df(f, plane = 2, pdg = 211, select_stopping = True, updatecalo="ccal_m")
+    return make_trkhitdf_selection_df(f, plane = 2, pdg = 211, select_stopping = True, updatecalo="ccal_m", use_recalo = True)
 
 
 def make_pion_selection_stopping_update_calo_alpha_p_df(f):
-    return make_pion_selection_df(f, updatecalo = "alpha_p", select_stopping = True)
+    return make_pion_selection_df(f, updatecalo = "alpha_p", select_stopping = True, use_recalo = True)
 
 def make_trkhitdf_plane0_pion_selection_stopping_update_calo_alpha_p(f):
-    return make_trkhitdf_selection_df(f, plane=0, pdg=211, select_stopping=True, updatecalo="alpha_p")
+    return make_trkhitdf_selection_df(f, plane=0, pdg=211, select_stopping=True, updatecalo="alpha_p", use_recalo = True)
     
 def make_trkhitdf_plane1_pion_selection_stopping_update_calo_alpha_p(f):
-    return make_trkhitdf_selection_df(f, plane = 1, pdg = 211, select_stopping = True, updatecalo="alpha_p")
+    return make_trkhitdf_selection_df(f, plane = 1, pdg = 211, select_stopping = True, updatecalo="alpha_p", use_recalo = True)
     
 def make_trkhitdf_plane2_pion_selection_stopping_update_calo_alpha_p(f):
-    return make_trkhitdf_selection_df(f, plane = 2, pdg = 211, select_stopping = True, updatecalo="alpha_p")
+    return make_trkhitdf_selection_df(f, plane = 2, pdg = 211, select_stopping = True, updatecalo="alpha_p", use_recalo = True)
 
 
 def make_pion_selection_stopping_update_calo_alpha_m_df(f):
-    return make_pion_selection_df(f, updatecalo = "alpha_m", select_stopping = True)
+    return make_pion_selection_df(f, updatecalo = "alpha_m", select_stopping = True, use_recalo = True)
 
 def make_trkhitdf_plane0_pion_selection_stopping_update_calo_alpha_m(f):
-    return make_trkhitdf_selection_df(f, plane=0, pdg=211, select_stopping=True, updatecalo="alpha_m")
+    return make_trkhitdf_selection_df(f, plane=0, pdg=211, select_stopping=True, updatecalo="alpha_m", use_recalo = True)
     
 def make_trkhitdf_plane1_pion_selection_stopping_update_calo_alpha_m(f):
-    return make_trkhitdf_selection_df(f, plane = 1, pdg = 211, select_stopping = True, updatecalo="alpha_m")
+    return make_trkhitdf_selection_df(f, plane = 1, pdg = 211, select_stopping = True, updatecalo="alpha_m", use_recalo = True)
     
 def make_trkhitdf_plane2_pion_selection_stopping_update_calo_alpha_m(f):
-    return make_trkhitdf_selection_df(f, plane = 2, pdg = 211, select_stopping = True, updatecalo="alpha_m")
+    return make_trkhitdf_selection_df(f, plane = 2, pdg = 211, select_stopping = True, updatecalo="alpha_m", use_recalo = True)
 
 
 
@@ -653,5 +660,3 @@ def make_trkhitdf_plane1_muon_selection_update_calo_alpha_m(f):
     
 def make_trkhitdf_plane2_muon_selection_update_calo_alpha_m(f):
     return make_trkhitdf_selection_df(f, plane = 2, pdg = 13, select_stopping = False, updatecalo="alpha_m")
-
-

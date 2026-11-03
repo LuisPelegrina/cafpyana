@@ -6,6 +6,7 @@
 #include "TF1.h"
 #include "TF1Convolution.h"
 #include "TSpline.h"
+#include <stdexcept>
 #include <iostream>
 #include <cmath>
 #include <algorithm>

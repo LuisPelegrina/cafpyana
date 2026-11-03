@@ -435,7 +435,6 @@ vector<Likelihood_point> Hypfit::NormLikelihoodPairVector_w_tf1_vec(const vector
 
 std::vector<int> Hypfit::get_hits_to_ignore( vector<double> rr, vector<double> dEdx, string mode){
 
-
   std::vector<int> hits_id_to_ignore;
 
   if(rr.size() <= N_minimum_hits) {
@@ -444,19 +443,23 @@ std::vector<int> Hypfit::get_hits_to_ignore( vector<double> rr, vector<double> d
     }
     return hits_id_to_ignore;
   }
-    
+
+  // == Local thresholds, so "truncate_harsh" does not change later calls
+  double trunc_upper = dEdx_truncate_upper;
+  double trunc_below = dEdx_truncate_bellow;
   if (mode.find("truncate_harsh") != std::string::npos) {
-    dEdx_truncate_upper = dEdx_truncate_upper_harsh;
-    dEdx_truncate_bellow = dEdx_truncate_bellow_harsh;
+    trunc_upper = dEdx_truncate_upper_harsh;
+    trunc_below = dEdx_truncate_bellow_harsh;
   }
+
   for(size_t i_rr = 0; i_rr < rr.size(); i_rr++) {
-    if(dEdx.at(i_rr) < dEdx_truncate_bellow || dEdx.at(i_rr) > dEdx_truncate_upper)  {
+    if(dEdx.at(i_rr) < trunc_below || dEdx.at(i_rr) > trunc_upper)  {
       hits_id_to_ignore.push_back(i_rr); // == Truncate
       continue;
     }
 
-    if (mode.find("include_2cm") == std::string::npos)  {
-      if(rr.at(i_rr) < 2) {
+    if (mode.find("include_3cm") == std::string::npos)  {
+      if(rr.at(i_rr) < 3) {
         hits_id_to_ignore.push_back(i_rr);
         continue;
       }
@@ -480,48 +483,45 @@ std::vector<int> Hypfit::get_hits_to_ignore( vector<double> rr, vector<double> d
     gr_dEdx_corrected->SetPoint(gr_dEdx_corrected->GetN(), rr.at(i_rr), dEdx.at(i_rr));
   }
 
-// Suppose you already have TGraph* gr
-  TF1* fexp = new TF1("fexp", "[0] + [1]*exp(-[2]*x)", 0, 500); // adjust range
-  fexp->SetParNames("A", "B");
+  TF1* fexp = new TF1("fexp", "[0] + [1]*exp(-[2]*x)", 0, 500);
+  fexp->SetParNames("A", "B", "k");
 
-  // Set initial guesses
-  fexp->SetParameters(1.0, 0.1);
+  // Start inside the limits: k = 0 is the lower limit and makes the function constant
+  fexp->SetParameters(2.0, 5.0, 0.2);   // plateau [MeV/cm], rise amplitude [MeV/cm], decay [1/cm]
 
-  //Enforce positivity
-  fexp->SetParLimits(0, 0, 1e6); // A > 0
-  fexp->SetParLimits(1, 0, 1e6); // A > 0
-  fexp->SetParLimits(2, 0, 1e3); // B > 0
+  // Enforce positivity
+  fexp->SetParLimits(0, 0, 1e6);
+  fexp->SetParLimits(1, 0, 1e6);
+  fexp->SetParLimits(2, 0, 1e3);
 
-  gr_dEdx_corrected->Fit(fexp, "0Q"); // "R" restricts to given function range
-  double sum =0;
+  gr_dEdx_corrected->Fit(fexp, "0Q");
+  double sum = 0;
   int cont = 0;
   for(size_t i_rr = N_skip; i_rr < rr.size()-N_skip; i_rr++) {
     if(std::find(hits_id_to_ignore.begin(), hits_id_to_ignore.end(), i_rr) == hits_id_to_ignore.end()) {
-      sum+= dEdx.at(i_rr)  - fexp->Eval(rr.at(i_rr));
+      sum += dEdx.at(i_rr) - fexp->Eval(rr.at(i_rr));
       cont++;
     }
   }
   double mean = sum / cont;
 
-
-// --- Standard deviation (population version)
+  // --- Standard deviation (population version)
   double sq_sum = 0.0;
-  for(size_t i_rr =  N_skip; i_rr < rr.size()-N_skip; i_rr++) {
+  for(size_t i_rr = N_skip; i_rr < rr.size()-N_skip; i_rr++) {
     if(std::find(hits_id_to_ignore.begin(), hits_id_to_ignore.end(), i_rr) == hits_id_to_ignore.end()) {
-      double val =  dEdx.at(i_rr) - fexp->Eval(rr.at(i_rr));
+      double val = dEdx.at(i_rr) - fexp->Eval(rr.at(i_rr));
       sq_sum += (val - mean) * (val - mean);
     }
   }
   double stdev = std::sqrt(sq_sum / cont);
 
-  for(size_t i_rr =  0; i_rr < rr.size(); i_rr++) {
+  for(size_t i_rr = 0; i_rr < rr.size(); i_rr++) {
     if(std::find(hits_id_to_ignore.begin(), hits_id_to_ignore.end(), i_rr) == hits_id_to_ignore.end()) {
-      if(abs(dEdx.at(i_rr) - fexp->Eval(rr.at(i_rr)) - mean) > 1.5*stdev)  {
+      if(std::fabs(dEdx.at(i_rr) - fexp->Eval(rr.at(i_rr)) - mean) > 1.5*stdev)  {
         hits_id_to_ignore.push_back(i_rr);
       }
     }
   }
-
 
   delete gr_dEdx_corrected;
   delete fexp;
@@ -551,6 +551,7 @@ double Hypfit::robust_max_x(TF1 *f, double xmin, double xmax, int n_scan) {
   return best_x + delta * step;
 }
 
+
 map<int, vector<TF1*>> Hypfit::get_conv_function_map(int target_pdg, string mode, int max_rr, bool use_data_map) {
   map<int, vector<TF1*>> conv_tf1_map;
   double pitch = 0.32;
@@ -558,6 +559,11 @@ map<int, vector<TF1*>> Hypfit::get_conv_function_map(int target_pdg, string mode
   if (target_pdg == 13)   mass = muon_mass;
   if (target_pdg == 2212) mass = proton_mass;
   bool apply_shift = mode.find("shift") != std::string::npos;
+
+  // Shift model (power_linear): a + b * rr^p + d * rr, evaluated at max(rr, shift_rr_floor).
+  // shift_rr_floor is the lowest fitted residual range (rr_shift_min in the Python fits);
+  // below it the power law diverges, so the shift is held constant.
+  const double shift_rr_floor = 3.5;  // [cm]
 
   // Select MC vs. data-derived sigma/shift maps once, up front.
   const vector<std::map<int, vector<double>>> &sigma_map =
@@ -568,7 +574,7 @@ map<int, vector<TF1*>> Hypfit::get_conv_function_map(int target_pdg, string mode
   for (int i_rr = 0; i_rr < max_rr; i_rr++) {
     double rr = (2 * i_rr + 1) / 2.;
     double this_KE = map_PhysdEdx[target_pdg]->KEFromRangeSpline(rr);
-    double gamma = (this_KE / mass) + 1.0; 
+    double gamma = (this_KE / mass) + 1.0;
     double beta  = TMath::Sqrt(1 - (1.0 / (gamma * gamma)));
     double this_xi   = map_PhysdEdx[target_pdg]->Landau_xi(this_KE, pitch);
     double this_Wmax = map_PhysdEdx[target_pdg]->Get_Wmax(this_KE);
@@ -583,8 +589,14 @@ map<int, vector<TF1*>> Hypfit::get_conv_function_map(int target_pdg, string mode
     double PDF_max = robust_max_x(&PDF, 0., 10., 10000);
 
     for (int i_p = 0; i_p < 3; i_p++) {
-      double sigma = sigma_map[i_p].at(target_pdg)[0] +
-        sigma_map[i_p].at(target_pdg)[1] * pow(PDF_max, sigma_map[i_p].at(target_pdg)[2]);
+      const vector<double> &gp = sigma_map[i_p].at(target_pdg);
+      if (gp.size() != 3)
+        throw std::runtime_error(Form("sigma map: plane %d, pdg %d has %zu values (need 3)",
+                                      i_p, target_pdg, gp.size()));
+      double sigma = gp[0] + gp[1] * pow(PDF_max, gp[2]);
+      if (!(sigma > 0))   // also catches -1 entries (no fit for this particle)
+        throw std::runtime_error(Form("sigma map: plane %d, pdg %d gives sigma = %g at rr = %g cm",
+                                      i_p, target_pdg, sigma, rr));
 
       // Stack allocation for Gaussian resolution
       TF1 f_gaus("", "gaus", -10, 10);
@@ -606,8 +618,20 @@ map<int, vector<TF1*>> Hypfit::get_conv_function_map(int target_pdg, string mode
       }
 
       const vector<double> &sp = shift_map[i_p].at(target_pdg);
-      bool has_shift_fit = !(sp[0] == -1 && sp[1] == -1 && sp[2] == -1);
-      double dx = has_shift_fit ? (sp[0] + sp[1] * TMath::Exp(-rr / sp[2])) : 0.0;
+      if (sp.size() != 4)
+        throw std::runtime_error(Form("shift map: plane %d, pdg %d has %zu values (need 4: a, b, p, d)",
+                                      i_p, target_pdg, sp.size()));
+
+      bool has_shift_fit = !std::all_of(sp.begin(), sp.end(),
+                                        [](double v){ return v == -1; });
+      if (has_shift_fit && sp[2] >= 0)
+        throw std::runtime_error(Form("shift map: plane %d, pdg %d has exponent p = %g >= 0 "
+                                      "(exponential-model parameters?)", i_p, target_pdg, sp[2]));
+
+      double rr_eval = std::max(rr, shift_rr_floor);
+      double dx = has_shift_fit
+                  ? (sp[0] + sp[1] * pow(rr_eval, sp[2]) + sp[3] * rr_eval)
+                  : 0.0;
 
       TF1 *f_shifted = new TF1("f_shifted",
         [f0, dx](double *x, double *p){ return f0->Eval(x[0] - dx); },

@@ -104,9 +104,19 @@ double langau_cpp(double *x, double *p) {
 }
 """)
 
-
+# Slice fits. The fit models and fit functions (power_law, exp_decay_plateau, exp_decay_linear,
+# power_law_linear, SHIFT_MODELS, SHIFT_MODEL, eval_shift_fit, shift_fit_params,
+# fit_sigma_vs_mpv, fit_shift_vs_rr) come from the "Fit models and fit functions" cell and are
+# no longer redefined here, so the order in which the two cells are run does not matter.
 import os
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 import ROOT
+from ROOT import TF1, TH1D
+from scipy.optimize import curve_fit
+from scipy.signal import fftconvolve
 
 
 def load_physics_classes():
@@ -127,18 +137,6 @@ def load_physics_classes():
 
     return ROOT.Hypfit()
 
-
-
-
-import matplotlib.pyplot as plt
-import numpy as np
-
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-import ROOT
-from ROOT import TF1, TH1D
-from scipy.optimize import curve_fit
 
 def robust_max_x(f, xmin, xmax, n_scan=10000):
     """Python port of Hypfit::robust_max_x -- identical grid-scan +
@@ -161,9 +159,6 @@ def robust_max_x(f, xmin, xmax, n_scan=10000):
     return best_x + delta * step
 
 
-
-
-
 def th1_from_series(values, name, title="", nbins=100, xmin=0.0, xmax=20.0):
     """Build a TH1D (with Sumw2) from a 1D array-like of dE/dx values."""
     vals = np.asarray(values, dtype=float)
@@ -175,8 +170,6 @@ def th1_from_series(values, name, title="", nbins=100, xmin=0.0, xmax=20.0):
         h.SetBinContent(i, float(c))
         h.SetBinError(i, np.sqrt(c) if c > 0 else 1.0)
     return h
-
-
 
 
 # ===========================================================================
@@ -210,14 +203,11 @@ def build_theoretical_pdf(hfit, pdg, rr_center, mean_pitch, mass=None):
     return pdf
 
 
-
 # ===========================================================================
 # 4. Slice a per-hit dataframe in residual range and fit each slice.
 # ===========================================================================
 def make_rr_edges(rr_min, rr_max, bin_width):
     return np.arange(rr_min, rr_max + bin_width, bin_width)
-    
-
 
 
 # ===========================================================================
@@ -232,9 +222,6 @@ def make_rr_edges(rr_min, rr_max, bin_width):
 #    more robust/easier to inspect than the ROOT FFT convolution, and no
 #    ROOT-side TF1 fit machinery is needed for this part.
 # ===========================================================================
-from scipy.signal import fftconvolve
-
-
 def build_pdf_grid(pdf, xmin=-5.0, xmax=25.0, n_points=6001):
     """Evaluate the theoretical TF1 PDF once on a fixed fine grid.
     Reused across all sigma trials during the fit -- only the Gaussian
@@ -244,11 +231,15 @@ def build_pdf_grid(pdf, xmin=-5.0, xmax=25.0, n_points=6001):
     dx = x_grid[1] - x_grid[0]
     return x_grid, pdf_vals, dx
 
-import numpy as np
-import pandas as pd
-import numpy as np
-from scipy.optimize import curve_fit
-from scipy.signal import fftconvolve
+
+def gaussian_kernel(x, sigma):
+    """Zero-mean Gaussian sampled on x, normalized to unit area by
+    the caller (not here, since spacing dx isn't known inside this fn)."""
+    if sigma <= 0:
+        kernel = np.zeros_like(x)
+        kernel[np.argmin(np.abs(x))] = 1.0
+        return kernel
+    return np.exp(-0.5 * (x / sigma) ** 2)
 
 
 def convolved_theoretical_pdf(
@@ -266,7 +257,8 @@ def convolved_theoretical_pdf(
 
     # Shift and scale by the free amplitude parameter
     return amplitude * np.interp(x_query - shift, x_grid, conv)
-    
+
+
 def fit_theoretical_conv_slice(
     bin_centers,
     bin_counts,
@@ -434,28 +426,11 @@ def fit_rr_slices_theoretical(
         )
 
     return pd.DataFrame(rows)
+
+
 # ===========================================================================
-# 5. sigma_G(MPV) power-law fit
+# 5. Langau parameters vs residual range (power law from the fit-models cell)
 # ===========================================================================
-def power_law(x, a, b, c):
-    return a + b * np.power(x, c)
-
-
-def exp_decay_plateau(rr, a, b, c):
-    """f(rr) = a + b * exp(-rr / c)"""
-    return a + b * np.exp(-rr / c)
-
-def eval_shift_fit(x, popt):
-    """Evaluates the exponential-decay-plateau shift fit: a + b * exp(-x / c)."""
-    return exp_decay_plateau(x, *popt)
-
-
-def exp_decay(x, a, b, c):
-    """Exponential decay function: f(x) = a * exp(-b * x) + c"""
-    return a * np.exp(-b * x) + c
-
-
-
 def fit_param_curve(res_df, param_col, err_col, rr_lo=5.0, rr_hi=None, model="power_law"):
     """Fits a decay curve (power law by default) to a parameter vs rr_center."""
     if len(res_df) < 3:
@@ -505,6 +480,7 @@ def fit_param_curve(res_df, param_col, err_col, rr_lo=5.0, rr_hi=None, model="po
         return popt, perr
     except Exception:
         return None, None
+
 
 PARAM_SPECS = [
     ("mpv_reco", "mpv_reco_err", "LanGau MPV", "MPV [MeV/cm]"),
@@ -588,7 +564,8 @@ def analyze(
             complevel=9,
         )
     return all_results, fit_params, combined
-    
+
+
 def fit_rr_slices(
     df,
     plane,
@@ -671,6 +648,7 @@ def fit_rr_slices(
 
     return pd.DataFrame(rows)
 
+
 def robust_max_x_py(tf1, xmin, xmax, n_points=2000):
     """Python port of the C++ robust_max_x: scan a grid rather than trust
     TF1::GetMaximumX(), which can get stuck depending on start point."""
@@ -678,196 +656,6 @@ def robust_max_x_py(tf1, xmin, xmax, n_points=2000):
     vals = np.array([tf1.Eval(x) for x in xs])
     return xs[np.argmax(vals)]
 
-
-def exp_decay_linear(rr, a, b, c, d):
-    """f(rr) = a + b * exp(-rr / c) + d * rr"""
-    return a + b * np.exp(-rr / c) + d * rr
-
-
-def eval_shift_fit(x, popt):
-    """Evaluates the shift fit; the model follows from the number of parameters
-    (3: exponential + plateau, 4: exponential + linear)."""
-    if len(popt) == 4:
-        return exp_decay_linear(x, *popt)
-    return exp_decay_plateau(x, *popt)
-
-
-def fit_shift_vs_mpv(df_res, x_col="rr_center", model="exp_linear", c_max=50.0,
-                     verbose=False):
-    """Fits the shift vs residual range.
-
-    model : "exp_linear"  -> a + b*exp(-x/c) + d*x   (default)
-            "exp_plateau" -> a + b*exp(-x/c)
-    c_max : upper bound on the decay length c [cm], so the exponential stays the
-            fast component and the slow drift goes into d.
-    """
-    valid = df_res.dropna(subset=[x_col, "shift", "shift_err"])
-    valid = valid[valid["shift_err"] > 0].sort_values(x_col)
-
-    n_par = 4 if model == "exp_linear" else 3
-    if len(valid) < n_par + 2:
-        if verbose:
-            print(f"  -> only {len(valid)} valid points, need >= {n_par + 2}")
-        return None, None
-
-    x = valid[x_col].to_numpy()
-    y = valid["shift"].to_numpy()
-    yerr = valid["shift_err"].to_numpy()
-
-    c0 = 5.0
-    if model == "exp_linear":
-        # Slow component: weighted straight line through the upper two thirds of the range
-        tail = x >= x.min() + (x.max() - x.min()) / 3.0
-        d0, a0 = np.polyfit(x[tail], y[tail], 1, w=1.0 / yerr[tail])
-        b0 = (y[0] - (a0 + d0 * x[0])) * np.exp(x[0] / c0)
-        func, p0 = exp_decay_linear, [a0, b0, c0, d0]
-        bounds = ([-np.inf, -np.inf, 0.1, -np.inf], [np.inf, np.inf, c_max, np.inf])
-    elif model == "exp_plateau":
-        a0 = y[-1]
-        b0 = y[0] - a0
-        func, p0 = exp_decay_plateau, [a0, b0, max((x.max() - x.min()) / 5.0, 1e-3)]
-        bounds = ([-np.inf, -np.inf, 1e-6], [np.inf, np.inf, np.inf])
-    else:
-        raise ValueError(f"Unknown model: {model!r}")
-
-    try:
-        popt, pcov = curve_fit(func, x, y, p0=p0, sigma=yerr, absolute_sigma=True,
-                               bounds=bounds, maxfev=20000)
-    except Exception as e:
-        if verbose:
-            print(f"  -> curve_fit failed: {e}, p0={p0}")
-        return None, None
-
-    if verbose:
-        chi2 = np.sum(((y - func(x, *popt)) / yerr) ** 2)
-        print(f"  -> {model}: chi2/ndf = {chi2:.1f}/{len(x) - len(popt)}")
-
-    perr = np.sqrt(np.diag(pcov))
-    return popt, perr
-
-    
-
-
-
-def fit_sigma_vs_mpv(
-    res_df,
-    x_col="mpv_x",
-    y_col="gsigma",
-    yerr_col="gsigma_err",
-    p0=(0.05, 0.1, 2.0),
-    bounds=((0.0, 0.0, -20.0), (2.0, 100.0, 20.0)),
-):
-    """Fits power-law model to sigma_G vs MPV. Assumes res_df has already
-    been filtered by the caller -- no point selection happens here."""
-    if len(res_df) < 3:
-        raise RuntimeError(
-            f"Not enough points for fitting. Only {len(res_df)} points given."
-        )
-
-    x = res_df[x_col].to_numpy()
-    y = res_df[y_col].to_numpy()
-    yerr = res_df[yerr_col].to_numpy()
-
-    # Fallback handling for non-finite yerr values, if any remain
-    fallback = np.nanmedian(yerr)
-    yerr = np.where(
-        np.isfinite(yerr), yerr, fallback if np.isfinite(fallback) else 1.0
-    )
-
-    popt, pcov = curve_fit(
-        power_law,
-        x,
-        y,
-        p0=p0,
-        sigma=yerr,
-        absolute_sigma=True,
-        bounds=bounds,
-        maxfev=20000,
-    )
-    perr = np.sqrt(np.diag(pcov))
-    return popt, perr
-
-
-    
-def fit_rr_slices_theoretical(
-    df,
-    plane,
-    tpc,
-    hfit,
-    pdg,
-    dedx_col="dedx",
-    rr_min=3.0,
-    rr_max=40.0,
-    rr_bin_width=1.0,
-    hist_nbins=150,
-    hist_xmin=0.0,
-    hist_xmax=20.0,
-    min_entries=30,
-    pitch=0.32,
-    mass=None,
-    sigma0=0.2,
-    sigma_bounds=(1e-4, 5.0),
-    max_sigma_err=0.2,
-    verbose=False,
-):
-    edges = make_rr_edges(rr_min, rr_max, rr_bin_width)
-    rows = []
-
-    for lo, hi in zip(edges[:-1], edges[1:]):
-        sl = df[(df["rr"] >= lo) & (df["rr"] < hi)]
-        if len(sl) < min_entries:
-            continue
-        rr_center = 0.5 * (lo + hi)
-
-        pdf = build_theoretical_pdf(hfit, pdg, rr_center, pitch, mass=mass)
-        mpv_theory = robust_max_x_py(pdf, 0.0, 10.0, 2000)
-        x_grid, pdf_vals, dx = build_pdf_grid(pdf)
-
-        counts, bin_edges = np.histogram(
-            sl[dedx_col].to_numpy(),
-            bins=hist_nbins,
-            range=(hist_xmin, hist_xmax),
-        )
-        bin_centers = 0.5 * (bin_edges[:-1] + bin_edges[1:])
-        bin_errs = np.where(counts > 0, np.sqrt(counts), 1.0)
-
-        # No seeding from a data-side peak finder here -- shift0=0.0 lets
-        # curve_fit locate the shift purely from the fit itself, with no
-        # correction toward a pre-measured data peak.
-        fit = fit_theoretical_conv_slice(
-            bin_centers,
-            counts.astype(float),
-            bin_errs,
-            x_grid,
-            pdf_vals,
-            dx,
-            mpv_theory,
-            sigma0=sigma0,
-            shift0=0.0,
-            sigma_bounds=sigma_bounds,
-        )
-
-        if fit is None or fit["sigma_err"] > max_sigma_err:
-            continue
-
-        rows.append(
-            dict(
-                plane=plane,
-                tpc=tpc,
-                rr_center=rr_center,
-                n_hits=len(sl),
-                mpv_x=mpv_theory,
-                mpv_theory=mpv_theory,
-                gsigma=fit["sigma"],
-                gsigma_err=fit["sigma_err"],
-                shift=fit["shift"],
-                shift_err=fit["shift_err"],
-                fit_range_lo=fit["fit_range"][0],
-                fit_range_hi=fit["fit_range"][1],
-            )
-        )
-
-    return pd.DataFrame(rows)
 
 def analyze_theoretical(
     hit_dfs,
@@ -884,8 +672,19 @@ def analyze_theoretical(
     out_prefix="langau_rr_theoretical",
     verbose=True,
     sigma_fit_min=0.0001,   # drop points with gsigma_err below this
-    sigma_fit_max=0.05,    # drop points with gsigma_err above this
+    sigma_fit_max=0.05,     # drop points with gsigma_err above this
+    shift_model=None,       # key of SHIFT_MODELS; None -> SHIFT_MODEL
 ):
+    """Theoretical-PDF slice fits for every (plane, tpc), then sigma_G vs MPV
+    (fit_sigma_vs_mpv) and shift vs residual range (fit_shift_vs_rr with shift_model).
+
+    Returns:
+        all_results (dict):      {(plane, tpc): DataFrame_per_slice}
+        sigma_fit_params (dict): {(plane, tpc): (popt, perr)}
+        shift_fit_params (dict): {(plane, tpc): (popt, perr)}, all with model shift_model
+    """
+    if shift_model is None:
+        shift_model = SHIFT_MODEL
     if rr_max_by_particle is None:
         rr_max_by_particle = {"muon": 250.0, "pion": 80.0, "proton": 60.0}
     rr_max = rr_max_by_particle.get(particle, 80.0)
@@ -933,27 +732,17 @@ def analyze_theoretical(
 
             all_results[(plane, tpc)] = res
 
-            popt_sig = perr_sig = None
-            popt_shf = perr_shf = None
-
-            if len(res) >= 3:
-                try:
-                    popt_sig, perr_sig = fit_sigma_vs_mpv(
-                        res,
-                        x_col="mpv_theory",
-                        y_col="gsigma",
-                        yerr_col="gsigma_err",
-                    )
-                except Exception:
-                    popt_sig, perr_sig = None, None
-                try:
-                    # Use polynomial fit for shift parameters, vs residual range
-                    popt_shf, perr_shf = fit_shift_vs_mpv(res, x_col="rr_center")
-                except Exception:
-                    popt_shf, perr_shf = None, None
-
-            sigma_fit_params[(plane, tpc)] = (popt_sig, perr_sig)
-            shift_fit_params[(plane, tpc)] = (popt_shf, perr_shf)
+            # Both fit functions check the number of points themselves and return
+            # (None, None) if the fit is not possible or fails; the empty-result guard
+            # only protects them from a DataFrame without columns.
+            if len(res):
+                sigma_fit_params[(plane, tpc)] = fit_sigma_vs_mpv(res)
+                shift_fit_params[(plane, tpc)] = fit_shift_vs_rr(
+                    res, model=shift_model, verbose=verbose
+                )
+            else:
+                sigma_fit_params[(plane, tpc)] = (None, None)
+                shift_fit_params[(plane, tpc)] = (None, None)
 
     non_empty = [
         r.assign(plane=p, tpc=t)
@@ -975,18 +764,6 @@ def analyze_theoretical(
             complevel=9,
         )
     return all_results, sigma_fit_params, shift_fit_params
-
-    
-
-
-def gaussian_kernel(x, sigma):
-    """Zero-mean Gaussian sampled on x, normalized to unit area by
-    the caller (not here, since spacing dx isn't known inside this fn)."""
-    if sigma <= 0:
-        kernel = np.zeros_like(x)
-        kernel[np.argmin(np.abs(x))] = 1.0
-        return kernel
-    return np.exp(-0.5 * (x / sigma) ** 2)
 
 
 def _langau_fit_once(hist, frange, start, lo, hi, fname, fit_options="RBOSQNL"):
@@ -1016,6 +793,7 @@ def _langau_fit_once(hist, frange, start, lo, hi, fname, fit_options="RBOSQNL"):
 
     return f, pars, errs, chi2, ndf, status
 
+
 def langau_fit_single_stage(hist, first_stage_range=(0.0, 20.0), max_par_err=1.0):
     """Single-stage Landau-Gaussian fit performed over the range [0.5, max_x],
 
@@ -1028,7 +806,6 @@ def langau_fit_single_stage(hist, first_stage_range=(0.0, 20.0), max_par_err=1.0
     """
     max_x = hist.GetBinCenter(hist.GetMaximumBin())
     bin_width = hist.GetBinWidth(1)
-
 
     sv = [0.1, max_x, hist.Integral() * 0.05 * bin_width, 0.2]
     lo = [0.01 * v if v != 0 else 0.0 for v in sv]
@@ -1046,7 +823,8 @@ def langau_fit_single_stage(hist, first_stage_range=(0.0, 20.0), max_par_err=1.0
         return None
 
     return dict(func=f, pars=p, errs=e, chi2=c, ndf=n, status=s)
-    
+
+
 def langau_fit_two_stage(
     hist, first_stage_range=(0.0, 20.0), max_par_err=1.0
 ):
@@ -1138,12 +916,121 @@ def make_theoretical_mpv_func(hfit, pdg, mass=None):
         return pdf.GetMaximumX()
 
     return theoretical_mpv
-
-
 # ===========================================================================
 # 6. Driver + Data vs. MC Comparison Plotting
 # ===========================================================================
 PLANE_COLORS = {0: "tab:blue", 1: "tab:orange", 2: "tab:green"}
+
+
+
+def power_law(x, a, b, c):
+    return a + b * np.power(x, c)
+
+
+def exp_decay_plateau(rr, a, b, c):
+    """a + b * exp(-rr / c)"""
+    return a + b * np.exp(-rr / c)
+
+
+def exp_decay_linear(rr, a, b, c, d):
+    """a + b * exp(-rr / c) + d * rr"""
+    return a + b * np.exp(-rr / c) + d * rr
+
+
+def power_law_linear(rr, a, b, p, d):
+    """a + b * rr^p + d * rr"""
+    return a + b * np.power(rr, p) + d * rr
+
+
+# Shift models: name -> (function, parameter names)
+SHIFT_MODELS = {
+    "exp_plateau": (exp_decay_plateau, ("a", "b", "c")),
+    "exp_linear": (exp_decay_linear, ("a", "b", "c", "d")),
+    "power_linear": (power_law_linear, ("a", "b", "p", "d")),
+}
+SHIFT_MODEL = "power_linear"   # shift model of every shift fit, a key of SHIFT_MODELS
+
+
+def eval_shift_fit(x, popt, model, rr_floor=None):
+    """Shift model `model` at residual range x. With rr_floor, the model is evaluated
+    at max(x, rr_floor), so it stays constant below rr_floor."""
+    x = np.asarray(x, dtype=float)
+    if rr_floor is not None:
+        x = np.maximum(x, rr_floor)
+    return SHIFT_MODELS[model][0](x, *popt)
+
+
+def shift_fit_params(popt, perr, model):
+    """{"model": model, name: value, name_err: error} for the shift-fit parameters."""
+    out = {"model": model}
+    for name, val, err in zip(SHIFT_MODELS[model][1], popt, perr):
+        out[name], out[name + "_err"] = float(val), float(err)
+    return out
+
+
+def fit_sigma_vs_mpv(res, p0=(0.05, 0.1, 2.0),
+                     bounds=((0.0, 0.0, -20.0), (2.0, 100.0, 20.0))):
+    """sigma_G = a + b * MPV^c, MPV = theoretical MPV of the slice. Uses only the
+    slices flagged sigma_ok by run_slice_fits. Returns (popt, perr)."""
+    v = res.dropna(subset=["mpv_theory", "gsigma", "gsigma_err"])
+    v = v[v["gsigma_err"] > 0]
+    if "sigma_ok" in v:
+        v = v[v["sigma_ok"]]
+    if len(v) < 4:
+        return None, None
+    try:
+        popt, pcov = curve_fit(power_law, v["mpv_theory"].to_numpy(), v["gsigma"].to_numpy(),
+                               p0=p0, sigma=v["gsigma_err"].to_numpy(), absolute_sigma=True,
+                               bounds=bounds, maxfev=20000)
+    except Exception as exc:
+        print(f"  sigma fit failed: {exc}")
+        return None, None
+    return popt, np.sqrt(np.diag(pcov))
+
+
+def fit_shift_vs_rr(points, model="exp_linear", c_max=50.0, p_bounds=(-4.0, -0.05),
+                    verbose=False):
+    """Shift vs residual range. model: "exp_linear" (a, b, c, d), "exp_plateau" (a, b, c)
+    or "power_linear" (a, b, p, d). c_max bounds the decay length, so the exponential
+    stays the fast component; p_bounds bounds the power-law exponent."""
+    if model not in SHIFT_MODELS:
+        raise ValueError(f"Unknown shift model: {model}")
+    func, names = SHIFT_MODELS[model]
+    v = points.dropna(subset=["rr_center", "shift", "shift_err"])
+    v = v[v["shift_err"] > 0].sort_values("rr_center")
+    if len(v) < len(names) + 2:
+        return None, None
+    x, y, yerr = (v[c].to_numpy() for c in ("rr_center", "shift", "shift_err"))
+
+    c0, p_start = 5.0, -1.0
+    if model in ("exp_linear", "power_linear"):
+        tail = x >= x.min() + (x.max() - x.min()) / 3.0
+        d0, a0 = np.polyfit(x[tail], y[tail], 1, w=1.0 / yerr[tail])
+        excess0 = y[0] - (a0 + d0 * x[0])
+    if model == "exp_linear":
+        p0 = [a0, excess0 * np.exp(x[0] / c0), c0, d0]
+        bounds = ([-np.inf, -np.inf, 0.1, -np.inf], [np.inf, np.inf, c_max, np.inf])
+    elif model == "power_linear":
+        p0 = [a0, excess0 * np.power(x[0], -p_start), p_start, d0]
+        bounds = ([-np.inf, -np.inf, p_bounds[0], -np.inf],
+                  [np.inf, np.inf, p_bounds[1], np.inf])
+    else:
+        p0 = [y[-1], y[0] - y[-1], c0]
+        bounds = ([-np.inf, -np.inf, 0.1], [np.inf, np.inf, c_max])
+
+    try:
+        popt, pcov = curve_fit(func, x, y, p0=p0, sigma=yerr, absolute_sigma=True,
+                               bounds=bounds, maxfev=20000)
+    except Exception as exc:
+        print(f"  shift fit failed: {exc}")
+        return None, None
+    if verbose:
+        chi2 = np.sum(((y - func(x, *popt)) / yerr) ** 2)
+        print(f"  shift fit ({model}): chi2/ndf = {chi2:.1f}/{len(x) - len(popt)}")
+    return popt, np.sqrt(np.diag(pcov))
+
+
+
 ''''
 # ===========================================================================
 # 2. Histogram construction from a pandas Series (ported from

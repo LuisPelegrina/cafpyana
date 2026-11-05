@@ -67,10 +67,8 @@ if load_custom_class("PhysdEdx"):
   
 # Keep your original calls (3-arg for MC, 4-arg with True for data)
 _CONV_TF1_MAPS = {
-    (211, False): h_fit.get_conv_function_map(211, "og", 500),
-    (211, True):  h_fit.get_conv_function_map(211, "og", 500, True),
-    (13,  False): h_fit.get_conv_function_map(13,  "og", 500),
-    (13,  True):  h_fit.get_conv_function_map(13,  "og", 500, True),
+    (211, False): h_fit.get_conv_function_map(211, "shift", 500),
+    (211, True):  h_fit.get_conv_function_map(211, "shift", 500, True)
 }
  
  
@@ -1522,7 +1520,7 @@ import gc
 import pandas as pd
 
 
-def make_cc1pi_finaldf(f, updatecalo=None, use_recalo = False):
+def make_cc1pi_finaldf(f, updatecalo="cv", use_recalo = True):
 
     pandora_df = make_pandora_df(f, trkScoreCut=False, trkDistCut=-1, cutClearCosmic=True,
                                  requireFiducial=False, updatecalo=updatecalo)
@@ -1771,8 +1769,8 @@ def make_cc1pi_final_df_slim(f):
 
 
     
-def make_cc1pi_final_df_recalo_update_cv(f):
-    return make_cc1pi_finaldf(f, updatecalo = "cv", use_recalo = True)
+def make_cc1pi_final_df_no_recalo_update_cv(f):
+    return make_cc1pi_finaldf(f, updatecalo = None, use_recalo = False)
     
 
 def make_cc1pi_final_df_recalo_ccal_p(f):

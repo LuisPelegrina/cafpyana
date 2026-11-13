@@ -1576,7 +1576,7 @@ def make_cc1pi_finaldf(f, updatecalo="cv", use_recalo=True, fix_dedx=True):
     if fix_dedx:
         fixed_hit_df = (
             best_hit_df
-            .groupby(level=pfp_levels, group_keys=False)
+            .groupby(level=group_levels, group_keys=False)
             .apply(dEdxCleaning.get_fix_hit_df, plot=False)
         )
     else:

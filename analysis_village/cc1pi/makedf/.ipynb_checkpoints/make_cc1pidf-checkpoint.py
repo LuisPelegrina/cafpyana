@@ -1520,7 +1520,7 @@ import gc
 import pandas as pd
 
 
-def make_cc1pi_finaldf(f, updatecalo="cv", use_recalo = True):
+def make_cc1pi_finaldf(f, updatecalo="cv", use_recalo=True, fix_dedx=True):
 
     pandora_df = make_pandora_df(f, trkScoreCut=False, trkDistCut=-1, cutClearCosmic=True,
                                  requireFiducial=False, updatecalo=updatecalo)
@@ -1573,11 +1573,14 @@ def make_cc1pi_finaldf(f, updatecalo="cv", use_recalo = True):
     pandora_df = pandora_df[pandora_df.pfp.parent_is_primary == True]
     pandora_df = add_n_protons_column(pandora_df)
 
-    fixed_hit_df = (
-        best_hit_df
-        .groupby(level=pfp_levels, group_keys=False)
-        .apply(dEdxCleaning.get_fix_hit_df, plot=False)
-    )
+    if fix_dedx:
+        fixed_hit_df = (
+            best_hit_df
+            .groupby(level=pfp_levels, group_keys=False)
+            .apply(dEdxCleaning.get_fix_hit_df, plot=False)
+        )
+    else:
+        fixed_hit_df = best_hit_df.copy()
     fixed_hit_df['dE'] = fixed_hit_df.dedx * fixed_hit_df.pitch
 
     pandora_df = add_mean_dedx_column(pandora_df, fixed_hit_df)
@@ -1722,6 +1725,10 @@ def make_cc1pi_finaldf(f, updatecalo="cv", use_recalo = True):
     
 
 
+
+
+
+    
 def make_cc1pi_final_df_slim(f):
     pandora_df = make_cc1pi_finaldf(f)
 
@@ -1767,6 +1774,12 @@ def make_cc1pi_final_df_slim(f):
     
     return slc_df
 
+    
+def make_cc1pi_finaldf_no_dedx_fix(f, updatecalo="cv", use_recalo=True):
+    """Convenience wrapper: skip dEdx cleaning entirely. Use this for A/B comparison
+    against make_cc1pi_finaldf (fix_dedx=True) to isolate the cleaning's effect on
+    Data/MC agreement in frac50, chi2_exp_pol, and mean_dedx."""
+    return make_cc1pi_finaldf(f, updatecalo=updatecalo, use_recalo=use_recalo, fix_dedx=False)
 
     
 def make_cc1pi_final_df_no_recalo_update_cv(f):

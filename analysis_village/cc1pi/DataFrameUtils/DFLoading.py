@@ -5,6 +5,7 @@ import pyanalib.stat_helpers as sh
 from analysis_village.cc1pi.DataFrameUtils import DFCleaning
 from analysis_village.cc1pi.CutMasks import CutMasks
 from analysis_village.cc1pi.Constants import CTE
+from cols_to_keep import *
 
 import numpy as np
 
@@ -15,7 +16,46 @@ from tqdm import tqdm
 import sys
 # Assumes the rest of DFLoading.py is available: splh, DFCleaning, _load_split, slielm_dfs
 
+def is_MIP_candidate_mask(df):
+    is_primary_mask = (df.pfp.parent_is_primary == True) & (df.pfp.dist_to_vertex < CTE.max_primary_distance_to_vertex)
+    is_track_mask = (df.pfp.trk.len > CTE.min_track_lenght) & (df.pfp.trackScore > CTE.min_track_score)
+    track_mask = is_primary_mask & is_track_mask
 
+    len_mask = df.pfp.trk.len > CTE.MIP_candidate_min_TL
+    chi2_mask = (df.pfp.trk.chi2pid.best.chi2_muon < CTE.MIP_candidate_max_muon_score) & (df.pfp.trk.chi2pid.best.chi2_proton > CTE.MIP_candidate_min_proton_score)
+    return track_mask & chi2_mask & len_mask
+    
+def is_primary_track_mask(df):
+    is_primary_mask = (df.pfp.parent_is_primary == True) & (df.pfp.dist_to_vertex < CTE.max_primary_distance_to_vertex)
+    is_track_mask = (df.pfp.trk.len > CTE.min_track_lenght) & (df.pfp.trackScore > CTE.min_track_score)
+    return is_primary_mask & is_track_mask
+
+def get_muon_pion_slice_mask(df):
+    """
+    Returns a mask for slices that contain exactly one true muon MIP candidate 
+    and exactly one true pion MIP candidate.
+    """
+    pdg_col = ('pfp', 'trk', 'truth', 'p', 'pdg', '')
+    SLICE_LEVELS = ["__ntuple", "entry", "rec.slc..index"]
+
+    # 1. Get the particle-level MIP candidate mask
+    # This uses your existing function logic
+    mip_particles = is_MIP_candidate_mask(df)
+
+    # 2. Identify True Muons and True Pions that are ALSO MIP candidates
+    is_muon_mip = (df[pdg_col].abs() == 13) & mip_particles
+    is_pion_mip = (df[pdg_col].abs() == 211) & mip_particles
+
+    # 3. Count these specific candidates per slice
+    # transform('sum') broadcasts the count to all rows in the slice
+    muon_mip_count = is_muon_mip.groupby(level=SLICE_LEVELS).transform('sum')
+    pion_mip_count = is_pion_mip.groupby(level=SLICE_LEVELS).transform('sum')
+    
+    # 4. Final condition: The slice must have exactly one of each MIP-quality particle
+    slice_condition = (muon_mip_count == 1) & (pion_mip_count == 1)
+
+    return slice_condition
+    
 # ======================================================================
 # shrink_df
 # ======================================================================
@@ -738,8 +778,8 @@ def perform_truth_matching_parallel(
         print("Streaming Parquet dataset from disk...")
                 # Read chunk files one by one with a progress bar
         tables = []
-        for p in tqdm(orderSHRINK_SKIP_COLSed, desc="Reading chunks", unit="file"):
-            tables.append(pq.read_table(p, memory_maSHRINK_SKIP_COLSp=True))
+        for p in tqdm(ordered, desc="Reading chunks", unit="file"):
+            tables.append(pq.read_table(p, memory_map=True))
 
         with tqdm(total=3, desc="Finalizing", unit="stage") as stage:
             stage.set_postfix_str("concatenating")

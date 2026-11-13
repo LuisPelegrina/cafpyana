@@ -128,7 +128,7 @@ def correct_area_close_to_vertex(df):
     )
     # Condition: Eliminate low dEdx points close to vertex (more restrictive)
     keep_mask &= ~(
-        (df["rr"] > max_rr - VERTEX_AREA_RR) & (df["dedx"] < mean) & (np.abs(df["dedx"] - mean) > 2 * std)
+        (df["rr"] > max_rr - VERTEX_AREA_RR) & (df["dedx"] < mean) & (np.abs(df["dedx"] - mean) > 3 * std)
     )
 
     return df.loc[keep_mask]

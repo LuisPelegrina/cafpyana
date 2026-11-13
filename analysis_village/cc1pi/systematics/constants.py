@@ -37,8 +37,8 @@ plot = True
 #data_gates = 948132
 #integrated_fv_flux = 0.000151169785920044047/1e4
 
-data_tot_pot = 4.4479443e+18
-data_gates = 906076
+data_tot_pot = 4.3998753e+18
+data_gates = 896300
 integrated_fv_flux = 0.000151169785920044047/1e4
 
 

@@ -1603,7 +1603,7 @@ def make_cc1pi_finaldf(f, updatecalo="cv", use_recalo=True, fix_dedx=True):
     ]
     col_BDTG_score_proton = ('pfp', 'trk', 'bdt_proton_score', '', '', '')
 
-    BDT_proton_path = "/../BDTs/bdtg_model_proton_gen1_og.pkl"
+    BDT_proton_path = "/../BDTs/bdt_model_proton_gen1_og.pkl"
     if use_recalo:
         BDT_proton_path = "/../BDTs/bdtg_model_proton_gen1_recalo.pkl"
 
@@ -1625,7 +1625,7 @@ def make_cc1pi_finaldf(f, updatecalo="cv", use_recalo=True, fix_dedx=True):
     ]
 
     
-    BDT_muon_pion_path = "/../BDTs/bdtg_model_muon_pion_gen1_og.pkl"
+    BDT_muon_pion_path = "/../BDTs/bdt_model_muon_pion_gen1_og.pkl"
     if use_recalo:
         BDT_muon_pion_path = "/../BDTs/bdtg_model_muon_pion_gen1_recalo.pkl"
         

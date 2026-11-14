@@ -46,7 +46,7 @@ michel_max_dEdx_mean = 200
 
 TMVA_BDT_proton_max_score = -0.07
 
-BDT_proton_max_score = -1.78
+BDT_proton_max_score = -0.321 
 BDT_proton_max_score_recalo = -1.5
 
 BDT_proton_max_score_sideband = -1

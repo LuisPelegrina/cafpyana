@@ -1784,7 +1784,9 @@ def make_cc1pi_finaldf_no_dedx_fix(f, updatecalo="cv", use_recalo=True):
     
 def make_cc1pi_final_df_no_recalo_update_cv(f):
     return make_cc1pi_finaldf(f, updatecalo = None, use_recalo = False)
-    
+
+def make_cc1pi_final_df_recalo_cv(f):    
+    return make_cc1pi_finaldf(f, updatecalo = None, use_recalo = True)
 
 def make_cc1pi_final_df_recalo_ccal_p(f):
     return make_cc1pi_finaldf(f, updatecalo = "ccal_p")

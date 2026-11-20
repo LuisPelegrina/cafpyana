@@ -1520,7 +1520,7 @@ import gc
 import pandas as pd
 
 
-def make_cc1pi_finaldf(f, updatecalo="cv", use_recalo=True, fix_dedx=True):
+def make_cc1pi_finaldf(f, updatecalo=None, use_recalo=True, fix_dedx=True):
 
     pandora_df = make_pandora_df(f, trkScoreCut=False, trkDistCut=-1, cutClearCosmic=True,
                                  requireFiducial=False, updatecalo=updatecalo)

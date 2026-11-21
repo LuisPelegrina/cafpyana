@@ -1520,7 +1520,7 @@ import gc
 import pandas as pd
 
 
-def make_cc1pi_finaldf(f, updatecalo=None, use_recalo=True, fix_dedx=True):
+def make_cc1pi_finaldf(f, updatecalo=None, use_recalo=False, fix_dedx=True):
 
     pandora_df = make_pandora_df(f, trkScoreCut=False, trkDistCut=-1, cutClearCosmic=True,
                                  requireFiducial=False, updatecalo=updatecalo)
@@ -1605,7 +1605,7 @@ def make_cc1pi_finaldf(f, updatecalo=None, use_recalo=True, fix_dedx=True):
 
     BDT_proton_path = "/../BDTs/bdt_model_proton_gen1_og.pkl"
     if use_recalo:
-        BDT_proton_path = "/../BDTs/bdt_model_proton_gen1_og.pkl"
+        BDT_proton_path = "/../BDTs/bdt_model_proton_gen1_recalo.pkl"
 
         
     pandora_df = add_bdt_score(
@@ -1627,7 +1627,7 @@ def make_cc1pi_finaldf(f, updatecalo=None, use_recalo=True, fix_dedx=True):
     
     BDT_muon_pion_path = "/../BDTs/bdt_model_muon_pion_gen1_og.pkl"
     if use_recalo:
-        BDT_muon_pion_path = "/../BDTs/bdt_model_muon_pion_gen1_og.pkl"
+        BDT_muon_pion_path = "/../BDTs/bdt_model_muon_pion_gen1_recalo.pkl"
         
     col_BDTG_score_muon_pion = ('pfp', 'trk', 'bdt_muon_pion_score', '', '', '')
     pandora_df = add_bdt_score(
@@ -1775,7 +1775,7 @@ def make_cc1pi_final_df_slim(f):
     return slc_df
 
     
-def make_cc1pi_finaldf_no_dedx_fix(f, updatecalo="cv", use_recalo=True):
+def make_cc1pi_finaldf_no_dedx_fix(f, updatecalo="cv", use_recalo=False):
     """Convenience wrapper: skip dEdx cleaning entirely. Use this for A/B comparison
     against make_cc1pi_finaldf (fix_dedx=True) to isolate the cleaning's effect on
     Data/MC agreement in frac50, chi2_exp_pol, and mean_dedx."""
@@ -1786,7 +1786,7 @@ def make_cc1pi_final_df_no_recalo_update_cv(f):
     return make_cc1pi_finaldf(f, updatecalo = None, use_recalo = False)
 
 def make_cc1pi_final_df_recalo_cv(f):    
-    return make_cc1pi_finaldf(f, updatecalo = None, use_recalo = True)
+    return make_cc1pi_finaldf(f, updatecalo = None, use_recalo = False)
 
 def make_cc1pi_final_df_recalo_ccal_p(f):
     return make_cc1pi_finaldf(f, updatecalo = "ccal_p")

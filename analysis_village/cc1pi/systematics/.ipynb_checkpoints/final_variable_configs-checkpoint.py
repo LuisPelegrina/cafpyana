@@ -45,7 +45,7 @@ class VariableConfig:
             var_save_name="muon_p",
             var_plot_name=r"$P_\mu$",
             var_unit="[GeV/c]",
-            bins= np.array([0.1, 0.242, 0.335,0.467, 1]),
+            bins= np.array([0.1, 0.23, 0.31,0.44, 1]),
             var_evt_reco_col=('slc','measure_var', 'reco_p_mu', ''),
             var_evt_truth_col=('truth', 'true_var', 'true_p_mu', ''),
             var_nu_col=('truth', 'true_var', 'true_p_mu', ''),
@@ -58,7 +58,7 @@ class VariableConfig:
             var_save_name="muon_dir_z",
             var_plot_name=r"$cos(\theta_\mu)$",
             var_unit="",
-            bins= np.array([-1.,0.324, 0.667, 0.855, 1.]),
+            bins= np.array([-1.,0.25, 0.622, 0.839, 1.]),
             var_evt_reco_col=('slc','measure_var', 'reco_cos_theta_mu', ''),
             var_evt_truth_col=('truth', 'true_var', 'true_cos_theta_mu', ''),
             var_nu_col=('truth', 'true_var', 'true_cos_theta_mu', ''),
@@ -71,7 +71,7 @@ class VariableConfig:
             var_save_name="pion_p",
             var_plot_name=r"$P_\pi$",
             var_unit="[GeV/c]",
-            bins= np.array([0.13, 0.218, 0.296,0.415,2]),
+            bins= np.array([0.13, 0.22, 0.31,0.43,2]),
             var_evt_reco_col=('slc', 'measure_var', 'TLE_p_pi', ''),
             var_evt_truth_col=('truth', 'true_var', 'true_p_pi', ''),
             var_nu_col=('truth', 'true_var', 'true_p_pi', ''),
@@ -84,12 +84,53 @@ class VariableConfig:
             var_save_name="pion_dir_z",
             var_plot_name=r"$cos(\theta_\pi)$",
             var_unit="",            
-            bins= np.array([-1.,0.131, 0.592, 0.830, 1.]),
+            bins= np.array([-1.,0.2, 0.6, 0.83, 1.]),
             var_evt_reco_col=('slc','measure_var', 'reco_cos_theta_pi', ''),
             var_evt_truth_col=('truth', 'true_var', 'true_cos_theta_pi', ''),
             var_nu_col=('truth', 'true_var', 'true_cos_theta_pi', ''),
             xsec_label=r"$\frac{d\sigma}{dcos(\theta_\pi)}$ ($\mathrm{cm}^2$)"
         )
+
+    
+    @classmethod
+    def delta_pt(cls):
+        return cls(
+            var_save_name="delta_pt",
+            var_plot_name=r"$\delta p_T$",
+            var_unit="[GeV]",
+            bins= np.array([0., 0.15, 0.3, 1]),
+            var_evt_reco_col=('slc', 'measure_var', 'delta_pT', ''),
+            var_evt_truth_col=('truth', 'true_var', 'delta_pT', ''),
+            var_nu_col=('truth', 'true_var', 'delta_pT', ''),
+            xsec_label=r"$\frac{d\sigma}{d \delta p_T}$ ($\mathrm{cm}^2$)"
+        )
+    
+    @classmethod
+    def delta_phi_T(cls):
+        return cls(
+            var_save_name="delta_phi_T",
+            var_plot_name=r"$\delta\phi_T$",
+            var_unit="[rad]",
+            bins= np.array([0., 0.44, 1.34, np.pi]),
+            var_evt_reco_col=('slc', 'measure_var', 'delta_phi_T', ''),
+            var_evt_truth_col=('truth', 'true_var', 'delta_phi_T', ''),
+            var_nu_col=('truth', 'true_var', 'delta_phi_T', ''),
+            xsec_label=r"$\frac{d\sigma}{d\delta \phi_T}$ ($\mathrm{cm}^2$)"
+        )
+        
+    @classmethod
+    def delta_alpha_T(cls):
+        return cls(
+            var_save_name="delta_alpha_T",
+            var_plot_name=r"$\delta \alpha_T$",
+            var_unit="[rad]",
+            bins= np.array([0., 1.6, 2.6, np.pi]),
+            var_evt_reco_col=('slc', 'measure_var', 'delta_alpha_T', ''),
+            var_evt_truth_col=('truth', 'true_var', 'delta_alpha_T', ''),
+            var_nu_col=('truth', 'true_var', 'delta_alpha_T', ''),
+            xsec_label=r'$\frac{d\sigma}{d\delta \alpha_T}$ ($\mathrm{cm}^2$)'
+        )
+    
 
     @classmethod
     def angle_between_candidates(cls):
@@ -97,7 +138,7 @@ class VariableConfig:
             var_save_name="angle_between_candidates",
             var_plot_name=r"$\theta_{\pi,\mu}$",
             var_unit="[rad]", 
-            bins= np.array([0., 0.954,1.392, 1.848, 2.65]),
+            bins= np.array([0., 0.95,1.4, 1.86, 2.65]),
             var_evt_reco_col=('slc', 'measure_var', 'angle_between_candidates', ''),
             var_evt_truth_col=('truth', 'true_var', 'true_mu_pi_angle', ''),
             var_nu_col=('truth', 'true_var', 'true_mu_pi_angle', ''),
@@ -131,44 +172,6 @@ class VariableConfig:
             xsec_label=r"$\frac{d\sigma}{dn}$ ($\mathrm{cm}^2$)"
         )
         
-    @classmethod
-    def delta_pt(cls):
-        return cls(
-            var_save_name="delta_pt",
-            var_plot_name=r"$\delta p_T$",
-            var_unit="[GeV]",
-            bins= np.array([0., 0.158, 0.372, 0.8]),
-            var_evt_reco_col=('slc', 'measure_var', 'delta_pT', ''),
-            var_evt_truth_col=('truth', 'true_var', 'delta_pT', ''),
-            var_nu_col=('truth', 'true_var', 'delta_pT', ''),
-            xsec_label=r"$\frac{d\sigma}{d \delta p_T}$ ($\mathrm{cm}^2$)"
-        )
-    @classmethod
-    def delta_alpha_T(cls):
-        return cls(
-            var_save_name="delta_alpha_T",
-            var_plot_name=r"$\delta \alpha_T$",
-            var_unit="[rad]",
-            bins= np.array([0., 1.637, 2.643, np.pi]),
-            var_evt_reco_col=('slc', 'measure_var', 'delta_alpha_T', ''),
-            var_evt_truth_col=('truth', 'true_var', 'delta_alpha_T', ''),
-            var_nu_col=('truth', 'true_var', 'delta_alpha_T', ''),
-            xsec_label=r'$\frac{d\sigma}{d\delta \alpha_T}$ ($\mathrm{cm}^2$)'
-        )
-    
-    @classmethod
-    def delta_phi_T(cls):
-        return cls(
-            var_save_name="delta_phi_T",
-            var_plot_name=r"$\delta\phi_T$",
-            var_unit="[rad]",
-            bins= np.array([0., 0.542, 1.96, np.pi]),
-            var_evt_reco_col=('slc', 'measure_var', 'delta_phi_T', ''),
-            var_evt_truth_col=('truth', 'true_var', 'delta_phi_T', ''),
-            var_nu_col=('truth', 'true_var', 'delta_phi_T', ''),
-            xsec_label=r"$\frac{d\sigma}{d\delta \phi_T}$ ($\mathrm{cm}^2$)"
-        )
-    
     @classmethod
     def list_all_configs(cls, print_summary=True):
         members = inspect.getmembers(cls, predicate=inspect.isroutine)

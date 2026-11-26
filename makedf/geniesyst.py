@@ -91,6 +91,16 @@ regen_systematics = [
 
 
 regen_systematics_no_duplicates = [
+    # CCQE
+    'GENIEReWeight_SBN_v1_multisigma_VecFFCCQEshape',       # ADDED
+    'GENIEReWeight_SBN_v1_multisim_RPA_CCQE',               # ADDED
+    'GENIEReWeight_SBN_v1_multisim_CoulombCCQE',            # ADDED
+
+    # MEC
+    'GENIEReWeight_SBN_v1_multisim_NormCCMEC',              # ADDED
+    'GENIEReWeight_SBN_v1_multisim_NormNCMEC',              # ADDED
+    'GENIEReWeight_SBN_v1_multisigma_DecayAngMEC',          # ADDED
+
     # RES
     #"GENIEReWeight_SBN_v1_multisim_CCRESVariationResponse",
     #"GENIEReWeight_SBN_v1_multisim_NCRESVariationResponse",
@@ -132,7 +142,13 @@ regen_systematics_no_duplicates = [
     # COH
     "GENIEReWeight_SBN_v1_multisigma_NormCCCOH", # Handled by re-tuning
     "GENIEReWeight_SBN_v1_multisigma_NormNCCOH",
-    
+
+    # FSI (N), v1
+    'GENIEReWeight_SBN_v1_multisigma_FrCEx_N',              # ADDED
+    'GENIEReWeight_SBN_v1_multisigma_FrInel_N',             # ADDED
+    'GENIEReWeight_SBN_v1_multisigma_FrAbs_N',              # ADDED
+    'GENIEReWeight_SBN_v1_multisigma_FrPiProd_N',           # ADDED
+
     # NCEL
     # "GENIEReWeight_SBN_v1_multisim_NCELVariationResponse",
     'GENIEReWeight_SBN_v1_multisigma_MaNCEL',
@@ -140,87 +156,16 @@ regen_systematics_no_duplicates = [
 ]
 
 
-#These are the AR23p syst
-'''
-ar23p_genie_systematics = [
-    'ZExpPCAWeighter_SBNNuSyst_multisigma_D_ZExp_b1',
-    'ZExpPCAWeighter_SBNNuSyst_multisigma_D_ZExp_b2',
-    'ZExpPCAWeighter_SBNNuSyst_multisigma_D_ZExp_b3',
-    'ZExpPCAWeighter_SBNNuSyst_multisigma_D_ZExp_b4',
-    'ZExpPCAWeighter_SBNNuSyst_multisigma_MvA_ZExp_b1',
-    'ZExpPCAWeighter_SBNNuSyst_multisigma_MvA_ZExp_b2',
-    'ZExpPCAWeighter_SBNNuSyst_multisigma_MvA_ZExp_b3',
-    'ZExpPCAWeighter_SBNNuSyst_multisigma_MvA_ZExp_b4',
-    'CCQETemplateReweight_SBNNuSyst_multisigma_SF_q0bin1',
-    'CCQETemplateReweight_SBNNuSyst_multisigma_SF_q0bin2',
-    'CCQETemplateReweight_SBNNuSyst_multisigma_SF_q0bin3',
-    'CCQETemplateReweight_SBNNuSyst_multisigma_SF_q0bin4',
-    'CCQETemplateReweight_SBNNuSyst_multisigma_SF_q0bin5',
-    'CCQETemplateReweight_SBNNuSyst_multisigma_HF_q0bin1',
-    'CCQETemplateReweight_SBNNuSyst_multisigma_HF_q0bin2',
-    'CCQETemplateReweight_SBNNuSyst_multisigma_HF_q0bin3',
-    'CCQETemplateReweight_SBNNuSyst_multisigma_HF_q0bin4',
-    'CCQETemplateReweight_SBNNuSyst_multisigma_HF_q0bin5',
-    'CCQETemplateReweight_SBNNuSyst_multisigma_CRPA_q0bin1',
-    'CCQETemplateReweight_SBNNuSyst_multisigma_CRPA_q0bin2',
-    'CCQETemplateReweight_SBNNuSyst_multisigma_CRPA_q0bin3',
-    'CCQETemplateReweight_SBNNuSyst_multisigma_CRPA_q0bin4',
-    'CCQETemplateReweight_SBNNuSyst_multisigma_CRPA_q0bin5',
-    'QEInterference_SBNNuSyst_multisigma_INT_QEIntf_dial_0',
-    'QEInterference_SBNNuSyst_multisigma_INT_QEIntf_dial_1',
-    'QEInterference_SBNNuSyst_multisigma_INT_QEIntf_dial_2',
-    'QEInterference_SBNNuSyst_multisigma_INT_QEIntf_dial_3',
-    'QEInterference_SBNNuSyst_multisigma_INT_QEIntf_dial_4',
-    'QEInterference_SBNNuSyst_multisigma_INT_QEIntf_dial_5',
-    
-    'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_VecFFCCQEshape',
-    'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_CoulombCCQE',
-    'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_NormCCMEC',
-    'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_NormNCMEC',
-    'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_DecayAngMEC',
-    
-    'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_MFP_pi',
-    'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_FrCEx_pi',
-    'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_FrInel_pi',
-    'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_FrAbs_pi',
-    'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_FrPiProd_pi',
-    'MECq0q3InterpWeighting_SuSAv2ToValenica_q0binned_MECResponse_q0bin0',
-    'MECq0q3InterpWeighting_SuSAv2ToValenica_q0binned_MECResponse_q0bin1',
-    'MECq0q3InterpWeighting_SuSAv2ToValenica_q0binned_MECResponse_q0bin2',
-    'MECq0q3InterpWeighting_SuSAv2ToValenica_q0binned_MECResponse_q0bin3',
-    'MECq0q3InterpWeighting_SuSAv2ToMartini_q0binned_MECResponse_q0bin0',
-    'MECq0q3InterpWeighting_SuSAv2ToMartini_q0binned_MECResponse_q0bin1',
-    'MECq0q3InterpWeighting_SuSAv2ToMartini_q0binned_MECResponse_q0bin2',
-    'MECq0q3InterpWeighting_SuSAv2ToMartini_q0binned_MECResponse_q0bin3',
-    'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_FrG4_N',
-    'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_FrINCL_N',
-    'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_FrG4LoE_N',
-    'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_FrINCLLoE_N',
-    'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_FrG4M1E_N',
-    'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_FrINCLM1E_N',
-    'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_FrG4M2E_N',
-    'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_FrINCLM2E_N',
-    'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_FrG4HiE_N',
-    'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_FrINCLHiE_N',
-    'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_MFPLoE_N',
-    'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_MFPM1E_N',
-    'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_MFPM2E_N',
-    'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_MFPHiE_N',
-    'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_FrKin_PiProFix_N',
-    'GENIEReWeight_SBNNuSyst_multisigma_EDepFSI_FrKin_PiProBias_N',
-]
-'''
-
 ar23p_genie_systematics = [
     'ZExpPCAWeighter_SBN_v3_Deut_b1',
     'ZExpPCAWeighter_SBN_v3_Deut_b2',
     'ZExpPCAWeighter_SBN_v3_Deut_b3',
     'ZExpPCAWeighter_SBN_v3_Deut_b4',
-    'ZExpPCAWeighter_SBN_v3_MvA_b1',
-    'ZExpPCAWeighter_SBN_v3_MvA_b2',
-    'ZExpPCAWeighter_SBN_v3_MvA_b3',
-    'ZExpPCAWeighter_SBN_v3_MvA_b4',
-    
+    'ZExpPCAWeighter_SBN_v3_MvA_b1',                     
+    'ZExpPCAWeighter_SBN_v3_MvA_b2',                      
+    'ZExpPCAWeighter_SBN_v3_MvA_b3',                     
+    'ZExpPCAWeighter_SBN_v3_MvA_b4',                     
+
     "CCQETemplateReweight_SBN_v3_LFGToSF_q0bin0",
     "CCQETemplateReweight_SBN_v3_LFGToSF_q0bin1",
     "CCQETemplateReweight_SBN_v3_LFGToSF_q0bin2",
@@ -238,7 +183,7 @@ ar23p_genie_systematics = [
     "CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin2",
     "CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin3",
     "CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin4",
-    
+
     "QEInterference_SBN_v3_QEIntf_dial_0",
     "QEInterference_SBN_v3_QEIntf_dial_1",
     "QEInterference_SBN_v3_QEIntf_dial_2",
@@ -251,7 +196,7 @@ ar23p_genie_systematics = [
     'GENIEReWeight_SBN_v1_multisigma_FrInel_pi',
     'GENIEReWeight_SBN_v1_multisigma_FrAbs_pi',
     'GENIEReWeight_SBN_v1_multisigma_FrPiProd_pi',
-    
+
     "MECq0q3InterpWeighting_SBN_v3_SuSAToVal_MECResponse_q0bin0",
     "MECq0q3InterpWeighting_SBN_v3_SuSAToVal_MECResponse_q0bin1",
     "MECq0q3InterpWeighting_SBN_v3_SuSAToVal_MECResponse_q0bin2",
@@ -260,8 +205,7 @@ ar23p_genie_systematics = [
     "MECq0q3InterpWeighting_SBN_v3_SuSAToMar_MECResponse_q0bin1",
     "MECq0q3InterpWeighting_SBN_v3_SuSAToMar_MECResponse_q0bin2",
     "MECq0q3InterpWeighting_SBN_v3_SuSAToMar_MECResponse_q0bin3",
-    
- 
+
     "GENIEReWeight_SBN_v3_FrG4LoE_N",
     "GENIEReWeight_SBN_v3_FrG4M1E_N",
     "GENIEReWeight_SBN_v3_FrG4M2E_N",
@@ -274,6 +218,8 @@ ar23p_genie_systematics = [
     "GENIEReWeight_SBN_v3_MFPM1E_N",
     "GENIEReWeight_SBN_v3_MFPM2E_N",
     "GENIEReWeight_SBN_v3_MFPHiE_N",
+    "GENIEReWeight_SBN_v3_FrKin_PiProFix_N",                # ADDED
+    "GENIEReWeight_SBN_v3_FrKin_PiProBias_N",               # ADDED
 ]
 
 

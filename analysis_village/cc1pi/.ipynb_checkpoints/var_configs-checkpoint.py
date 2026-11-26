@@ -1251,7 +1251,7 @@ config_p_mu_final = FullHistogramConfig(
     first_per_slice = True,
     start_cut = "energy",
     end_cut = "energy",
-    bins= np.array([0.1, 0.242, 0.335,0.467, 1]),
+    bins= np.array([0.1, 0.23, 0.31,0.44, 1]),
     xlabel=r"$P_\mu$ [GeV/c]",
     ylabel=slices_y_label
 )
@@ -1263,7 +1263,7 @@ config_cos_theta_mu_final = FullHistogramConfig(
     first_per_slice = True,
     start_cut = "energy",
     end_cut = "energy",
-    bins= np.array([-1.,0.324, 0.667, 0.855, 1.]),
+    bins= np.array([-1.,0.25, 0.62, 0.84, 1.]),
     xlabel=r"$cos(\theta_\mu)$",
     ylabel=slices_y_label,
     stats_horizontal_alignment = 'left'
@@ -1276,7 +1276,7 @@ config_p_pi_final = FullHistogramConfig(
     first_per_slice = True,
     start_cut = "energy",
     end_cut = "energy",
-    bins= np.array([0.13, 0.218, 0.296,0.415,2]),
+    bins= np.array([0.13, 0.22, 0.331,0.43,2]),
     xlabel=r"$P_\pi$ [GeV/c]",
     ylabel=slices_y_label
 )
@@ -1288,25 +1288,12 @@ config_cos_theta_pi_final = FullHistogramConfig(
     first_per_slice = True,
     start_cut = "energy",
     end_cut = "energy",
-    bins= np.array([-1.,0.131, 0.592, 0.830, 1.]),
+    bins= np.array([-1.,0.2, 0.6, 0.83, 1.]),
     xlabel=r"$cos(\theta_\pi)$",
     ylabel=slices_y_label,
     stats_horizontal_alignment = 'left'
 )
 
-
-config_delta_alpha_T_final = FullHistogramConfig(
-    file_name = "delta_alpha_T",      
-    var_evt_reco_col=('slc','measure_var','delta_alpha_T','','',''),
-    truth_column = nu_categ_column,
-    first_per_slice = True,
-    start_cut = "energy",
-    end_cut = "energy",
-    bins= np.array([0., 1.637, 2.643, np.pi]),
-    xlabel=r'$\delta \alpha_T$ [rad]',
-    ylabel=slices_y_label,
-    stats_horizontal_alignment = 'left'
-)
 
 
 config_delta_pT_final = FullHistogramConfig(
@@ -1316,7 +1303,7 @@ config_delta_pT_final = FullHistogramConfig(
     first_per_slice = True,
     start_cut = "energy",
     end_cut = "energy",
-    bins= np.array([0., 0.158, 0.372, 1]),
+    bins= np.array([0., 0.15, 0.3, 1]),
     xlabel=r'$\delta p_T$ [GeV/c]',
     ylabel=slices_y_label
 )
@@ -1328,9 +1315,24 @@ config_delta_phi_T_final = FullHistogramConfig(
     first_per_slice = True,
     start_cut = "energy",
     end_cut = "energy",
-    bins= np.array([0., 0.542, 1.96, np.pi]),
+    bins= np.array([0., 0.44, 1.34, np.pi]),
     xlabel=r'$\delta \phi_T$ [rad]',
     ylabel=slices_y_label
+)
+
+
+
+config_delta_alpha_T_final = FullHistogramConfig(
+    file_name = "delta_alpha_T",      
+    var_evt_reco_col=('slc','measure_var','delta_alpha_T','','',''),
+    truth_column = nu_categ_column,
+    first_per_slice = True,
+    start_cut = "energy",
+    end_cut = "energy",
+    bins= np.array([0., 1.6, 2.6, np.pi]),
+    xlabel=r'$\delta \alpha_T$ [rad]',
+    ylabel=slices_y_label,
+    stats_horizontal_alignment = 'left'
 )
 
 
@@ -1366,7 +1368,7 @@ config_angle_between_candidates_final = FullHistogramConfig(
     first_per_slice = True,
     start_cut = "energy",
     end_cut = "energy",
-    bins= np.array([0., 0.954,1.392, 1.848, 2.65]),
+    bins= np.array([0., 0.95,1.4, 1.86, 2.65]),
     xlabel=r"$\theta_{\pi,\mu}$ [rad]",
     ylabel=slices_y_label
 )
